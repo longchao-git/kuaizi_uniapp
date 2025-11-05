@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "ant-skeleton": "^0.0.6",
+    "weapp-cookie": "^1.4.6"
+  }
+}
