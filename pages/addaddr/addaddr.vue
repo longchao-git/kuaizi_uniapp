@@ -53,20 +53,20 @@
 						</view>
 					</view>
 					<view class="add_view">
-						<view class="addaddr_form_int pub_list border_b mb10">
+						<view class="addaddr_form_int pub_list  mb10">
 
 							<view class="pub_list_bd addaddr_form_lable">
 								<radio-group class="radio-group">
-									<view class="label" v-for="(item, idx) in items" :key="idx" :data-idx="idx"
+									<label v-for="(item, idx) in items" :key="idx" :data-idx="idx"
 										@tap="switchTab" :class="'radio ' + (current==idx ? 'active' : '')">
 										<radio :value="item.name" :checked="item.checked"></radio>{{item.value}}
-									</view>
+									</label>
 								</radio-group>
 							</view>
 						</view>
 					</view>
 
-					<view class="footer_btn_long">
+					<view class="footer_btn_long" style="padding-right: 40rpx;">
 						<button type="primary" size="default" @tap="saveBtn">保存</button>
 					</view>
 					<!--内容结束-->
@@ -266,7 +266,7 @@
 		margin-left: 14rpx;
 	}
 
-	.addaddr_form_lable .label {
+	.addaddr_form_lable label {
 		position: relative;
 		color: #252628;
 		display: inline-block;
@@ -280,12 +280,12 @@
 		border-radius: 4rpx;
 	}
 
-	.addaddr_form_lable .label.active {
+	.addaddr_form_lable label.active {
 		border: 2rpx solid #FF797C;
 		color: #FF797C;
 	}
 
-	.addaddr_form_lable .label radio {
+	.addaddr_form_lable label radio {
 		position: absolute;
 		top: 0;
 		left: 0;

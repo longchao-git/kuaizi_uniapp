@@ -73,7 +73,7 @@
 				</view>
 				<view class="list pub_list">
 					<view>配送服务</view>
-					<view class="star pub_list_bd">
+					<view class=" pub_list_bd">
 						<view class="evlt_star_bg">
 							<image src="/static/image/evlt_star_bg.png" class="bg"></image>
 							<view class="evlt_star_bar" :style="'width:' + peisong_starPct + '%;'">
@@ -92,9 +92,13 @@
 				<view class="images-wrapper">
 					<view class="images-list">
 						<block v-for="(image, index) in imageList" :key="index">
-							<image :src="image" class="images-image" :data-src="image" @tap="previewImage"></image>
+							<view class="image-item">
+								<image :src="image" class="images-image" mode="aspectFill" :data-src="image"
+									@tap="previewImage"></image>
+								<view class="image-delete" @tap.stop="removeImage" :data-idx="index">×</view>
+							</view>
 						</block>
-						<view class="images-image image-plus" @tap="chooseImage">
+						<view class="images-image image-plus" v-if="imageList.length < 5" @tap="chooseImage">
 							<view class="image-plus-horizontal"></view>
 							<view class="image-plus-vertical"></view>
 						</view>
@@ -127,7 +131,7 @@
 		['compressed', 'original']
 	];
 	var goods_score = [];
-	var img_src;
+var img_src = '';
 
 	export default {
 		data() {
@@ -155,6 +159,7 @@
 				score_peisong: "",
 				contents: "",
 				imageList_len: "",
+				uploadList: [],
 				showToast: {
 					isShow: false
 				},
@@ -165,6 +170,12 @@
 		components: {},
 		props: {},
 		onLoad: function(e) {
+			img_src = '';
+			this.setData({
+				imageList: [],
+				imageList_len: 0,
+				uploadList: []
+			});
 			if (e.type == 1) {
 				this.order_id = e.orderid
 				this.isType = 1
@@ -305,27 +316,83 @@
 			},
 			chooseImage: function() {
 				var that = this;
+				var currentCount = this.imageList.length;
+				var maxCount = 5;
+				if (currentCount >= maxCount) {
+					uni.showToast({
+						title: '最多上传5张',
+						icon: 'none'
+					});
+					return;
+				}
+				var oldLength = currentCount;
 				uni.chooseImage({
 					sourceType: sourceType[this.sourceTypeIndex],
 					sizeType: sizeType[this.sizeTypeIndex],
-					count: this.count[this.countIndex],
+					count: 1,
 					success: function(res) {
+						if (!res.tempFilePaths || res.tempFilePaths.length === 0) {
+							return;
+						}
+						var selected = res.tempFilePaths.slice(0, 1);
+						var newImageList = that.imageList.concat(selected).slice(0, maxCount);
+						var uploadList = (that.uploadList || []).slice(0, newImageList.length);
+						while (uploadList.length < newImageList.length) {
+							uploadList.push('');
+						}
 						that.setData({
-							imageList: res.tempFilePaths,
-							imageList_len: res.tempFilePaths.length
+							imageList: newImageList,
+							imageList_len: newImageList.length,
+							uploadList: uploadList
 						});
-						var imageList = that.imageList;
-						var imageList_len = that.imageList_len;
-						var files = []; //files=files.join();
-						//数据筛选
-
-						app.globalData.upload('client/waimai/order/upload', imageList, 0, 0, 0,
-							imageList_len, files,
+						var targetIndex = oldLength;
+						var files = [];
+						app.globalData.upload('client/waimai/order/upload', selected, 0, 0, 0,
+							selected.length, files,
 							function(res) {
-								img_src = res.join();
+								var uploaded = Array.isArray(res) ? res : [res];
+								if (!uploaded.length) {
+									return;
+								}
+								var list = (that.uploadList || []).slice();
+								uploaded.forEach(function(url, idx) {
+									if (!url) {
+										return;
+									}
+									var pos = targetIndex + idx;
+									if (pos < maxCount) {
+										list[pos] = url;
+									}
+								});
+								that.setData({
+									uploadList: list
+								});
+								img_src = list.filter(function(item) {
+									return item;
+								}).join(',');
 							});
 					}
 				});
+			},
+			removeImage: function(e) {
+				var idx = e.currentTarget.dataset.idx;
+				var imageList = this.imageList.slice();
+				var uploadList = (this.uploadList || []).slice();
+				if (idx < 0 || idx >= imageList.length) {
+					return;
+				}
+				imageList.splice(idx, 1);
+				if (idx < uploadList.length) {
+					uploadList.splice(idx, 1);
+				}
+				this.setData({
+					imageList: imageList,
+					imageList_len: imageList.length,
+					uploadList: uploadList
+				});
+				img_src = uploadList.filter(function(item) {
+					return item;
+				}).join(',');
 			},
 			previewImage: function(e) {
 				var current = e.target.dataset.src;
@@ -569,15 +636,23 @@
 		flex-wrap: wrap;
 	}
 
-	.images-image {
+	.image-item {
+		position: relative;
 		width: 150rpx;
 		height: 150rpx;
 		margin: 0 10rpx 10rpx;
 	}
 
+	.images-image {
+		width: 150rpx;
+		height: 150rpx;
+		margin: 0;
+	}
+
 	.image-plus {
 		border: 1px solid #999;
 		position: relative;
+		margin: 0 10rpx 10rpx;
 	}
 
 	.image-plus-horizontal {
@@ -599,6 +674,20 @@
 		height: 4rpx;
 		transform: translate(-50%, -50%);
 
+	}
+
+	.image-delete {
+		position: absolute;
+		top: -12rpx;
+		right: -12rpx;
+		width: 40rpx;
+		height: 40rpx;
+		border-radius: 50%;
+		background: rgba(0, 0, 0, 0.6);
+		color: #fff;
+		font-size: 28rpx;
+		line-height: 40rpx;
+		text-align: center;
 	}
 
 

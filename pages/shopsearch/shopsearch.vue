@@ -24,7 +24,9 @@
 		</view>
 		<!--列表-开始-->
 		<view class="goodsListBox" :style="'padding-bottom:' + (have_must ? '164rpx' : '100rpx') + ';'">
-			<view v-for="(proList, index) in products" :key="index" class="goodsList">
+				
+			<block v-if="products.length &&products.length > 0">
+				<view v-for="(proList, index) in products" :key="index" class="goodsList">
 				<image :src="proList.photo" class="img fl"></image>
 				<view class="wz_box">
 					<view class="tit overflow_clear">{{proList.title}}</view>
@@ -101,6 +103,11 @@
 					</view>
 				</view>
 				<!--选规格-结束-->
+				</view>
+			</block>
+			<view class="empty-placeholder" v-else >
+				<image src="/static/image/noorder.png" mode="aspectFit"></image>
+				<view class="txt">暂无商品，换个关键词试试</view>
 			</view>
 		</view>
 		<!--列表-结束-->
@@ -134,7 +141,7 @@
 				<image src="/static/image/index_btn_cart3x.png"></image>
 			</view>
 			<view class="wz_box fl">
-				<view class="price fontcl1">€{{totalPrice}}<span
+				<view class="price fontcl1">€{{totalPrice}}<span style="font-size: 24rpx;text-decoration: line-through;margin-left: 10rpx;color: #999;"
 						v-if="total_oldprice > 0 && total_oldprice > totalPrice">€{{total_oldprice}}</span></view>
 				<view class="black9">配送费以订单为准</view>
 			</view>
@@ -534,9 +541,8 @@
 							}
 
 							;
-						}
-
-						;
+						};
+						console.log(products);
 						that.setData({
 							products: products,
 							page: 1
@@ -1437,6 +1443,23 @@
 		background: #ff797c;
 	}
 
+	.empty-placeholder {
+		padding: 160rpx 40rpx 80rpx;
+		text-align: center;
+		color: #999;
+	}
+
+	.empty-placeholder image {
+		width: 200rpx;
+		height: 200rpx;
+		margin: 0 auto 20rpx;
+		display: block;
+	}
+
+	.empty-placeholder .txt {
+		font-size: 28rpx;
+	}
+
 
 
 
@@ -1709,7 +1732,7 @@
 	}
 
 	.goods_int_box {
-		height: 50rpx;
+		height: 54rpx;
 	}
 
 	.goods_int_box .num {

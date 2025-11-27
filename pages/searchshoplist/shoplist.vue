@@ -47,7 +47,8 @@
 						<view class="yuding" v-if="list.tips_label != ''">{{list.tips_label}}</view>
 						<view class="peisong" v-if="list.huodong.length>0">
 							<view v-for="(HDlist, HDidx) in list.huodong" :key="HDidx" class="huodong" v-if="HDidx<5">
-								{{HDlist.title}}</view>
+								{{HDlist.title}}
+							</view>
 						</view>
 					</view>
 					<view class="clear"></view>
@@ -155,7 +156,7 @@
 						ecart = new common.ECart(res.data.items[i].shop_id);
 						res.data.items[i].totalnum = ecart.total_count();
 						that.wordLength.push(res.data.items[i].title
-						.length); // for (let j = 0; j < res.data.items[i].products.length; j++) {
+							.length); // for (let j = 0; j < res.data.items[i].products.length; j++) {
 						//   that.data.wordLength3.push(res.data.items[i].products[j].title.length);
 						// };
 						// console.log(that.data.wordLength3)

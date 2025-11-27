@@ -2615,7 +2615,7 @@
 
 	/*加减框*/
 	.goods_int_box {
-		height: 50rpx;
+		height: 54rpx;
 	}
 
 	.goods_int_box .num {

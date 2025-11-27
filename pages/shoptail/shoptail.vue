@@ -667,17 +667,25 @@
 						</view>
 					</view>
 					<block>
-						<view class="goods_footer_s_btn goods_footer_s_btn_op" v-if="priceDif > 0">
-							<block v-if="totalPrice!=0">差</block>{{priceDif}}起送
+						<!-- 打样状态按钮 -->
+						<view class="goods_footer_s_btn goods_footer_s_btn_op goods_footer_s_btn_disabled" v-if="topInfo.yy_status == '0' || topInfo.yysj_status == '0'" >
+							打样了
 						</view>
-						<view class="goods_footer_s_btn goods_footer_s_btn_op"
-							v-else-if="have_must == false && is_must != '0'" @tap="cateTap" data-cate_id="must">
-							请添加必点商品
-						</view>
-						<view class="goods_footer_s_btn" v-else-if="total_num > 0" @tap="linkOrdersubmit">
-							立即购买
-						</view>
-						<view class="goods_footer_s_btn goods_footer_s_btn_op" v-else>请选择商品</view>
+						<!-- 正常状态按钮 -->
+						<block v-else>
+							<view class="goods_footer_s_btn goods_footer_s_btn_op" v-if="priceDif > 0">
+								<block v-if="totalPrice!=0">差</block>{{priceDif}}起送
+							</view>
+							<view class="goods_footer_s_btn goods_footer_s_btn_op"
+								v-else-if="have_must == false && is_must != '0'" @tap="cateTap" data-cate_id="must">
+								请添加必点商品
+							</view>
+							<view class="goods_footer_s_btn" v-else-if="total_num > 0" @tap="linkOrdersubmit">
+								立即购买
+							</view>
+							<view class="goods_footer_s_btn goods_footer_s_btn_op" v-else>请选择商品</view>
+						</block>
+					
 					</block>
 				</view>
 			</view>
@@ -830,7 +838,7 @@
                     </view>
                     <view class="clear"></view>
                 </view> -->
-						<view class="sj_Pingjia" v-if="topInfo.comment_switch==1">
+						<view class="sj_Pingjia" v-if="topInfo.comment_switch==1 || pjDetail.length > 0">
 							<view class="qiehuan ">
 								<view class="switchNav">
 									<view v-for="(item, switchIdx) in switchnav" :key="switchIdx"
@@ -1231,7 +1239,7 @@
 					is_reduce_pei: 0,
 					huodong: [],
 					can_zero_ziti: "",
-					is_distance: ""
+					is_distance: "",
 				},
 				//
 				sysinfo: uni.getSystemInfoSync(),
@@ -1427,26 +1435,24 @@
 						}
 
 						;
-					}
-
-					;
+					};
 				}
 
 				;
 
 				for (var j in arr) {
-					//取价格范围内商品
-					if (Number(arr[j].price) <= couPrice) {
+					//取满足差价的商品（价格≥差价即可）
+					var price = Number(arr[j].price);
+					if (!isNaN(price) && price >= Number(couPrice)) {
 						couLists.push(arr[j]);
 					}
-
-					;
 				}
 
 				;
 				that.setData({
 					couLists: couLists
-				}); // console.log(couLists);
+				});
+				console.log(couLists);
 
 				if (couLists.length > 0) {
 					that.setData({
@@ -2579,6 +2585,22 @@
 				var that = this,
 					goodsCate_idx = e.currentTarget.dataset.cate_id,
 					index = e.currentTarget.dataset.index;
+				if (index !== undefined && index !== null && index !== '') {
+					index = Number(index);
+				}
+
+				if (index === undefined || index === null || index === '') {
+					var goodsArr = that.goodsArr || [];
+					for (var i = 0; i < goodsArr.length; i++) {
+						if (goodsArr[i].cate_id == goodsCate_idx) {
+							index = i;
+							break;
+						}
+					}
+				}
+				if (index === undefined || index === null || index === '') {
+					index = 0;
+				}
 
 				if (that.has_index <= index) {
 					that.setData({
@@ -3675,6 +3697,7 @@
 	.noticeMask .title {
 		font-size: 32rpx;
 		line-height: 60rpx;
+		margin-top: 48rpx;
 	}
 
 	.noticeMask .state {
@@ -4219,7 +4242,7 @@
 	}
 
 	.goods_int_box {
-		height: 50rpx;
+		height: 54rpx;
 	}
 
 	.goods_int_box .num {
@@ -4299,12 +4322,32 @@
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		font-size: 28rpx;
+		font-size: 24rpx;
 		color: #3B96B1;
 	}
 
 	.goods_footer_s_btn_op {
 		opacity: .8;
+	}
+
+	.goods_footer_s_btn_disabled {
+		pointer-events: none;
+		cursor: not-allowed;
+		background: #E0E0E0 !important;
+		color: #999999 !important;
+	}
+
+	.goods_footer_s_btn_extra {
+		width: 180rpx;
+		height: 76rpx;
+		background: #3B96B1;
+		border-radius: 24rpx;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		font-size: 24rpx;
+		color: #FFFFFF;
+		margin-left: 16rpx;
 	}
 
 	.goods_footer .cart {

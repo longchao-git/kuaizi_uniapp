@@ -80,7 +80,7 @@
 									<block v-else>
 										<view style="height:168rpx;">
 											<view class="topState" id="searchBox_h">
-												<view class="location" style="max-width:100% !important;"
+												<view class="location" style="max-width:80% !important;"
 													@tap.stop="tosearchaddr">
 													<image class="addr_ico" :src="module.icon_location"
 														mode="aspectFit"></image><text

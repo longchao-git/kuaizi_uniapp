@@ -26,10 +26,10 @@
 						<view style="line-height: 80rpx; padding:0 20rpx ;border-radius: 10rpx;font-size: 28rpx;"
 							@click="showActionSheet">{{textPhone}}</view>
 						<view class="xian"></view>
-						<input name="phone" type="text" placeholder="手机号" :value='mobile' @input="mobileFun">
+						<input name="phone" type="text" placeholder="手机号" v-model="mobile">
 					</view>
 					<view class="int_box" style=" border-bottom: 2rpx solid #DDDDDD;">
-						<input name="code" type="text" placeholder="密码" :value='smscode' @input="setsmscode">
+						<input name="code" type="text" placeholder="密码" v-model="smscode">
 					</view>
 					<view class="btn-area" style="display: flex;align-items: center;">
 						<button @tap="sethasSignup" class="long_btn1">注册</button>
@@ -48,7 +48,7 @@
 							<view style="line-height: 80rpx; padding:0 20rpx ;color:#3E4248;font-size: 28rpx;"
 								@click="showActionSheet">{{textPhone}}</view>
 							<view class="xian"></view>
-							<input name="phone" type="text" placeholder="手机号" :value='mobile' @input="mobileFun">
+							<input name="phone" type="text" placeholder="手机号" v-model="mobile">
 						</view>
 						<!-- 	<button type="default" :class="'send ' + sendclass" @tap="sendCode">
 							<block v-if="sendclass=='on'">重新获取({{time}}s)</block>
@@ -78,7 +78,7 @@
 
 					<view class="int_box" v-if="!hasZevalue&&Hasiphone"
 						style=" border-bottom: 2rpx solid #DDDDDD;margin-top: 20rpx;line-height: 80rpx;">
-						<input name="code" type="text" placeholder="密码" :value='valuecode' @input="setvaluecode">
+						<input name="code" type="text" placeholder="密码" v-model="valuecode">
 					</view>
 					<view class="potionetion" @tap="sendCode" v-if="!Hasiphone">下一步</view>
 					<view class="potionetion" @tap="submit" v-if="Hasiphone">立即绑定</view>
@@ -95,7 +95,7 @@
 				<view :class="'piccode ' + (numberPop?'':'active')">
 					<view class="title border_b">输入验证码发送</view>
 					<view class="content">
-						<input type="text" :value="codevalue" @input="getnumber"> <!-- @blur="getnumber" -->
+						<input type="text" v-model="codevalue"> <!-- @blur="getnumber" -->
 						<image :src="img" @tap="changeimg"></image>
 					</view>
 					<view class="btns border_t">
@@ -127,9 +127,8 @@
 		hintMsg = null,
 		currentTime = maxTime;
 	var params = {
-			mobile: ''
-		},
-		img_code = '';
+		mobile: ''
+	};
 
 	export default {
 		data() {
@@ -270,12 +269,6 @@
 				});
 			},
 			formSubmit: function(e) {},
-			mobileFun: function(e) {
-				this.setData({
-					mobile: e.detail.value
-				});
-			},
-
 			sendCode: function(e) {
 				if (!this.mobile) {
 					uni.showToast({
@@ -286,27 +279,15 @@
 				params.img_code = '';
 				this.getcode();
 			},
-			setsmscode: function(e) {
-				this.setData({
-					smscode: e.detail.value
-				});
-			},
-			setvaluecode: function(e) {
-				this.setData({
-					valuecode: e.detail.value
-				});
-			},
 			sendpic() {
-				params.img_code = img_code;
+				params.img_code = this.codevalue;
 				this.setData({
 					img: '',
-					codevalue: ''
+					codevalue: '',
+					code: ''
 				});
+				console.log(params)
 				this.getcode();
-			},
-
-			getnumber(e) {
-				img_code = e.detail.value;
 			},
 
 			changeimg() {

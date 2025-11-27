@@ -9,7 +9,7 @@
 	export default {
 		globalData: {
 			// URL: "https://test.aioeuropa.com",
-			URL: "https://www.aioeuropa.com",
+			URL: "https://www.cuai-zi.com",
 			// URL: "https://aiolife.net",
 			// URL: "http://aiolocal.com",
 			// URL: "https://3f3f2870a504.ngrok.io",
@@ -1091,7 +1091,7 @@
 			_CFG: {
 				// "BASE_API": "http://wmv4.weizx.cn/api.php",
 				// "BASE_API": "https://test.aioeuropa.com/api.php", // 测试服
-				"BASE_API": "https://www.aioeuropa.com/api.php",
+				"BASE_API": "https://www.cuai-zi.com/api.php",
 				// 正式服
 				//  "BASE_API": "http://47.114.185.218/api.php",
 				"auth_code": "",
