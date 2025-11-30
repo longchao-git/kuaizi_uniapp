@@ -788,7 +788,6 @@
 			uni.getStorage({
 				key: 'currentAddr',
 				success: function(res) {
-					console.log(res)
 					if (!res.data) {
 						return
 					}
@@ -822,7 +821,6 @@
 
 		//上来加载
 		onReachBottom(e) {
-			console.log('loading page:', page);
 			let page = this.page;
 			this.setData({
 				page: page + 1
@@ -852,7 +850,6 @@
 					"lng": app.globalData._CFG.lng,
 					"lat": app.globalData._CFG.lat
 				}, function(res) {
-					console.log(res)
 					that.loading = false
 					if (res.error == '0') {
 						uni.setStorage({
@@ -894,7 +891,6 @@
 								};
 							};
 						}
-						console.log(55555)
 					} else {
 						app.globalData.msgbox(res.message);
 						that.loadimg = true;
@@ -905,7 +901,6 @@
 				}, nothasloading);
 				app.globalData.homeInfo({}, function(ret) {
 					that.loading = false
-					console.log("Skeleton——homeInfo")
 					if (ret.error == '0') {
 						that.headerTitle = ret.data.title;
 						that.setData({
@@ -928,14 +923,11 @@
 
 				var page = setpage ? setpage : that.page;
 				params.page = page; 
-				console.log(params);
-
 				app.globalData.shopLists(params, function(res) {
 					completeCallback();
 					if (setpage == 0) {
 						that.loading = false;
 					}
-					// console.log("Skeleton——initData")
 
 					if (res.error == "0") {
 						//构造商家购物车数量
@@ -944,7 +936,6 @@
 							res.data.items[i].totalnum = ecart.total_count();
 						}; //判断是否为刷新加载数据
 						if (res.data.items.length > 0) {
-							//console.log(setpage)
 							if (res.data.items.length < 10) {
 								if (!setpage) {
 									uni.showToast({
@@ -1025,7 +1016,6 @@
 						longitude: app.globalData._CFG.currentlng
 					},
 					success: function(res) {
-						//console.log("经纬度", app._CFG.currentlat, app._CFG.currentlng, "地址", res);
 						that.setData({
 							currentaddr: res.result.address_component.street + res.result
 								.address_component.street_number
@@ -1039,14 +1029,12 @@
 				});
 			},
 			getplace: function() {
-				console.log(123132123)
 				var that = this;
 				uni.getLocation({
 					//type: 'wgs84', // 默认为 wgs84 返回 gps 坐标，gcj02 返回可用于 wx.openLocation 的坐标
 					type: 'gcj02',
 					//手机定位问题
 					success(res) {
-						console.log(res)
 						app.globalData._CFG.lng = res.longitude;
 						app.globalData._CFG.lat = res.latitude;
 						app.globalData._CFG.currentlng = res.longitude;
@@ -1274,7 +1262,6 @@
 
 				app.globalData._CFG.cateid = obj.cate_id;
 				app.globalData._CFG.title = '';
-				console.log(e)
 				if (obj.wxlink == '') {
 					uni.showToast({
 						title: "请设置小程序的" + title + "链接"
@@ -1384,18 +1371,15 @@
 			},
 
 			refreshPage3389: function() {
-				console.log(123321132)
 				app.globalData.getcitylist({}, res => {
 					if (res.error === '0') app.globalData.allcitylist = res.data.items;
 				});
 
 				var that = this;
 				that.loading = true;
-				console.log(123321132)
 				uni.getStorage({
 					key: 'currentAddr',
 					success: function(res) {
-						console.log(res.data)
 						if (res.data) {
 							app.globalData._CFG.lng = res.data.lng;
 							app.globalData._CFG.lat = res.data.lat;
@@ -1437,7 +1421,6 @@
 						}
 					},
 					fail: function(err) {
-						console.log('getStorage fail:', err)
 						// 本地存储没有地址数据,需要重新获取定位
 						app.globalData.getLocation(function() {
 							app.globalData._CFG.currentlng = app.globalData._CFG.lng;
@@ -1468,7 +1451,6 @@
 									}
 								});
 							} else {
-								console.log('经纬度未获取到,使用手动定位')
 								that.setData({
 									currentaddr: "手动定位"
 								});
@@ -1480,7 +1462,6 @@
 			},
 
 			toYouhuiMore() {
-				console.log("占位：函数 toYouhuiMore 未声明");
 			},
 			isShowToast(showToast) {
 				return showToast.isShow ? showToast.isShow : false

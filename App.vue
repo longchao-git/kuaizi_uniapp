@@ -231,7 +231,6 @@
 										},
 										function(res) {
 											if (res.error == 0) {
-												console.log('服务端auth认证用户id：' + res.data.ali_openid)
 												__APP._CFG.ali_openid = res.data.ali_openid
 												uni.setStorage({
 													key: 'ali_openid',
@@ -325,7 +324,6 @@
 												}
 											} else {
 												//去授权
-												console.log('去授权')
 												// __APP.topage("../getAuthorize/getAuthorize");
 												//启动授权设置
 												uni.pubOpenSetting(true, "getUserInfo");
@@ -434,7 +432,6 @@
 							};
 						},
 						fail(err) {
-							console.log(err)
 						}
 
 					});
