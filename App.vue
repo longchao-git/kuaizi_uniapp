@@ -133,42 +133,66 @@
 			//获取地址经纬度；
 			getLocation: function(callback) {
 				callback = callback || function() {};
-				if ((__APP._CFG.lng == undefined || __APP._CFG.lat == undefined) && isNumber == 0) {
-					isNumber++
-
-					uni.getLocation({
-						type: 'gcj02',
-						altitude: true,
-						// 默认为 wgs84 返回 gps 坐标，gcj02 返回可用于 wx.openLocation 的坐标
-						success: function(res) {
-
-							__APP._CFG.lng = res.longitude.toString();
-							__APP._CFG.lat = res.latitude.toString();
-							__APP._CFG.currentlng = __APP._CFG.lng;
-							__APP._CFG.currentlat = __APP._CFG.lat;
+				
+				// 如果经纬度已存在,直接执行回调
+				if (__APP._CFG.lng && __APP._CFG.lat) {
+					callback();
+					return;
+				}
+				
+				// 如果正在获取中,等待获取完成
+				if (isNumber > 0) {
+					// 等待定位完成后再执行回调
+					let checkInterval = setInterval(() => {
+						if (__APP._CFG.lng && __APP._CFG.lat) {
+							clearInterval(checkInterval);
 							callback();
-						},
-						fail: function(err) {
-							console.log(err)
-
+						}
+					}, 100);
+					// 最多等待5秒
+					setTimeout(() => {
+						clearInterval(checkInterval);
+						if (!__APP._CFG.lng || !__APP._CFG.lat) {
 							__APP._CFG.lng = '-3.709870'
 							__APP._CFG.lat = '40.422980'
 							__APP._CFG.currentlng = __APP._CFG.lng;
 							__APP._CFG.currentlat = __APP._CFG.lat;
 							callback();
-							return
-							//#ifdef H5
-							//#endif
-							isNumber = 0
-							__APP.msgbox('定位失败');
-							setTimeout(() => {
-								uni.pubOpenSetting(true, "openSetting");
-							}, 1500);
 						}
-					});
-				} else {
-					callback();
-				};
+					}, 5000);
+					return;
+				}
+				
+				// 开始获取定位
+				isNumber++
+				uni.getLocation({
+					type: 'gcj02',
+					altitude: true,
+					// 默认为 wgs84 返回 gps 坐标，gcj02 返回可用于 wx.openLocation 的坐标
+					success: function(res) {
+						__APP._CFG.lng = res.longitude.toString();
+						__APP._CFG.lat = res.latitude.toString();
+						__APP._CFG.currentlng = __APP._CFG.lng;
+						__APP._CFG.currentlat = __APP._CFG.lat;
+						isNumber = 0; // 重置标志
+						callback();
+					},
+					fail: function(err) {
+						__APP._CFG.lng = '-3.709870'
+						__APP._CFG.lat = '40.422980'
+						__APP._CFG.currentlng = __APP._CFG.lng;
+						__APP._CFG.currentlat = __APP._CFG.lat;
+						isNumber = 0; // 重置标志
+						callback();
+						//#ifdef H5
+						return
+						//#endif
+						__APP.msgbox('定位失败');
+						setTimeout(() => {
+							uni.pubOpenSetting(true, "openSetting");
+						}, 1500);
+					}
+				});
 			},
 			//用户登录；
 			onLogin: function(callback) {
@@ -181,7 +205,6 @@
 					} else {
 
 						//#ifdef H5
-						console.log('H5直接跳转登录页')
 						__APP.topage('/pages/binding/binding');
 						return
 						//#endif
@@ -223,8 +246,7 @@
 									// #endif	
 									uni.getSetting({
 										success(rt) {
-											console.log(rt)
-											console.log(rt.authSetting['scope.userInfo'])
+									
 											if (rt.authSetting['scope.userInfo'] != undefined) {
 												if (rt.authSetting['scope.userInfo']) {
 													uni.getUserInfo({
@@ -389,7 +411,6 @@
 					//#endif
 					uni.getSetting({
 						success(rr) {
-							console.log(rr)
 							if (rr.authSetting['scope.userInfo'] != undefined) {
 								if (!rr.authSetting['scope.userInfo']) {
 									//启动授权设置
@@ -1003,7 +1024,6 @@
 						uni.navigateTo({
 							url: url,
 							fail(res) {
-								console.log(res)
 							}
 
 						});
@@ -1132,7 +1152,6 @@
 				if (cookies == null) {
 					return;
 				}
-				// console.log(cookies)
 				cookies.forEach(cookie => {
 					let cookieContents = cookie.split('; ');
 					var cookieObj = {};
@@ -1160,16 +1179,15 @@
 		onLaunch: function() {
 			//#ifdef  MP-ALIPAY 
 
-			console.log('获取appid')
 			const appIdRes = my.getAppIdSync();
-			console.log(appIdRes.appId);
 			//#endif 
 			__APP = this.globalData;
 			var logs = uni.getStorageSync('logs') || [];
 			this.globalData.city_id = uni.getStorageSync('currentCityId');
 
 			logs.unshift(Date.now());
-			uni.setStorageSync('logs', logs); // __APP.getLocation();
+			uni.setStorageSync('logs', logs);
+			 // __APP.getLocation();
 
 			__APP.getUserLocationState();
 		},

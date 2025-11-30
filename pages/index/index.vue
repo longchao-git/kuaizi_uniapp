@@ -149,11 +149,10 @@
 								v-if="module.module == 'module3'"
 								:style="'background-color:#' + module.background_color">
 								<image class="cateNavBg_pic" mode="aspectFit" :src="module.background"></image>
-								<!-- {{Math.ceil(module.content.length/10)}} -->
 								<swiper circular="true">
-									<block
+									<!-- <block
 										v-for="(li, key) in module.type == 1 ? (module.content.length%10 != 0 ? module.content.length/10 : module.content.length/10) : (module.content.length%8 != 0 ? module.content.length/8 : module.content.length/8)"
-										:key="key">
+										:key="key"> -->
 										<swiper-item>
 											<ul>
 												<li v-for="(item, index) in module.content" :key="index"
@@ -166,7 +165,7 @@
 												</li>
 											</ul>
 										</swiper-item>
-									</block>
+									<!-- </block> -->
 								</swiper>
 							</view>
 							<!--分类导航-结束-->
@@ -853,6 +852,7 @@
 					"lng": app.globalData._CFG.lng,
 					"lat": app.globalData._CFG.lat
 				}, function(res) {
+					console.log(res)
 					that.loading = false
 					if (res.error == '0') {
 						uni.setStorage({
@@ -861,38 +861,40 @@
 						});
 						app.globalData.city_id = res.data.city_id;
 						that.loadimg = true;
-						for (let i in res.data.theme) {
-							if (res.data.theme[i].module == 'module2') {
-								for (let h in res.data.theme[i].content) {
-									if (res.data.theme[i].content[h].photo ==
-										'https://image.aioeuropa.com/photo/202110/20211001_235AF9D6370A3B7EC840B14D3DD2C837.png'
-									) {
-										res.data.theme[i].content.splice(h, 1)
-									}
-									if (res.data.theme[i].content[h].photo ==
-										'https://image.aioeuropa.com/photo/202111/20211102_AFB1755A541623C956F80246655FF536.png'
-									) {
-										res.data.theme[i].content.splice(h, 1)
+						// 确保 theme 是数组
+						if (Array.isArray(res.data.theme)) {
+							for (let i in res.data.theme) {
+								if (res.data.theme[i].module == 'module2') {
+									// 确保 content 是数组后再进行过滤
+									if (Array.isArray(res.data.theme[i].content)) {
+										// 使用 filter 方法过滤掉不需要的图片,避免循环中删除元素导致索引错误
+										res.data.theme[i].content = res.data.theme[i].content.filter(item => {
+											return item.photo !== 'https://image.aioeuropa.com/photo/202110/20211001_235AF9D6370A3B7EC840B14D3DD2C837.png' &&
+												  item.photo !== 'https://image.aioeuropa.com/photo/202111/20211102_AFB1755A541623C956F80246655FF536.png';
+										});
 									}
 								}
 							}
 						}
 						that.setData({
-							indexCont: res.data.theme,
+							indexCont: res.data.theme || [],
 							whitebg: true
 						});
-
-						for (var i = 0; i < res.data.theme.length; i++) {
-							if (res.data.theme[i].module == "module0") {
-								that.setData({
-									indexBgColor: res.data.theme[i]
-								});
-							} else if (res.data.theme[i].module == "module9") {
-								that.setData({
-									hdType: res.data.theme[i].type
-								});
+						// 确保 theme 是数组后再遍历
+						if (Array.isArray(res.data.theme)) {
+							for (var i = 0; i < res.data.theme.length; i++) {
+								if (res.data.theme[i].module == "module0") {
+									that.setData({
+										indexBgColor: res.data.theme[i]
+									});
+								} else if (res.data.theme[i].module == "module9") {
+									that.setData({
+										hdType: res.data.theme[i].type
+									});
+								};
 							};
-						};
+						}
+						console.log(55555)
 					} else {
 						app.globalData.msgbox(res.message);
 						that.loadimg = true;
@@ -925,7 +927,8 @@
 				}
 
 				var page = setpage ? setpage : that.page;
-				params.page = page; // console.log(params);
+				params.page = page; 
+				console.log(params);
 
 				app.globalData.shopLists(params, function(res) {
 					completeCallback();
@@ -1388,7 +1391,7 @@
 
 				var that = this;
 				that.loading = true;
-
+				console.log(123321132)
 				uni.getStorage({
 					key: 'currentAddr',
 					success: function(res) {
@@ -1434,33 +1437,42 @@
 						}
 					},
 					fail: function(err) {
-						console.log(err)
+						console.log('getStorage fail:', err)
+						// 本地存储没有地址数据,需要重新获取定位
 						app.globalData.getLocation(function() {
 							app.globalData._CFG.currentlng = app.globalData._CFG.lng;
 							app.globalData._CFG.currentlat = app.globalData._CFG.lat;
 							app.globalData._CFG.isindexshow = true;
 							that.setData({
 								isindexshow: app.globalData._CFG.isindexshow
-							}); //定位接口
-
-							app.globalData.addrdecode({
-								"lng": app.globalData._CFG.lng,
-								"lat": app.globalData._CFG.lat
-							}, function(ret) {
-								if (ret.error == 0) {
-									that.setData({
-										currentaddr: ret.data.addr.addr
-									});
-									uni.setStorage({
-										key: "fzCity",
-										data: ret.data.addr.city
-									});
-								} else {
-									that.setData({
-										currentaddr: "手动定位"
-									});
-								}
 							});
+
+							// 确保经纬度存在后再调用地址解析接口
+							if (app.globalData._CFG.lng && app.globalData._CFG.lat) {
+								app.globalData.addrdecode({
+									"lng": app.globalData._CFG.lng,
+									"lat": app.globalData._CFG.lat
+								}, function(ret) {
+									if (ret.error == 0) {
+										that.setData({
+											currentaddr: ret.data.addr.addr
+										});
+										uni.setStorage({
+											key: "fzCity",
+											data: ret.data.addr.city 
+										});
+									} else {
+										that.setData({
+											currentaddr: "手动定位"
+										});
+									}
+								});
+							} else {
+								console.log('经纬度未获取到,使用手动定位')
+								that.setData({
+									currentaddr: "手动定位"
+								});
+							}
 							that.https();
 						});
 					}
