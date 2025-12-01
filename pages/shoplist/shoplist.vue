@@ -116,9 +116,9 @@
 									<block v-if="hdType == '1'">
 										<view class="box">
 											<!-- <view class="starBg">
-                            <image src='../../image/min_evlt_star_bg.png' class='starBgimg'></image>
+                            <image src='../../image/evlt_star_bg.png' class='starBgimg'></image>
                             <view class="star" style="width:{{item.avg_score*20}}%;">
-                                <image src='../../image/min_evlt_star_bar.png'></image>
+                                <image src='../../image/evlt_star_bar.png'></image>
                             </view>
                         </view> -->
 											<view class="starS" v-if="item.comment_score_switch==1">
@@ -153,7 +153,7 @@
 											<view class="right" @tap.stop="tapHd" :data-index="index"
 												v-if="item.huodong.length > 3">{{item.huodong.length}}个活动<image
 													class="ico" mode="aspectFit"
-													:src="'/static/image/' + (hdShow == index ? 'btn_arrow_up_small3x.png' : 'btn_arrow_down_small3x.png')">
+													:src="'/static/image/' + (hdShow == index ? 'btn_arrow_up_small3x.png' : 'topBottom.png')">
 												</image>
 											</view>
 											<ul :class="hdShow == index ? 'on' : ''">
@@ -192,7 +192,7 @@
 										<view class="pullBox">
 											<view class="right" @tap.stop="tapHd" :data-index="index">
 												<image class="ico" mode="aspectFit"
-													:src="'/static/image/' + (hdShow == index ? 'btn_arrow_up_small3x.png' : 'btn_arrow_down_small3x.png')">
+													:src="'/static/image/' + (hdShow == index ? 'btn_arrow_up_small3x.png' : 'topBottom.png')">
 												</image>
 											</view>
 											<view :class="'left ' + (hdShow == index ? 'on' : '')">

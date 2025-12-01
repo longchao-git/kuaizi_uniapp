@@ -18,7 +18,7 @@
 				</image>
 			</view>
 			<view class="inviteFriends_chengjiu">
-				<view class="tit">我的成就<view class="fr txt">查看明细<image class="ico" src="/static/image/btn_arrow_r3x.png">
+				<view class="tit">我的成就<view class="fr txt">查看明细<image class="ico" src="/static/image/icon-arrowR-gray2x.png">
 						</image>
 					</view>
 				</view>
@@ -86,7 +86,7 @@
 					<view class="tit">活动规则</view>
 					<view class="txt">{{info.cfg.intro_format}}</view>
 				</view>
-				<image src="/static/image/index_btn_closeBig3x.png" class="close" @tap.stop="tapRule"></image>
+				<image src="/static/image/btn_close3x.png" class="close" @tap.stop="tapRule"></image>
 			</view>
 		</view>
 		<!--规则-结束-->

@@ -45,10 +45,10 @@
 				</view>
 				<!--加减框开始-->
 				<view class="goods_int_box" v-if="proList.specs.length == 0 && proList.specification.length == 0">
-					<image src="/static/image/btn-num_subtraction3x.png" class="jian" v-if="proList.num != 0"
+					<image src="/static/image/icon_remove_new.png" class="jian" v-if="proList.num != 0"
 						@tap="reduceCart" :data-sku_id="proList.sku_id" :data-sku_obj="proList"></image>
 					<view class="num" v-if="proList.num != 0">{{proList.num}}</view>
-					<image src="/static/image/btn-num_addCart3x.png" class="jia" @tap="addCart"
+					<image src="/static/image/icon_add_new.png" class="jia" @tap="addCart"
 						:data-sku_id="proList.sku_id" :data-sku_obj="proList"></image>
 					<view class="clear"></view>
 				</view>
@@ -92,10 +92,10 @@
 						</view>
 						<!--加减框开始-->
 						<view class="goods_int_box fr">
-							<image src="/static/image/btn-num_subtraction3x.png" class="jian" v-if="newSpecs.num != 0"
+							<image src="/static/image/icon_remove_new.png" class="jian" v-if="newSpecs.num != 0"
 								@tap="reduceCart" :data-sku_id="newSpecs.sku_id" :data-sku_obj="newSpecs"></image>
 							<view class="num" v-if="newSpecs.num != 0">{{newSpecs.num}}</view>
-							<image src="/static/image/btn-num_addCart3x.png" class="jia" @tap="addCart"
+							<image src="/static/image/icon_add_new.png" class="jia" @tap="addCart"
 								:data-sku_id="newSpecs.sku_id" :data-sku_obj="newSpecs"></image>
 							<view class="clear"></view>
 						</view>
@@ -163,10 +163,10 @@
 				<view v-for="(item, index) in cartLists" :key="index" class="list">
 					<!--加减框开始-->
 					<view class="goods_int_box fr">
-						<image src="/static/image/btn-num_subtraction3x.png" class="jian" @tap="reduceCart"
+						<image src="/static/image/icon_remove_new.png" class="jian" @tap="reduceCart"
 							:data-sku_id="item.sku_id" :data-sku_obj="item"></image>
 						<view class="num">{{item.num}}</view>
-						<image src="/static/image/btn-num_addCart3x.png" class="jia" @tap="addCart"
+						<image src="/static/image/icon_add_new.png" class="jia" @tap="addCart"
 							:data-sku_id="item.sku_id" :data-sku_obj="item"></image>
 					</view>
 					<!--加减框结束-->
@@ -191,10 +191,10 @@
 				<view v-for="(item, index) in couLists" :key="index" class="list">
 					<!--加减框开始-->
 					<view class="goods_int_box fr">
-						<image src="/static/image/btn-num_subtraction3x.png" class="jian" @tap="reduceCart"
+						<image src="/static/image/icon_remove_new.png" class="jian" @tap="reduceCart"
 							:data-sku_id="item.sku_id" :data-sku_obj="item"></image>
 						<view class="num">{{item.num}}</view>
-						<image src="/static/image/btn-num_addCart3x.png" class="jia" @tap="addCart"
+						<image src="/static/image/icon_add_new.png" class="jia" @tap="addCart"
 							:data-sku_id="item.sku_id" :data-sku_obj="item"></image>
 					</view>
 					<!--加减框结束-->

@@ -37,7 +37,7 @@
 					请选择所在城市
 				</view>
 			</picker>
-			<image src="/static/image/btn_arrow_r3x.png" style="width:25rpx;height:40rpx;float:right;margin-top:30rpx;">
+			<image src="/static/image/icon-arrowR-gray2x.png" style="width:25rpx;height:40rpx;float:right;margin-top:30rpx;">
 			</image>
 		</view>
 

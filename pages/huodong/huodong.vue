@@ -57,7 +57,7 @@
 					<view class="hd" v-if="item.huodong.length > 0">
 						<view class="right" @tap.stop="tapHd" :data-index="index" v-if="item.huodong.length > 3">
 							{{item.huodong.length}}个活动<image class="ico" mode="aspectFit"
-								:src="'/static/image/' + (hdShow == index ? 'btn_arrow_up_small3x.png' : 'btn_arrow_down_small3x.png')">
+								:src="'/static/image/' + (hdShow == index ? 'btn_arrow_up_small3x.png' : 'topBottom.png')">
 							</image>
 						</view>
 						<ul :class="hdShow == index ? 'on' : ''">

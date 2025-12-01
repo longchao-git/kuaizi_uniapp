@@ -4,7 +4,7 @@
 			<view>
 				<view class="ser_box_box">
 					<view v-if="is_fz" class="city" @tap.stop="toCity"><text>{{currentCity}}</text>
-						<image class="ico" src="/static/image/btn_arrow_down_small3x.png" mode="aspectFit"></image>
+						<image class="ico" src="/static/image/topBottom.png" mode="aspectFit"></image>
 					</view>
 					<view class="ser_box">
 						<image src="/static/image/quan_sou.png" class="ico"></image><input placeholder="请输入你的收货地址"

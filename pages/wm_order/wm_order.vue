@@ -391,10 +391,10 @@
 									v-if="item.num == 0">换购</view>
 								<!--加减框开始-->
 								<view class="goods_int_box" v-else>
-									<image src="/static/image/btn-num_subtraction3x.png" class="jian" @tap="reducePro"
+									<image src="/static/image/icon_remove_new.png" class="jian" @tap="reducePro"
 										:data-product_id="item.product_id" :data-sku_obj="item"></image>
 									<view class="num">{{item.num}}</view>
-									<image src="/static/image/btn-num_addCart3x.png" class="jia" @tap="addPro"
+									<image src="/static/image/icon_add_new.png" class="jia" @tap="addPro"
 										:data-product_id="item.product_id" :data-sku_obj="item"></image>
 									<view class="clear"></view>
 								</view>

@@ -818,9 +818,9 @@
                         <view class="taiduNum mt5">
                             <text>商家评分</text>
                             <view class="evlt_star_bg ml20">
-                                <image src="../../image/min_evlt_star_bg.png" class="bg"></image>
+                                <image src="../../image/evlt_star_bg.png" class="bg"></image>
                                 <view class="evlt_star_bar" style="width:{{evaluate.avg_score*20}}%">
-                                    <image src="../../image/min_evlt_star_bar.png"></image>
+                                    <image src="../../image/evlt_star_bar.png"></image>
                                 </view>
                             </view>
                             <text class="fenshu ml5">{{evaluate.avg_score}}分</text>
@@ -828,9 +828,9 @@
                         <view class="peisongNum mt5">
                             <text>配送评分</text>
                             <view class="evlt_star_bg ml20">
-                                <image src="../../image/min_evlt_star_bg.png" class="bg"></image>
+                                <image src="../../image/evlt_star_bg.png" class="bg"></image>
                                 <view class="evlt_star_bar" style="width:{{evaluate.avg_peisong*20}}%">
-                                    <image src="../../image/min_evlt_star_bar.png"></image>
+                                    <image src="../../image/evlt_star_bar.png"></image>
                                 </view>
                             </view>
                             <text class="fenshu ml5">{{evaluate.avg_peisong}}分</text>
@@ -874,9 +874,9 @@
 												</view>
 												<!-- <view>
                                             <view class="evlt_star_bg">
-                                                <image src="../../image/min_evlt_star_bg.png" class="bg"></image>
+                                                <image src="../../image/evlt_star_bg.png" class="bg"></image>
                                                 <view class="evlt_star_bar" style="width:{{item.score*20}}%">
-                                                    <image src="../../image/min_evlt_star_bar.png"></image>
+                                                    <image src="../../image/evlt_star_bar.png"></image>
                                                 </view>
                                             </view>
                                             <text class="black9 ml10">{{item.pei_time}}</text>
@@ -1013,9 +1013,9 @@
 					<block v-else>打烊了</block>
 				</view>
 				<view class="evlt_star_bg">
-					<image src="/static/image/min_evlt_star_bg.png" class="bg"></image>
+					<image src="/static/image/evlt_star_bg.png" class="bg"></image>
 					<view class="evlt_star_bar" :style="'width:' + (topInfo.avg_score*20) + '%'">
-						<image src="/static/image/min_evlt_star_bar.png"></image>
+						<image src="/static/image/evlt_star_bar.png"></image>
 					</view>
 				</view>
 			</view>
@@ -1035,7 +1035,7 @@
 				<block v-if="topInfo.delcare.length > 0">{{topInfo.delcare}}</block>
 				<block v-else>用餐高峰请提前下单，O(∩_∩)O谢谢！！</block>
 			</view>
-			<image src="/static/image/index_btn_closeBig3x.png" @tap="setnoticeshow" class="close"></image>
+			<image src="/static/image/btn_close3x.png" @tap="setnoticeshow" class="close"></image>
 		</view>
 		<!-- 查看更多活动与消息弹层-结束 -->
 		<!-- 快速导航-开始 -->

@@ -376,7 +376,7 @@
 												<view class="right" @tap.stop="tapHd" :data-index="index"
 													v-if="item.huodong.length > 3">{{item.huodong.length}}个活动<image
 														class="ico" mode="aspectFit"
-														:src="'/static/image/' + (hdShow == index ? 'btn_arrow_up_small3x.png' : 'btn_arrow_down_small3x.png')">
+														:src="'/static/image/' + (hdShow == index ? 'btn_arrow_up_small3x.png' : 'topBottom.png')">
 													</image>
 												</view>
 												<ul :class="hdShow == index ? 'on' : ''">
@@ -416,7 +416,7 @@
 											<view class="pullBox">
 												<view class="right" @tap.stop="tapHd" :data-index="index">
 													<image class="ico" mode="aspectFit"
-														:src="'/static/image/' + (hdShow == index ? 'btn_arrow_up_small3x.png' : 'btn_arrow_down_small3x.png')">
+														:src="'/static/image/' + (hdShow == index ? 'btn_arrow_up_small3x.png' : 'topBottom.png')">
 													</image>
 												</view>
 												<view :class="'left ' + (hdShow == index ? 'on' : '')">
