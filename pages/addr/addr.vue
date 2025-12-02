@@ -1,22 +1,11 @@
-<template>
+﻿<template>
 	<view>
 		<skeleton :loading="loading" :showAvatar='false' :row="skeleton1.row" :showTitle="skeleton1.showTitle">
 			<view>
-				<!--提示框引入-开始-->
-				<!--<import src="../components/showToast.wxml"></import>-->
-				<block data-type="template" data-is="showToast" data-attr="showToast: showToast">
-					<block v-if="showToast.isShow? showToast.isShow: false">
-						<!-- <view class="toast-bg" wx:if="{{showToast.mask==false? false : true}}"></view>   -->
-						<view class="toast-center">
-							<view class="toast">
-								<image class="toast-icon" :src="showToast.icon" mode="scaleToFill"
-									v-if="showToast.icon"></image>
-								<text class="toast-text">{{showToast.title}}</text>
-							</view>
-						</view>
-					</block>
-				</block>
+				<!--提示框引入-开始：使用全局 Toast 组件-->
+				<Toast :showToast="showToast" />
 				<!--提示框引入-结束-->
+
 				<view>
 					<view class="topmask" :hidden="topmask"></view>
 					<view style="padding-bottom:100rpx;">
@@ -134,9 +123,8 @@
 			},
 
 			bindonShow() {
-				this.setData({
-					topmask: true
-				});
+				this.topmask = true
+				;
 				var that = this;
 				app.globalData.mineAddr({
 					"page": 1
@@ -145,15 +133,13 @@
 
 					if (res.error == '0') {
 						if (res.data.items.length > 0) {
-							that.setData({
-								addrhidden: false,
+							that.addrhidden = false,
 								addr_lis: res.data.items
-							});
+							;
 						} else {
-							that.setData({
-								addrhidden: true,
+							that.addrhidden = true,
 								addr_lis: res.data.items
-							});
+							;
 						}
 					} else {
 						uni.showToast({
@@ -180,9 +166,8 @@
 
 			},
 			editTap: function(e) {
-				this.setData({
-					topmask: false
-				});
+				this.topmask = false
+				;
 				var current = e.currentTarget.dataset;
 				app.globalData.setstorage('addrInfo', {
 					name: current.contact,
@@ -298,5 +283,5 @@
 	}
 
 
-	/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIiUzQ2lucHV0JTIwY3NzJTIwTTNXdkdVJTNFIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBLFdBQVcsZ0JBQWdCLENBQUM7QUFDNUIsZUFBZSxjQUFjLEVBQUUsZ0JBQWdCLEVBQUUsa0JBQWtCLENBQUM7QUFDcEUsaUJBQWlCLHFCQUFxQixFQUFFLGdCQUFnQixFQUFFLGtCQUFrQixFQUFFLFdBQVcsQ0FBQztBQUMxRixtQkFBbUIsYUFBYSxFQUFFLDhCQUE4QixDQUFDO0FBQ2pFLHlCQUF5QixZQUFZLEVBQUUsYUFBYSxFQUFFLGtCQUFrQixFQUFFLG1CQUFtQixFQUFFLGtCQUFrQixFQUFFLFdBQVcsQ0FBQztBQUMvSCw0QkFBNEIsbUJBQW1CLENBQUM7QUFDaEQsNEJBQTRCLG1CQUFtQixDQUFDO0FBQ2hELDRCQUE0QixtQkFBbUIsQ0FBQztBQUNoRCw0QkFBNEIsbUJBQW1CLENBQUM7O0FBRWhELDJCQUEyQixZQUFZLEVBQUUsYUFBYSxFQUFFLGVBQWUsRUFBRSxzQkFBc0IsRUFBRSxZQUFZLEVBQUUsY0FBYyxFQUFFLGdCQUFnQixFQUFFLGtCQUFrQixDQUFDO0FBQ3BLLGlDQUFpQyxZQUFZLEVBQUUsYUFBYSxDQUFDO0FBQzdELGlDQUFpQyxhQUFhLENBQUM7O0FBRS9DLFlBQVksa0JBQWtCLEVBQUUsbUJBQW1CLENBQUM7QUFDcEQsa0JBQWtCLGFBQWEsRUFBRSxjQUFjLENBQUM7QUFDaEQsa0JBQWtCLGdCQUFnQixFQUFFLGtCQUFrQixFQUFFLGlCQUFpQixDQUFDOztBQUUxRSxrQkFBa0IsZUFBZSxFQUFFLE9BQU8sRUFBRSxRQUFRLEVBQUUsU0FBUyxFQUFFLG1CQUFtQixDQUFDIiwiZmlsZSI6InRvLmNzcyIsInNvdXJjZXNDb250ZW50IjpbIi5hZGRyX2xpc3R7YmFja2dyb3VuZDogI2ZmZjt9XHJcbi5hZGRyX2xpc3QgLmJ0e3BhZGRpbmc6IDIwcnB4OyBmb250LXNpemU6IDI4cnB4OyBsaW5lLWhlaWdodDogNDBycHg7fVxyXG4uYWRkcl9saXN0IC5hZGRye3BhZGRpbmc6MCAyMHJweCAyMHJweDsgZm9udC1zaXplOiAyNHJweDsgbGluZS1oZWlnaHQ6IDQwcnB4OyBjb2xvcjogIzY2Njt9XHJcbi5hZGRyX2xpc3QgLmJvdHRvbXtwYWRkaW5nOjIwcnB4OyBib3JkZXItdG9wOiAycnB4IHNvbGlkICNlNmU2ZTY7fVxyXG4uYWRkcl9saXN0IC5ib3R0b20gLnRhZ3sgd2lkdGg6IDk2cnB4OyBoZWlnaHQ6IDQwcnB4OyBsaW5lLWhlaWdodDogNDBycHg7IGJvcmRlci1yYWRpdXM6IDZycHg7IHRleHQtYWxpZ246IGNlbnRlcjsgY29sb3I6ICNmZmY7fVxyXG4uYWRkcl9saXN0IC5ib3R0b20gLnRhZy5iZzF7YmFja2dyb3VuZDogI2ZmNjY2MDt9XHJcbi5hZGRyX2xpc3QgLmJvdHRvbSAudGFnLmJnMntiYWNrZ3JvdW5kOiAjMTRBQUU0O31cclxuLmFkZHJfbGlzdCAuYm90dG9tIC50YWcuYmcze2JhY2tncm91bmQ6ICMyMEFEMjA7fVxyXG4uYWRkcl9saXN0IC5ib3R0b20gLnRhZy5iZzR7YmFja2dyb3VuZDogIzY2NjY2Njt9XHJcblxyXG4uYWRkcl9saXN0IC5ib3R0b20gYnV0dG9ueyB3aWR0aDogNDBycHg7IGhlaWdodDogNDBycHg7IGJhY2tncm91bmQ6bm9uZTsgdmVydGljYWwtYWxpZ246IG1pZGRsZTsgZm9udC1zaXplOiAwOyBsaW5lLWhlaWdodDogMDsgYm9yZGVyLXJhZGl1czogMDsgbWFyZ2luLWxlZnQ6IDMwcnB4O31cclxuLmFkZHJfbGlzdCAuYm90dG9tIGJ1dHRvbiBpbWFnZXsgd2lkdGg6IDQwcnB4OyBoZWlnaHQ6IDQwcnB4O31cclxuLmFkZHJfbGlzdCAuYm90dG9tIGJ1dHRvbjo6YWZ0ZXJ7ZGlzcGxheTogbm9uZTt9XHJcblxyXG4ubm9hZGRyX2JveHt0ZXh0LWFsaWduOiBjZW50ZXI7IHBhZGRpbmc6IDEwMHJweCAwIDA7fVxyXG4ubm9hZGRyX2JveCBpbWFnZXt3aWR0aDogMTgwcnB4OyBoZWlnaHQ6IDE4MHJweDt9XHJcbi5ub2FkZHJfYm94IC50ZXh0e2ZvbnQtc2l6ZTogMzJycHg7IGxpbmUtaGVpZ2h0OiA0MHJweDsgbWFyZ2luLXRvcDogMjBycHg7fVxyXG5cclxuLmZvb3Rlcl9idG5fbG9uZ3sgcG9zaXRpb246IGZpeGVkOyBsZWZ0OiAwOyByaWdodDogMDsgYm90dG9tOiAwOyBiYWNrZ3JvdW5kOiAjZWVmMmY1O31cclxuXHJcblxyXG5cclxuXHJcblxyXG5cclxuXHJcblxyXG5cclxuXHJcblxyXG5cclxuIl19 */
+	
 </style>

@@ -1,19 +1,7 @@
-<template>
+﻿<template>
 	<view>
-		<!--提示框引入-开始-->
-		<!--<import src="../components/showToast.wxml"></import>-->
-		<block data-type="template" data-is="showToast" data-attr="showToast: showToast">
-			<block v-if="showToast.isShow? showToast.isShow: false">
-				<!-- <view class="toast-bg" wx:if="{{showToast.mask==false? false : true}}"></view>   -->
-				<view class="toast-center">
-					<view class="toast">
-						<image class="toast-icon" :src="showToast.icon" mode="scaleToFill" v-if="showToast.icon">
-						</image>
-						<text class="toast-text">{{showToast.title}}</text>
-					</view>
-				</view>
-			</block>
-		</block>
+		<!--提示框引入-开始：使用全局 Toast 组件-->
+		<Toast :showToast="showToast" />
 		<!--提示框引入-结束-->
 		<view class="binding">
 			<button class="long_btn" open-type="getUserInfo" @getuserinfo="getUserInfo">获取用户信息</button>
@@ -74,5 +62,5 @@
 		color: #fff;
 	}
 
-	/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIiUzQ2lucHV0JTIwY3NzJTIwclNOSWRrJTNFIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBLDhCQUE4QjtBQUM5QixTQUFTLDJCQUEyQixFQUFFLFlBQVksRUFBRSxzQkFBc0IsRUFBRSxnQkFBZ0IsQ0FBQztBQUM3RixtQkFBbUIsaUJBQWlCLEVBQUUsbUJBQW1CLEVBQUUsYUFBYSxFQUFFLGtCQUFrQixDQUFDO0FBQzdGLFVBQVUsbUJBQW1CLEVBQUUsV0FBVyxFQUFFLGNBQWMsRUFBRSxrQkFBa0IsRUFBRSxnQkFBZ0IsRUFBRSxtQkFBbUIsRUFBRSxXQUFXLENBQUMiLCJmaWxlIjoidG8uY3NzIiwic291cmNlc0NvbnRlbnQiOlsiLyogcGFnZS9iaW5kaW5nL2JpbmRpbmcud3hzcyAqL1xyXG4uYmluZGluZ3twYWRkaW5nOiAxMDBycHggNDBycHggMjBycHg7IGhlaWdodDogMTAwJTsgYm94LXNpemluZzogYm9yZGVyLWJveDsgYmFja2dyb3VuZDogI2ZmZjt9XHJcbi5iaW5kaW5nIC5sb25nX2J0bnttYXJnaW4tdG9wOiA0MHJweDsgYm9yZGVyLXJhZGl1czogOHJweDsgaGVpZ2h0OiA4OHJweDsgbGluZS1oZWlnaHQ6IDg4cnB4O31cclxuLmxvbmdfYnRue2JhY2tncm91bmQ6ICM2NUJDMDU7IHdpZHRoOiAxMDAlOyBoZWlnaHQ6IDEwMHJweDsgdGV4dC1hbGlnbjogY2VudGVyOyBmb250LXNpemU6IDM2cnB4OyBsaW5lLWhlaWdodDogMTAwcnB4OyBjb2xvcjogI2ZmZjt9Il19 */
+	
 </style>

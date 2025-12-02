@@ -31,7 +31,6 @@ export default {
 				} [c];
 			});
 		},
-		//setData polyfill 勿删!!!   (用于转换后的uniapp的项目能直接使用this.setData()函数)
 		setData: function(obj, callback) {
 			let that = this;
 			const handleData = (tepData, tepKey, afterKey) => {

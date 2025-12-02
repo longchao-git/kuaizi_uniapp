@@ -1,19 +1,7 @@
-<template>
+﻿<template>
 	<view>
-		<!--提示框引入-开始-->
-		<!--<import src="../components/showToast.wxml"></import>-->
-		<block data-type="template" data-is="showToast" data-attr="showToast: showToast">
-			<block v-if="showToast.isShow? showToast.isShow: false">
-				<!-- <view class="toast-bg" wx:if="{{showToast.mask==false? false : true}}"></view>   -->
-				<view class="toast-center">
-					<view class="toast">
-						<image class="toast-icon" :src="showToast.icon" mode="scaleToFill" v-if="showToast.icon">
-						</image>
-						<text class="toast-text">{{showToast.title}}</text>
-					</view>
-				</view>
-			</block>
-		</block>
+		<!--提示框引入-开始：使用全局 Toast 组件-->
+		<Toast :showToast="showToast" />
 		<!--提示框引入-结束-->
 		<view class="canUse">
 			<!-- 需要使用 button 来授权登录 -->
@@ -115,5 +103,5 @@
 		padding: 20px;
 	}
 
-	/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIiUzQ2lucHV0JTIwY3NzJTIwQVpWMnU5JTNFIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBLHlDQUF5QztBQUN6QyxRQUFRLGtCQUFrQixFQUFFLGFBQWEsQ0FBQyIsImZpbGUiOiJ0by5jc3MiLCJzb3VyY2VzQ29udGVudCI6WyIvKiBwYWdlcy9nZXRBdXRob3JpemUvZ2V0QXV0aG9yaXplLnd4c3MgKi9cclxuLmNhblVzZXt0ZXh0LWFsaWduOiBjZW50ZXI7IHBhZGRpbmc6IDIwcHg7fSJdfQ== */
+	
 </style>

@@ -1,8 +1,6 @@
-<template>
+﻿<template>
 	<view>
-		<!--pages/enter/shopsEnter/shopsEnter.wxml-->
-		<!--<import src="../../../components/showToast.wxml" />
-<template is="showToast" data="{{showToast: showToast}}" />-->
+
 
 
 		<view class="lists">
@@ -38,7 +36,7 @@
 </template>
 
 <script>
-	// pages/enter/shopsEnter/shopsEnter.js
+	// subPages/enter/shopsEnter/shopsEnter.js
 	const app = getApp();
 	var params = {
 		mobile: ''
@@ -104,32 +102,28 @@
 			// 输入密码是否可见
 			eyeOnOff: function() {
 				var eyeShow = this.eyeShow;
-				this.setData({
-					eyeShow: !eyeShow
-				});
+				this.eyeShow = !eyeShow
+				;
 			},
 			// 监听手机号输入
 			bindTel: function(event) {
 				var inputTel = event.detail.value;
-				this.setData({
-					tel: inputTel
-				});
+				this.tel = inputTel
+				;
 				this.isEnter();
 			},
 			// 监听输入密码框
 			bindInput: function(event) {
 				// console.log(event.detail.value)
-				this.setData({
-					inputPwd: event.detail.value
-				});
+				this.inputPwd = event.detail.value
+				;
 				this.isEnter();
 			},
 			// 监听验证码
 			bindCode: function(event) {
 				// console.log(event.detail.value)
-				this.setData({
-					inputCode: event.detail.value
-				});
+				this.inputCode = event.detail.value
+				;
 				this.isEnter();
 			},
 			// 立即入驻按钮
@@ -155,13 +149,11 @@
 			// 判断立即入驻按钮的状态
 			isEnter: function() {
 				if (this.inputPwd != '' && this.tel != '' && this.inputCode != '') {
-					this.setData({
-						isBtnActive: false
-					});
+					this.isBtnActive = false
+					;
 				} else {
-					this.setData({
-						isBtnActive: true
-					});
+					this.isBtnActive = true
+					;
 				}
 			},
 			getCode: function() {
@@ -178,18 +170,16 @@
 								currentTime = '0' + currentTime;
 							}
 
-							that.setData({
-								time: currentTime + "s后重试",
+							that.time = currentTime + "s后重试",
 								getCodeDisabled: true
-							});
+							;
 
 							if (currentTime <= 0) {
 								clearInterval(interval);
-								that.setData({
-									time: "重新发送",
+								that.time = "重新发送",
 									currentTime: 60,
 									getCodeDisabled: false
-								});
+								;
 							}
 						}, 1000);
 					} else {
@@ -205,7 +195,7 @@
 	};
 </script>
 <style>
-	/* pages/enter/shopsEnter/shopsEnter.wxss */
+	/* subPages/enter/shopsEnter/shopsEnter.wxss */
 	.lists {
 		width: 710rpx;
 		padding-left: 20rpx;
@@ -314,5 +304,5 @@
 
 
 
-	/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIiUzQ2lucHV0JTIwY3NzJTIweXVqT2NRJTNFIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBLDJDQUEyQztBQUMzQyxPQUFPLFlBQVksQ0FBQyxrQkFBa0IsQ0FBQyxtQkFBbUIsQ0FBQyxjQUFjLENBQUMsbUJBQW1CLENBQUMsZ0JBQWdCLENBQUMsNkJBQTZCLENBQUM7QUFDN0ksUUFBUSxXQUFXLENBQUMsWUFBWSxDQUFDLGdCQUFnQixDQUFDLFVBQVUsQ0FBQztBQUM3RCxhQUFhLGNBQWMsQ0FBQyxXQUFXLENBQUMsY0FBYyxDQUFDLG1CQUFtQixDQUFDLGdCQUFnQixDQUFDLFVBQVUsQ0FBQyxZQUFZLENBQUM7QUFDcEgsOEJBQThCLFVBQVUsQ0FBQztBQUN6QyxTQUFTLGNBQWMsQ0FBQyxhQUFhLENBQUMsa0JBQWtCLENBQUMsZ0JBQWdCLENBQUMsWUFBWSxDQUFDLFlBQVksQ0FBQyxhQUFhLENBQUMsV0FBVyxDQUFDLGVBQWUsQ0FBQyxTQUFTLENBQUMsaUJBQWlCLENBQUMsZ0JBQWdCLENBQUMsVUFBVSxDQUFDOztBQUV0TSxnQkFBZ0IsUUFBUSxDQUFDLDJCQUEyQixDQUFDO0FBQ3JELFlBQVksV0FBVyxDQUFDLFlBQVksQ0FBQyxhQUFhLENBQUMsaUJBQWlCLENBQUM7QUFDckUsa0JBQWtCLFdBQVcsQ0FBQyxhQUFhLENBQUM7OztBQUc1QyxXQUFXLFdBQVcsQ0FBQyxlQUFlLENBQUMsZ0JBQWdCLENBQUMsVUFBVSxDQUFDLGFBQWEsQ0FBQyxrQkFBa0IsQ0FBQyxpQkFBaUIsQ0FBQztBQUN0SCxpQkFBaUIsY0FBYyxDQUFDLFdBQVcsQ0FBQyxXQUFXLENBQUMsYUFBYSxDQUFDLGtCQUFrQixDQUFDO0FBQ3pGLGdCQUFnQixhQUFhLENBQUM7O0FBRTlCO0lBQ0ksVUFBVTtJQUNWLGFBQWE7SUFDYixrQkFBa0I7SUFDbEIsZ0JBQWdCO0lBQ2hCLFdBQVc7SUFDWCxjQUFjO0lBQ2QsaUJBQWlCO0lBQ2pCLGNBQWM7R0FDZixrQkFBa0I7SUFDakIsb0JBQW9CO0FBQ3hCOztBQUVBLGlCQUFpQixXQUFXLENBQUMiLCJmaWxlIjoidG8uY3NzIiwic291cmNlc0NvbnRlbnQiOlsiLyogcGFnZXMvZW50ZXIvc2hvcHNFbnRlci9zaG9wc0VudGVyLnd4c3MgKi9cclxuLmxpc3Rze3dpZHRoOjcxMHJweDtwYWRkaW5nLWxlZnQ6MjBycHg7cGFkZGluZy1yaWdodDoyMHJweDtoZWlnaHQ6IDEwMHJweDtsaW5lLWhlaWdodDogMTAwcnB4O2JhY2tncm91bmQ6ICNmZmY7Ym9yZGVyLWJvdHRvbToxcnB4IHNvbGlkICNlZWU7fVxyXG4ubGlzdHNMe2Zsb2F0OiBsZWZ0O3dpZHRoOjE0MHJweDtmb250LXNpemU6IDMwcnB4O2NvbG9yOiMzMzM7fVxyXG4ubGlzdHMgaW5wdXR7ZGlzcGxheTogYmxvY2s7ZmxvYXQ6IGxlZnQ7aGVpZ2h0OiAxMDBycHg7bGluZS1oZWlnaHQ6IDEwMHJweDtmb250LXNpemU6IDMwcnB4O2NvbG9yOiMzMzM7d2lkdGg6MzcwcnB4O31cclxuLmxpc3RzIGlucHV0Oi1tb3otcGxhY2Vob2xkZXJ7Y29sb3I6IzY2Njt9XHJcbi5nZXRDb2Rle2Rpc3BsYXk6IGJsb2NrO2hlaWdodDogODBycHg7bGluZS1oZWlnaHQ6IDgwcnB4O21hcmdpbi10b3A6MTBycHg7d2lkdGg6MjAwcnB4O2Zsb2F0OiByaWdodDtvdXRsaW5lOiBub25lO2JvcmRlcjpub25lO2JhY2tncm91bmQ6bm9uZTtwYWRkaW5nOjA7dGV4dC1hbGlnbjpjZW50ZXI7Zm9udC1zaXplOiAzMHJweDtjb2xvcjojZjYwO31cclxuXHJcbi5nZXRDb2RlOjphZnRlcntib3JkZXI6MDtib3JkZXItbGVmdDogMXB4IHNvbGlkICNjY2M7fVxyXG4uZXllLW9uLW9mZnt3aWR0aDo2MHJweDtmbG9hdDogcmlnaHQ7aGVpZ2h0OiA2MHJweDttYXJnaW4tdG9wOiAyMHJweDt9XHJcbi5leWUtb24tb2ZmIGltYWdle3dpZHRoOjYwcnB4O2hlaWdodDogNjBycHg7fVxyXG5cclxuXHJcbi5hZ3JlZW1lbnR7d2lkdGg6NjkwcHg7cGFkZGluZzowIDMwcnB4O2ZvbnQtc2l6ZTogMjhycHg7Y29sb3I6Izk5OTtoZWlnaHQ6IDMwcnB4O2xpbmUtaGVpZ2h0OiAzMHJweDttYXJnaW4tdG9wOiA0MHJweDt9XHJcbi5hZ3JlZW1lbnQgaW1hZ2V7ZGlzcGxheTogYmxvY2s7ZmxvYXQ6IGxlZnQ7d2lkdGg6MzBycHg7aGVpZ2h0OiAzMHJweDttYXJnaW4tcmlnaHQ6MTBycHg7fVxyXG4uYWdyZWVtZW50IHRleHR7Y29sb3I6IzFCODJEMjt9XHJcblxyXG4uZW50ZXJCdG57ICAgIFxyXG4gICAgd2lkdGg6IDkyJTtcclxuICAgIGhlaWdodDogODhycHg7XHJcbiAgICBsaW5lLWhlaWdodDogODhycHg7XHJcbiAgICBmb250LXNpemU6IDMycnB4O1xyXG4gICAgY29sb3I6ICNmZmY7XHJcbiAgICBtYXJnaW46IDAgYXV0bztcclxuICAgIG1hcmdpbi10b3A6IDY2cnB4O1xyXG4gICAgZGlzcGxheTogYmxvY2s7XHJcbiAgIGJhY2tncm91bmQ6I0ZGNzI1QztcclxuICAgIGJvcmRlci1yYWRpdXM6IDEwcnB4O1xyXG59XHJcblxyXG4uZW50ZXJCdG46OmFmdGVye2JvcmRlcjpub25lO31cclxuXHJcblxyXG5cclxuXHJcbiJdfQ== */
+	
 </style>

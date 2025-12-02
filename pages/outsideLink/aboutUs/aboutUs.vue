@@ -23,7 +23,3 @@
 		methods: {}
 	};
 </script>
-<style>
-	/* pages/outsideLink/aboutUs/aboutUs.wxss */
-	/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIiUzQ2lucHV0JTIwY3NzJTIwN1Bqc01KJTNFIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBLDJDQUEyQyIsImZpbGUiOiJ0by5jc3MiLCJzb3VyY2VzQ29udGVudCI6WyIvKiBwYWdlcy9vdXRzaWRlTGluay9hYm91dFVzL2Fib3V0VXMud3hzcyAqLyJdfQ== */
-</style>

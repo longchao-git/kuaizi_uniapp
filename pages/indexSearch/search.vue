@@ -1,19 +1,7 @@
-<template>
+﻿<template>
 	<view>
-		<!--提示框引入-开始-->
-		<!--<import src="../components/showToast.wxml"></import>-->
-		<block data-type="template" data-is="showToast" data-attr="showToast: showToast">
-			<block v-if="showToast.isShow? showToast.isShow: false">
-				<!-- <view class="toast-bg" wx:if="{{showToast.mask==false? false : true}}"></view>   -->
-				<view class="toast-center">
-					<view class="toast">
-						<image class="toast-icon" :src="showToast.icon" mode="scaleToFill" v-if="showToast.icon">
-						</image>
-						<text class="toast-text">{{showToast.title}}</text>
-					</view>
-				</view>
-			</block>
-		</block>
+		<!--提示框引入-开始：使用全局 Toast 组件-->
+		<Toast :showToast="showToast" />
 		<!--提示框引入-结束-->
 		<view class="search_box">
 			<form>
@@ -89,17 +77,13 @@
 				uni.getStorage({
 					key: 'hisSearch',
 					success: function(res) {
-						that.setData({
-							hisSearch: res.data,
-							kong: ''
-						});
+						that.hisSearch = res.data
+						that.kong = ''
 					}
 				});
 
 				if (res.error == '0') {
-					that.setData({
-						hotSearch: res.data.hots
-					});
+					that.hotSearch = res.data.hots;
 				} else {
 					uni.showToast({
 						title: res.message
@@ -142,10 +126,8 @@
 				}
 
 				hisSearch.reverse();
-				this.setData({
-					hisSearch: hisSearch,
-					kong: ''
-				});
+				this.hisSearch = hisSearch
+				this.kong = ''
 				uni.setStorage({
 					//存储搜索历史记录
 					key: 'hisSearch',
@@ -162,9 +144,7 @@
 				uni.clearStorage({
 					key: 'hisSearch'
 				});
-				this.setData({
-					hisSearch: []
-				});
+				this.hisSearch = [];
 			},
 			hislink: function(e) {
 				app.globalData._CFG.title = e.currentTarget.dataset.itm;
@@ -303,6 +283,4 @@
 		font-size: 28rpx;
 		color: #333;
 	}
-
-	/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIiUzQ2lucHV0JTIwY3NzJTIwT1RMZUp5JTNFIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBLEtBQUssbUJBQW1CLENBQUM7QUFDekIsY0FBYyxvQkFBb0IsQ0FBQyxjQUFjLENBQUMsWUFBWSxDQUFDLHFCQUFxQixDQUFDLGdDQUFnQyxDQUFDO0FBQ3RILG1CQUFtQixhQUFhLENBQUMsVUFBVSxDQUFDO0FBQzVDLFlBQVksV0FBVyxDQUFDLFdBQVcsQ0FBQyxhQUFhLENBQUMsbUJBQW1CLENBQUMsNEJBQTRCLENBQUM7QUFDbkcsa0JBQWtCLFdBQVcsQ0FBQyxhQUFhLENBQUMsa0JBQWtCLENBQUMsaUJBQWlCLENBQUM7QUFDakYsd0JBQXdCLG1CQUFtQixDQUFDLDRCQUE0QixDQUFDLGFBQWEsRUFBRSxnQkFBZ0IsQ0FBQyxXQUFXLENBQUMsa0JBQWtCLENBQUMsVUFBVSxDQUFDLFlBQVksQ0FBQztBQUNoSyxzQkFBc0IsZUFBZSxDQUFDLFlBQVksQ0FBQyxnQkFBZ0IsQ0FBQyxVQUFVLENBQUMsV0FBVyxDQUFDLGlCQUFpQixDQUFDLGFBQWEsQ0FBQyxrQkFBa0IsQ0FBQyxTQUFTLENBQUM7QUFDeEosNkJBQTZCLGNBQWMsQ0FBQztBQUM1QyxpQkFBaUIsaUJBQWlCLEVBQUUsbUJBQW1CLENBQUMsV0FBVyxDQUFDLHFCQUFxQixDQUFDO0FBQzFGLHlCQUF5QixxQkFBcUIsQ0FBQztBQUMvQyxxQkFBcUIsZ0JBQWdCLEVBQUUsa0JBQWtCLENBQUM7QUFDMUQsMEJBQTBCLFlBQVksRUFBRSxhQUFhLEVBQUUsbUJBQW1CLEVBQUUsaUJBQWlCLENBQUM7QUFDOUYsd0JBQXdCLFdBQVcsQ0FBQzs7QUFFcEMsMkJBQTJCLGFBQWEsRUFBRSxrQkFBa0IsQ0FBQyxtQkFBbUIsQ0FBQyxtQkFBbUIsQ0FBQyxxQkFBcUIsQ0FBQyxlQUFlLENBQUMsZ0JBQWdCLENBQUMsWUFBWSxDQUFDLG9CQUFvQixDQUFDO0FBQzlMLDJCQUEyQix5QkFBeUIsRUFBRSxzQ0FBc0MsRUFBRSw4QkFBOEIsQ0FBQztBQUM3SCwyQkFBMkIsYUFBYSxFQUFFLGtCQUFrQixDQUFDLG1CQUFtQixDQUFDLG1CQUFtQixDQUFDLHFCQUFxQixDQUFDLGVBQWUsQ0FBQyxnQkFBZ0IsQ0FBQyxZQUFZLENBQUMsb0JBQW9CLENBQUM7QUFDOUwsU0FBUyxnQkFBZ0IsQ0FBQyxVQUFVLENBQUMiLCJmaWxlIjoidG8uY3NzIiwic291cmNlc0NvbnRlbnQiOlsicGFnZXtiYWNrZ3JvdW5kOiAjRkFGQUZBO31cclxuLnNlYXJjaF9ib3h7ICBwYWRkaW5nOiAxMHJweCAyNXJweDtwb3NpdGlvbjpmaXhlZDt3aWR0aDo3NTBycHg7Ym94LXNpemluZzpib3JkZXItYm94O2JvcmRlci1ib3R0b206MXJweCBzb2xpZCAjRURFREVEO31cclxuLnNlYXJjaF9ib3ggLmJveHsgIGhlaWdodDogNjhycHg7d2lkdGg6MTAwJTt9XHJcbi5zZWFyY2hJY29ue2Zsb2F0OiBsZWZ0O3dpZHRoOjkwcnB4O2hlaWdodDogNjhycHg7YmFja2dyb3VuZDogI0VERURFRDtib3JkZXItcmFkaXVzOiA4cnB4IDAgMCA4cnB4O31cclxuLnNlYXJjaEljb24gaW1hZ2V7d2lkdGg6MjVycHg7aGVpZ2h0OiAyOHJweDttYXJnaW4tbGVmdDogNDBycHg7bWFyZ2luLXRvcDogMjBycHg7fVxyXG4uc2VhcmNoX2JveCAuYm94IC50ZXh0eyBiYWNrZ3JvdW5kOiAjRURFREVEO2JvcmRlci1yYWRpdXM6IDAgOHJweCA4cnB4IDA7aGVpZ2h0OiA2OHJweDsgZm9udC1zaXplOiAyOHJweDtmbG9hdDogbGVmdDtsaW5lLWhlaWdodDogNjhycHg7Y29sb3I6IzMzMzt3aWR0aDo2MTBycHg7fVxyXG4uc2VhcmNoX2JveCAuYm94IC5idG57YmFja2dyb3VuZDpub25lO2Zsb2F0OiByaWdodDtmb250LXNpemU6IDMycnB4O2NvbG9yOiMzMzM7d2lkdGg6OTBycHg7dGV4dC1hbGlnbjogcmlnaHQ7aGVpZ2h0OiA2OHJweDtsaW5lLWhlaWdodDogNjhycHg7cGFkZGluZzowO31cclxuLnNlYXJjaF9ib3ggLmJveCAuYnRuOmFmdGVyeyBib3JkZXI6IDAgbm9uZTt9XHJcbi5zZWFyY2hfY29udEJveHsgcGFkZGluZy10b3A6OTJycHg7IGJhY2tncm91bmQ6ICNmZmZmZmY7aGVpZ2h0OjEwMCU7Ym94LXNpemluZzpib3JkZXItYm94O31cclxuLnNlYXJjaF9jb250Qm94IC5zZWFyY2h7IG1hcmdpbjogMjBycHggMCAzMHJweDt9IFxyXG4uc2VhcmNoX2NvbnRCb3ggLmJ0eyBwYWRkaW5nOiAwIDIwcnB4OyBsaW5lLWhlaWdodDogNDhycHg7fVxyXG4uc2VhcmNoX2NvbnRCb3ggLmJ0IC5pY297IHdpZHRoOiAyOHJweDsgaGVpZ2h0OiAyOHJweDsgbWFyZ2luLXJpZ2h0OiAxMnJweDsgbWFyZ2luLXRvcDogMTBycHg7fVxyXG4uc2VhcmNoX2NvbnRCb3ggLmJ0IC5mcnt3aWR0aDozNnJweDt9XHJcblxyXG4uc2VhcmNoX2NvbnRCb3ggLmhvdF9saW5reyBoZWlnaHQ6IDcwcnB4OyBsaW5lLWhlaWdodDogNzBycHg7YmFja2dyb3VuZDogI0Y3RjdGNztib3JkZXItcmFkaXVzOiA2cnB4O2Rpc3BsYXk6IGlubGluZS1ibG9jaztwYWRkaW5nOjAgMjBycHg7Zm9udC1zaXplOiAyOHJweDtjb2xvcjojODg4ICA7bGV0dGVyLXNwYWNpbmc6IDJycHg7fVxyXG4uc2VhcmNoX2NvbnRCb3ggLnB1Yl9saXN0eyAtd2Via2l0LWJveC1wYWNrOiBqdXN0aWZ5OyAtd2Via2l0LWp1c3RpZnktY29udGVudDogc3BhY2UtYmV0d2VlbjsganVzdGlmeS1jb250ZW50OiBzcGFjZS1iZXR3ZWVuO31cclxuLnNlYXJjaF9jb250Qm94IC5oaXNfbGlua3sgaGVpZ2h0OiA3MHJweDsgbGluZS1oZWlnaHQ6IDcwcnB4O2JhY2tncm91bmQ6ICNGN0Y3Rjc7Ym9yZGVyLXJhZGl1czogNnJweDtkaXNwbGF5OiBpbmxpbmUtYmxvY2s7cGFkZGluZzowIDIwcnB4O2ZvbnQtc2l6ZTogMjhycHg7Y29sb3I6Izg4OCAgO2xldHRlci1zcGFjaW5nOiAycnB4O31cclxuLnR5VGl0bGV7Zm9udC1zaXplOjI4cnB4IDtjb2xvcjojMzMzO31cclxuIl19 */
 </style>

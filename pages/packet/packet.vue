@@ -1,35 +1,8 @@
-<template>
+﻿<template>
 	<view>
-		<!--提示框引入-开始-->
-		<!--<import src="../components/showToast.wxml"></import>-->
-		<block data-type="template" data-is="showToast" data-attr="showToast: showToast">
-			<block v-if="showToast.isShow? showToast.isShow: false">
-				<!-- <view class="toast-bg" wx:if="{{showToast.mask==false? false : true}}"></view>   -->
-				<view class="toast-center">
-					<view class="toast">
-						<image class="toast-icon" :src="showToast.icon" mode="scaleToFill" v-if="showToast.icon">
-						</image>
-						<text class="toast-text">{{showToast.title}}</text>
-					</view>
-				</view>
-			</block>
-		</block>
+		<!--提示框引入-开始：使用全局 Toast 组件-->
+		<Toast :showToast="showToast" />
 		<!--提示框引入-结束-->
-		<view class="redPacket mt10">
-			<!-- <view class="wraper mb10"  wx:key="index" wx:for="{{packet}}">
-        <image src="../../image/red_box@3x.png"></image>
-        <view class="main">
-            <view class="price"><text>€</text>{{item.amount}}</view> 
-            <view class="text">
-                <view class="title">{{item.title}}</view>
-                <view class="black9">使用限制:满{{item.min_amount}}€可用</view>
-                <view class="black9">有效期至:{{item.time}}</view>
-            </view>
-        </view>
-    </view> -->
-			<!--<view class="history black9">查看历史红包</view>-->
-		</view>
-
 		<view v-for="(item, index) in packet" :key="index"
 			:class="'hongbaoList ' + ((item.outTime == '1' || item.order_id > 0) ? 'over' : '')">
 			<view class="cont">
@@ -48,12 +21,8 @@
 			</view>
 		</view>
 
-		<view v-if="packet.length==0" class="none-cont">
-			<view class="main">
-				<image src="/static/image/noorder.png"></image>
-				<view class="black6">暂无红包</view>
-			</view>
-		</view>
+		<NoData :show="packet.length === 0" text="暂无红包" />
+
 	</view>
 </template>
 
@@ -98,9 +67,8 @@
 					}
 
 					;
-					that.setData({
-						packet: res.data.items
-					});
+					that.packet = res.data.items
+					;
 				} else {
 					uni.showToast({
 						title: res.message
@@ -223,5 +191,5 @@
 		height: 116rpx;
 	}
 
-	/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIiUzQ2lucHV0JTIwY3NzJTIwRHlZMEZxJTNFIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBOzs7Ozs7Ozs7Ozs7bUhBWW1IOzs7O0FBSW5ILGFBQWEsWUFBWSxFQUFFLGNBQWMsRUFBRSx1QkFBdUIsRUFBRSxnQkFBZ0IsRUFBRSxVQUFVLEVBQUUsaUJBQWlCLEVBQUUsV0FBVyxFQUFFLFlBQVksQ0FBQztBQUMvSSx3QkFBd0IsWUFBWTtBQUNwQyxtQkFBbUIsb0JBQW9CLEVBQUUsZ0JBQWdCLEVBQUUsa0JBQWtCLENBQUM7QUFDOUUsb0JBQW9CLGFBQWEsRUFBRSxrQkFBa0IsRUFBRSxXQUFXLENBQUM7QUFDbkUseUJBQXlCLGdCQUFnQixDQUFDLGNBQWMsRUFBRSxrQkFBa0IsQ0FBQztBQUM3RSw2QkFBNkIsZ0JBQWdCLENBQUM7QUFDOUMseUJBQXlCLGdCQUFnQixFQUFFLFdBQVcsQ0FBQztBQUN2RCxzQkFBc0IsbUJBQW1CLEVBQUUsb0JBQW9CLENBQUM7QUFDaEUsMkJBQTJCLGdCQUFnQixFQUFFLGtCQUFrQixFQUFFLG1CQUFtQixDQUFDO0FBQ3JGLHdCQUF3QixnQkFBZ0IsRUFBRSxrQkFBa0IsRUFBRSxXQUFXLEVBQUUsY0FBYyxDQUFDO0FBQzFGLGtCQUFrQixrQkFBa0IsRUFBRSxZQUFZLEVBQUUsUUFBUSxFQUFFLDRCQUE0QixFQUFFLGdCQUFnQixFQUFFLGlCQUFpQixDQUFDO0FBQ2hJLGtCQUFrQixrQkFBa0IsRUFBRSxZQUFZLEVBQUUsYUFBYSxFQUFFLGFBQWEsRUFBRSxjQUFjLENBQUMiLCJmaWxlIjoidG8uY3NzIiwic291cmNlc0NvbnRlbnQiOlsiLyogLnJlZFBhY2tldHtwYWRkaW5nOiAwIDI0cnB4O31cclxuLnJlZFBhY2tldCAud3JhcGVye3Bvc2l0aW9uOiByZWxhdGl2ZTt9XHJcbi5yZWRQYWNrZXQgLndyYXBlcjpiZWZvcmV7Y29udGVudDogJyc7ZGlzcGxheTogYmxvY2s7cG9zaXRpb246IGFic29sdXRlO2xlZnQ6IC04cnB4O3RvcDogMTM0cnB4O3dpZHRoOiAxNnJweDtoZWlnaHQ6IDE2cnB4O2JhY2tncm91bmQ6ICNGMEY0Rjc7Ym9yZGVyLXJhZGl1czogNTAlO31cclxuLnJlZFBhY2tldCAud3JhcGVyOmFmdGVye2NvbnRlbnQ6ICcnO2Rpc3BsYXk6IGJsb2NrO3Bvc2l0aW9uOiBhYnNvbHV0ZTtyaWdodDogLThycHg7dG9wOiAxMzRycHg7d2lkdGg6IDE2cnB4O2hlaWdodDogMTZycHg7YmFja2dyb3VuZDogI0YwRjRGNztib3JkZXItcmFkaXVzOiA1MCU7fVxyXG4ucmVkUGFja2V0IC53cmFwZXIgLm1haW57YmFja2dyb3VuZDogI2ZmZjtkaXNwbGF5OiBmbGV4O3dpZHRoOiAxMDAlO2hlaWdodDogMjI2cnB4O2JvcmRlci1yYWRpdXM6IDhycHg7cGFkZGluZzogNDBycHggMHJweDtib3gtc2l6aW5nOiBib3JkZXItYm94O31cclxuLnJlZFBhY2tldCAud3JhcGVyIC5wcmljZXt3aWR0aDogMjAwcnB4O3RleHQtYWxpZ246IGNlbnRlcjtsaW5lLWhlaWdodDogMTUwcnB4O2ZvbnQtc2l6ZTogNDhycHg7Y29sb3I6ICNmZjMzMDA7Ym9yZGVyLXJpZ2h0OiAycnB4IGRvdHRlZCAjZGVkZWRlO31cclxuLnJlZFBhY2tldCAud3JhcGVyIC5wcmljZSB0ZXh0e2ZvbnQtc2l6ZTogMjRycHg7fVxyXG4ucmVkUGFja2V0IC53cmFwZXIgLnRleHR7cGFkZGluZy1sZWZ0OiAzMHJweDtmb250LXNpemU6IDI4cnB4O31cclxuLnJlZFBhY2tldCAud3JhcGVyIC50ZXh0IHZpZXd7cGFkZGluZy1ib3R0b206IDIwcnB4O31cclxuLnJlZFBhY2tldCAud3JhcGVyIC50ZXh0IC50aXRsZXtmb250LXNpemU6IDMycnB4O3BhZGRpbmctYm90dG9tOjI0cnB4O31cclxuLnJlZFBhY2tldCAud3JhcGVyIGltYWdle3Bvc2l0aW9uOiBhYnNvbHV0ZTt0b3A6IDA7d2lkdGg6IDEwMCU7aGVpZ2h0OiAxNTBycHg7fVxyXG4ubWFpbnRvcHtwYWRkaW5nOiAzMHJweCAyNHJweDtmb250LXNpemU6IDI4cnB4O31cclxuLmhpc3Rvcnl7Zm9udC1zaXplOiAyOHJweDt0ZXh0LWRlY29yYXRpb246IHVuZGVybGluZTtwb3NpdGlvbjogZml4ZWQ7Ym90dG9tOjQ4cnB4O2xlZnQ6IDUwJTttYXJnaW4tbGVmdDogLTkwcnB4O30gKi9cclxuXHJcblxyXG5cclxuLmhvbmdiYW9MaXN0e21hcmdpbjoyNHJweDsgZGlzcGxheTogYmxvY2s7IGJvcmRlcjogMnJweCBzb2xpZCAjZWVlOyBiYWNrZ3JvdW5kOiAjZmZmOyBwYWRkaW5nOiAwOyBsaW5lLWhlaWdodDp1bnNldDsgd2lkdGg6IGF1dG87IGhlaWdodDogYXV0bzt9XHJcbi5ob25nYmFvTGlzdC5vdmVyIC5jb250e29wYWNpdHk6IDAuNX1cclxuLmhvbmdiYW9MaXN0IC5jb250e3BhZGRpbmc6IDMwcnB4IDI0cnB4OyBvdmVyZmxvdzogaGlkZGVuOyBwb3NpdGlvbjogcmVsYXRpdmU7fVxyXG4uaG9uZ2Jhb0xpc3QgLnByaWNle3dpZHRoOiAyMTZycHg7IHRleHQtYWxpZ246IGNlbnRlcjsgZmxvYXQ6IGxlZnQ7fVxyXG4uaG9uZ2Jhb0xpc3QgLnByaWNlIC5udW17Zm9udC1zaXplOiA0OHJweDtjb2xvcjogI0ZGNzI1QzsgbGluZS1oZWlnaHQ6IDgwcnB4O31cclxuLmhvbmdiYW9MaXN0IC5wcmljZSAubnVtIGJpZ3tmb250LXNpemU6IDcycnB4O31cclxuLmhvbmdiYW9MaXN0IC5wcmljZSAudHh0e2ZvbnQtc2l6ZTogMjRycHg7IGNvbG9yOiAjOTk5O31cclxuLmhvbmdiYW9MaXN0IC50eHRfYm94e21hcmdpbi1sZWZ0OiAyMzZycHg7IG1hcmdpbi1yaWdodDogMTAwcnB4O31cclxuLmhvbmdiYW9MaXN0IC50eHRfYm94IC50aXR7Zm9udC1zaXplOiAzMnJweDsgbGluZS1oZWlnaHQ6IDQwcnB4OyBtYXJnaW4tYm90dG9tOiA4cnB4O31cclxuLmhvbmdiYW9MaXN0IC50eHRfYm94IHB7Zm9udC1zaXplOiAyNHJweDsgbGluZS1oZWlnaHQ6IDM2cnB4OyBjb2xvcjogIzY2NjsgZGlzcGxheTogYmxvY2s7fVxyXG4uaG9uZ2Jhb0xpc3QgLmxpbXtwb3NpdGlvbjogYWJzb2x1dGU7IHJpZ2h0OiAyMHJweDsgdG9wOiA1MCU7IHRyYW5zZm9ybTogdHJhbnNsYXRlKDAsLTUwJSk7IGZvbnQtc2l6ZTogMzBycHg7IGZvbnQtd2VpZ2h0OiBib2xkO31cclxuLmhvbmdiYW9MaXN0IC5pY297cG9zaXRpb246IGFic29sdXRlOyByaWdodDogNzJycHg7IGJvdHRvbTogMTJycHg7IHdpZHRoOiAxMTZycHg7IGhlaWdodDogMTE2cnB4O30iXX0= */
+	
 </style>

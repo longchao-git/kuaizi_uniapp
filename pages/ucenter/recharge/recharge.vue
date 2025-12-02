@@ -1,6 +1,6 @@
-<template>
+﻿<template>
 	<view>
-		<!--<import src="../../components/showToast.wxml"></import>-->
+		<!--<import src="../../.wxml"></import>-->
 		<block data-type="template" data-is="showToast" data-attr="showToast: showToast">
 			<block v-if="showToast.isShow? showToast.isShow: false">
 				<!-- <view class="toast-bg" wx:if="{{showToast.mask==false? false : true}}"></view>   -->
@@ -74,9 +74,7 @@
 			var that = this;
 			app.globalData.moneyRecharge({}, function(res) {
 				if (res.error == "0") {
-					that.setData({
-						lists: res.data.items
-					});
+					that.lists = res.data.items;
 
 					if (res.data.items && res.data.items.length > 0) {
 						amount = res.data.items[0].chong;
@@ -95,19 +93,16 @@
 					amount = obj.chong;
 				}
 
-				this.setData({
-					liIdx: e.currentTarget.dataset.idx,
-					customShow: false
-				});
+				this.liIdx = e.currentTarget.dataset.idx
+				this.customShow = false
+
 			},
 
 			//自定义
 			tapCustom() {
 				amount = '';
-				this.setData({
-					liIdx: null,
-					customShow: true
-				});
+				this.liIdx = null
+				this.customShow = true
 			},
 
 			tapAmount(e) {

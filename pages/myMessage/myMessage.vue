@@ -1,19 +1,7 @@
-<template>
+﻿<template>
 	<view>
-		<!--提示框引入-开始-->
-		<!--<import src="../components/showToast.wxml"></import>-->
-		<block data-type="template" data-is="showToast" data-attr="showToast: showToast">
-			<block v-if="showToast.isShow? showToast.isShow: false">
-				<!-- <view class="toast-bg" wx:if="{{showToast.mask==false? false : true}}"></view>   -->
-				<view class="toast-center">
-					<view class="toast">
-						<image class="toast-icon" :src="showToast.icon" mode="scaleToFill" v-if="showToast.icon">
-						</image>
-						<text class="toast-text">{{showToast.title}}</text>
-					</view>
-				</view>
-			</block>
-		</block>
+		<!--提示框引入-开始：使用全局 Toast 组件-->
+		<Toast :showToast="showToast" />
 		<!--提示框引入-结束-->
 		<view v-if="mymessage != ''" style="padding-bottom:100rpx;">
 			<view v-for="(item, index) in mymessage" :key="index" class="messageList"
@@ -80,9 +68,7 @@
 			this.https();
 		},
 		onPullDownRefresh: function() {
-			this.setData({
-				page: 1
-			});
+			this.page = 1;
 			this.https();
 			uni.stopPullDownRefresh();
 		},
@@ -102,18 +88,14 @@
 					var len = res.data.items.length;
 
 					if (len == 0) {
-						that.setData({
-							loadhide: true,
-							moreShow: false
-						});
+						that.loadhide = true
+						that.moreShow = false
 					} else {
-						that.setData({
-							loadhide: false,
-							moreShow: true,
-							mymessage: that.mymessage.concat(res.data.items),
-							page: page,
-							isRead2: that.isRead2
-						});
+						that.loadhide = false
+						that.moreShow = true
+						that.mymessage = that.mymessage.concat(res.data.items)
+						that.page = page
+						that.isRead2 = that.isRead2
 					}
 				} else {
 					uni.showToast({
@@ -138,10 +120,8 @@
 						setTimeout(function() {
 							uni.hideLoading();
 						}, 500);
-						that.setData({
-							mymessage: res.data.items,
-							isRead2: that.isRead
-						});
+						that.mymessage = res.data.items
+						that.isRead2 = that.isRead
 					} else {
 						uni.showToast({
 							title: res.message
@@ -313,6 +293,4 @@
 	}
 
 	/* .active{display: block;} */
-
-	/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIiUzQ2lucHV0JTIwY3NzJTIwS0NuMGNoJTNFIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBLG1DQUFtQztBQUNuQyxLQUFLLG1CQUFtQixDQUFDO0FBQ3pCLGFBQWEsWUFBWSxDQUFDLGFBQWEsQ0FBQyxnQkFBZ0IsQ0FBQztBQUN6RCxrQkFBa0IsU0FBUyxFQUFFLFVBQVUsRUFBRSxnQkFBZ0IsRUFBRSxhQUFhLENBQUM7QUFDekUsa0JBQWtCLG1CQUFtQixFQUFFLGdCQUFnQixDQUFDLG9CQUFvQixDQUFDLGtCQUFrQixDQUFDO0FBQ2hHLG9CQUFvQixnQkFBZ0IsQ0FBQyxVQUFVLENBQUM7QUFDaEQsa0JBQWtCLHFCQUFxQixFQUFFLFdBQVcsQ0FBQyxZQUFZLENBQUMsbUJBQW1CLENBQUMsbUJBQW1CLENBQUMsc0JBQXNCLEVBQUUsaUJBQWlCLENBQUM7QUFDcEosbUJBQW1CLGtCQUFrQixFQUFFLFVBQVUsQ0FBQyxnQkFBZ0IsRUFBRSxlQUFlLENBQUM7QUFDcEYsbUJBQW1CLFVBQVUsQ0FBQyxpQkFBaUIsQ0FBQyxnQkFBZ0IsQ0FBQyxVQUFVLEVBQUUsa0JBQWtCLENBQUM7QUFDaEcsZUFBZSxhQUFhLENBQUMsa0JBQWtCLENBQUMsbUJBQW1CLENBQUMsa0JBQWtCO0FBQ3RGLHFCQUFxQixZQUFZLENBQUMsYUFBYSxDQUFDLG1CQUFtQixDQUFDLHFCQUFxQixDQUFDLHNCQUFzQixDQUFDO0FBQ2pILFFBQVEsVUFBVSxDQUFDLGNBQWMsQ0FBQyxrQkFBa0IsQ0FBQyxrQkFBa0IsQ0FBQyxnQkFBZ0IsQ0FBQyxVQUFVLENBQUM7QUFDcEcsUUFBUSxVQUFVLENBQUMsY0FBYyxDQUFDLGtCQUFrQixDQUFDLGtCQUFrQixDQUFDLGdCQUFnQixDQUFDLFVBQVUsQ0FBQyxrQkFBa0IsQ0FBQzs7QUFFdkgsY0FBYyxrQkFBa0IsRUFBRSxnQkFBZ0IsRUFBRSxnQkFBZ0IsRUFBRSxrQkFBa0IsRUFBRSxXQUFXLEVBQUUsbUJBQW1CLEVBQUUsZUFBZSxFQUFFLE9BQU8sRUFBRSxRQUFRLEVBQUUsV0FBVyxDQUFDO0FBQzVLLG1CQUFtQixxQkFBcUIsRUFBRSxlQUFlLEVBQUUsV0FBVyxDQUFDOztBQUV2RSw2QkFBNkIiLCJmaWxlIjoidG8uY3NzIiwic291cmNlc0NvbnRlbnQiOlsiLyogcGFnZXMvbXlNZXNzYWdlL215TWVzc2FnZS53eHNzICovXHJcbnBhZ2V7YmFja2dyb3VuZDogI2VlZjJmNTt9XHJcbi5tZXNzYWdlTGlzdHt3aWR0aDo2NjBycHg7bWFyZ2luOjAgYXV0bzttYXJnaW4tdG9wOjI1cnB4O31cclxuLm1lc3NhZ2VMaXN0LmhpZGV7aGVpZ2h0OiAwOyBvcGFjaXR5OiAwOyBvdmVyZmxvdzogaGlkZGVuOyBtYXJnaW4tdG9wOiAwO31cclxuLm1lc3NhZ2VMaXN0IC5ib3h7cGFkZGluZzoyMHJweCAyMHJweDsgYmFja2dyb3VuZDogI2ZmZjtib3JkZXItcmFkaXVzOiAxMHJweDtwb3NpdGlvbjogcmVsYXRpdmU7fVxyXG4ubWVzc2FnZUxpc3QgLnRpdGxle2ZvbnQtc2l6ZTogMzJycHg7Y29sb3I6IzMzMzt9XHJcbi5tZXNzYWdlTGlzdCAucmVke2Rpc3BsYXk6IGlubGluZS1ibG9jazsgd2lkdGg6MTVycHg7aGVpZ2h0OjE1cnB4O2JvcmRlci1yYWRpdXM6IDEwMCU7YmFja2dyb3VuZDogI2ZmMDAwMDtib3JkZXI6MnJweCBzb2xpZCAjZmZmOyBtYXJnaW4tbGVmdDogOHJweDt9XHJcbi5tZXNzYWdlTGlzdCAudGltZXt0ZXh0LWFsaWduOiBjZW50ZXI7IGNvbG9yOiM5OTk7Zm9udC1zaXplOiAyNHJweDsgbWFyZ2luOiAxNnJweCAwO31cclxuLm1lc3NhZ2VMaXN0IC5pbmZve3dpZHRoOjEwMCU7bWFyZ2luLXRvcDogMjBycHg7Zm9udC1zaXplOiAyOHJweDtjb2xvcjojNjY2OyBsaW5lLWhlaWdodDogMzZycHg7fVxyXG4ud2V1aS1sb2FkbW9yZXtoZWlnaHQ6IDgwcnB4O2xpbmUtaGVpZ2h0OiA4MHJweDtiYWNrZ3JvdW5kOiAjZjhmOGY4O3RleHQtYWxpZ246IGNlbnRlcn1cclxuLndldWktbG9hZG1vcmUgaW1hZ2V7d2lkdGg6IDQwcnB4O2hlaWdodDogNDBycHg7bWFyZ2luLXJpZ2h0OiAxMHJweDtkaXNwbGF5OiBpbmxpbmUtYmxvY2s7dmVydGljYWwtYWxpZ246IG1pZGRsZTt9XHJcbi5ub01vcmV7d2lkdGg6MTAwJTtoZWlnaHQ6IDEwMHJweDtsaW5lLWhlaWdodDoxMDBycHg7dGV4dC1hbGlnbjogY2VudGVyO2ZvbnQtc2l6ZTogMjhycHg7Y29sb3I6IzY2Njt9XHJcbi5ub0RhdGF7d2lkdGg6MTAwJTtoZWlnaHQ6IDEwMHJweDtsaW5lLWhlaWdodDoxMDBycHg7dGV4dC1hbGlnbjogY2VudGVyO2ZvbnQtc2l6ZTogMjhycHg7Y29sb3I6IzY2NjttYXJnaW4tdG9wOiAyMDBycHg7fVxyXG5cclxuLm1lc3NhZ2VfZm9vdHt0ZXh0LWFsaWduOiBjZW50ZXI7IHBhZGRpbmc6IDMwcnB4IDA7IGZvbnQtc2l6ZTogMjRycHg7IGxpbmUtaGVpZ2h0OiA0MHJweDsgY29sb3I6ICM5OTk7IGJhY2tncm91bmQ6ICNlZWYyZjU7IHBvc2l0aW9uOiBmaXhlZDsgbGVmdDogMDsgYm90dG9tOjA7IHdpZHRoOiAxMDAlO31cclxuLm1lc3NhZ2VfZm9vdCB0ZXh0e2Rpc3BsYXk6IGlubGluZS1ibG9jazsgbWFyZ2luOiAwIDI0cnB4OyBjb2xvcjogIzk5OTt9XHJcblxyXG4vKiAuYWN0aXZle2Rpc3BsYXk6IGJsb2NrO30gKi9cclxuIl19 */
 </style>

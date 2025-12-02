@@ -1,19 +1,7 @@
-<template>
+﻿<template>
 	<view>
-		<!--提示框引入-开始-->
-		<!--<import src="../../components/showToast.wxml"></import>-->
-		<block data-type="template" data-is="showToast" data-attr="showToast: showToast">
-			<block v-if="showToast.isShow? showToast.isShow: false">
-				<!-- <view class="toast-bg" wx:if="{{showToast.mask==false? false : true}}"></view>   -->
-				<view class="toast-center">
-					<view class="toast">
-						<image class="toast-icon" :src="showToast.icon" mode="scaleToFill" v-if="showToast.icon">
-						</image>
-						<text class="toast-text">{{showToast.title}}</text>
-					</view>
-				</view>
-			</block>
-		</block>
+		<!--提示框引入-开始：使用全局 Toast 组件-->
+		<Toast :showToast="showToast" />
 		<!--提示框引入-结束-->
 		<view v-if="mymessage != ''">
 			<view v-for="(item, index) in mymessage" :key="index" class="messageList">
@@ -68,9 +56,7 @@
 			this.https();
 		},
 		onPullDownRefresh: function() {
-			this.setData({
-				page: 1
-			});
+			this.page = 1;
 			this.https();
 			uni.stopPullDownRefresh();
 		},
@@ -89,17 +75,14 @@
 					var len = res.data.items.length;
 
 					if (len == 0) {
-						that.setData({
-							loadhide: true,
-							moreShow: false
-						});
+						that.loadhide = true
+						that.moreShow = false
+
 					} else {
-						that.setData({
-							loadhide: false,
-							moreShow: true,
-							mymessage: that.mymessage.concat(res.data.items),
-							page: page
-						});
+						that.loadhide = false
+						that.moreShow = true
+						that.mymessage = that.mymessage.concat(res.data.items)
+						that.page = page;
 					}
 				} else {
 					uni.showToast({
@@ -123,9 +106,7 @@
 						setTimeout(function() {
 							uni.hideLoading();
 						}, 500);
-						that.setData({
-							mymessage: res.data.items
-						});
+						that.mymessage = res.data.items;
 					} else {
 						uni.showToast({
 							title: res.message
@@ -216,6 +197,4 @@
 		color: #666;
 		margin-top: 200rpx;
 	}
-
-	/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIiUzQ2lucHV0JTIwY3NzJTIwTXlDX2EwJTNFIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBLG1DQUFtQztBQUNuQyxLQUFLLG1CQUFtQixDQUFDO0FBQ3pCLGFBQWEsWUFBWSxDQUFDLGFBQWEsQ0FBQyxtQkFBbUIsQ0FBQyxnQkFBZ0IsQ0FBQyxnQkFBZ0IsQ0FBQyxvQkFBb0IsQ0FBQyxrQkFBa0IsQ0FBQztBQUN0SSxPQUFPLFNBQVMsQ0FBQyxXQUFXLENBQUMsZ0JBQWdCLENBQUMsVUFBVSxDQUFDO0FBQ3pELE1BQU0sWUFBWSxDQUFDLFVBQVUsQ0FBQyxnQkFBZ0IsQ0FBQztBQUMvQyxNQUFNLFVBQVUsQ0FBQyxpQkFBaUIsQ0FBQyxnQkFBZ0IsQ0FBQyxVQUFVLENBQUM7QUFDL0QsZUFBZSxhQUFhLENBQUMsa0JBQWtCLENBQUMsbUJBQW1CLENBQUMsa0JBQWtCO0FBQ3RGLHFCQUFxQixZQUFZLENBQUMsYUFBYSxDQUFDLG1CQUFtQixDQUFDLHFCQUFxQixDQUFDLHNCQUFzQixDQUFDO0FBQ2pILFFBQVEsVUFBVSxDQUFDLGNBQWMsQ0FBQyxrQkFBa0IsQ0FBQyxrQkFBa0IsQ0FBQyxnQkFBZ0IsQ0FBQyxVQUFVLENBQUM7QUFDcEcsUUFBUSxVQUFVLENBQUMsY0FBYyxDQUFDLGtCQUFrQixDQUFDLGtCQUFrQixDQUFDLGdCQUFnQixDQUFDLFVBQVUsQ0FBQyxrQkFBa0IsQ0FBQyIsImZpbGUiOiJ0by5jc3MiLCJzb3VyY2VzQ29udGVudCI6WyIvKiBwYWdlcy9teU1lc3NhZ2UvbXlNZXNzYWdlLnd4c3MgKi9cclxucGFnZXtiYWNrZ3JvdW5kOiAjZWVmMmY1O31cclxuLm1lc3NhZ2VMaXN0e3dpZHRoOjY2MHJweDttYXJnaW46MCBhdXRvO3BhZGRpbmc6MjBycHggMjBycHg7bWFyZ2luLXRvcDoyNXJweDtiYWNrZ3JvdW5kOiAjZmZmO2JvcmRlci1yYWRpdXM6IDEwcnB4O3Bvc2l0aW9uOiByZWxhdGl2ZTt9XHJcbi50aXRsZXt3aWR0aDo2MCU7ZmxvYXQ6IGxlZnQ7Zm9udC1zaXplOiAyOHJweDtjb2xvcjojMzMzO31cclxuLnRpbWV7ZmxvYXQ6IHJpZ2h0O2NvbG9yOiNjY2M7Zm9udC1zaXplOiAyNHJweDt9XHJcbi5pbmZve3dpZHRoOjEwMCU7bWFyZ2luLXRvcDogMjBycHg7Zm9udC1zaXplOiAyNHJweDtjb2xvcjojOTk5O31cclxuLndldWktbG9hZG1vcmV7aGVpZ2h0OiA4MHJweDtsaW5lLWhlaWdodDogODBycHg7YmFja2dyb3VuZDogI2Y4ZjhmODt0ZXh0LWFsaWduOiBjZW50ZXJ9XHJcbi53ZXVpLWxvYWRtb3JlIGltYWdle3dpZHRoOiA0MHJweDtoZWlnaHQ6IDQwcnB4O21hcmdpbi1yaWdodDogMTBycHg7ZGlzcGxheTogaW5saW5lLWJsb2NrO3ZlcnRpY2FsLWFsaWduOiBtaWRkbGU7fVxyXG4ubm9Nb3Jle3dpZHRoOjEwMCU7aGVpZ2h0OiAxMDBycHg7bGluZS1oZWlnaHQ6MTAwcnB4O3RleHQtYWxpZ246IGNlbnRlcjtmb250LXNpemU6IDI4cnB4O2NvbG9yOiM2NjY7fVxyXG4ubm9EYXRhe3dpZHRoOjEwMCU7aGVpZ2h0OiAxMDBycHg7bGluZS1oZWlnaHQ6MTAwcnB4O3RleHQtYWxpZ246IGNlbnRlcjtmb250LXNpemU6IDI4cnB4O2NvbG9yOiM2NjY7bWFyZ2luLXRvcDogMjAwcnB4O31cclxuIl19 */
 </style>

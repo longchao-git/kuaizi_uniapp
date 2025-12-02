@@ -8,29 +8,28 @@ cb:       接口调用成功的回调函数 选填
  */
 function showToast(obj) {
 	if (typeof obj == 'object' && obj.title) {
-		if (!obj.duration || typeof obj.duration != 'number') {
-			obj.duration = 1800;
-		} //默认1.8s后消失  
-
+		var duration = obj.duration && typeof obj.duration == 'number' ? obj.duration : 1800; //默认1.8s后消失  
 
 		var that = getCurrentPages()[getCurrentPages().length - 1]; //获取当前page实例  
 
-		obj.isShow = true; //开启toast  
+		// 创建新对象避免直接修改 prop
+		var toastData = {
+			...obj,
+			isShow: true,
+			duration: duration
+		};
 
-		if (obj.duration < 10000) {
+		if (duration < 10000) {
 			setTimeout(function() {
-				obj.isShow = false;
 				obj.cb && typeof obj.cb == 'function' && obj.cb(); //如果有成功的回调则执行  
-
-				that.setData({
-					'showToast.isShow': obj.isShow
-				});
-			}, obj.duration);
+				
+				if (that.showToast) {
+					that.showToast.isShow = false;
+				}
+			}, duration);
 		}
 
-		that.setData({
-			showToast: obj
-		});
+		that.showToast = toastData;
 	} else {
 		console.log('showToast fail:请确保传入的是对象并且title必填');
 	}
@@ -44,9 +43,7 @@ function hideToast() {
 	var that = getCurrentPages()[getCurrentPages().length - 1]; //获取当前page实例  
 
 	if (that.showToast) {
-		that.setData({
-			'showToast.isShow': false
-		});
+		that.showToast.isShow = false;
 	}
 }
 
@@ -57,18 +54,12 @@ function loading(ing) {
 	var that = getCurrentPages()[getCurrentPages().length - 1]; //获取当前page实例
 
 	if (ing == true) {
-		that.setData({
-			ing: ing,
-			end: false
-		});
+		that.ing = ing;
+		that.end = false;
 	} else {
-		that.setData({
-			ing: ing,
-			end: true
-		});
+		that.ing = ing;
+		that.end = true;
 	}
-
-	;
 }
 
 uni.pubLoading = loading; //无数据；
@@ -76,9 +67,7 @@ uni.pubLoading = loading; //无数据；
 function nodata(nodata) {
 	var that = getCurrentPages()[getCurrentPages().length - 1]; //获取当前page实例
 
-	that.setData({
-		nodata: nodata
-	});
+	that.nodata = nodata;
 }
 
 uni.pubNodata = nodata; //用户授权设置
@@ -86,20 +75,11 @@ uni.pubNodata = nodata; //用户授权设置
 function OpenSettingShow(boo, typeV) {
 	var that = getCurrentPages()[getCurrentPages().length - 1]; //获取当前page实例  
 
-	that.setData({
-		OpenSettingShow: boo
-	});
+	that.OpenSettingShow = boo;
 
 	if (typeV) {
-		that.setData({
-			OpenSettingType: typeV
-		});
+		that.OpenSettingType = typeV;
 	}
-
-	;
 }
 
-uni.pubOpenSetting = OpenSettingShow; // module.exports = {
-//     showToast: showToast,
-//     hideToast: hideToast
-// }
+uni.pubOpenSetting = OpenSettingShow; 

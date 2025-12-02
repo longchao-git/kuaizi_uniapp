@@ -1,4 +1,4 @@
-<template>
+﻿<template>
 	<!--pages/webview/webview.wxml-->
 	<web-view :src="outsideURL"></web-view>
 </template>
@@ -24,9 +24,8 @@
 			if (options.url) {
 				let _url = decodeURIComponent(options.url);
 
-				this.setData({
-					outsideURL: _url
-				});
+				this.outsideURL = _url
+				;
 			}
 
 			;
@@ -42,6 +41,5 @@
 	};
 </script>
 <style>
-	/* pages/webview/webview.wxss */
-	/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIiUzQ2lucHV0JTIwY3NzJTIwbXVrbmlCJTNFIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBLCtCQUErQiIsImZpbGUiOiJ0by5jc3MiLCJzb3VyY2VzQ29udGVudCI6WyIvKiBwYWdlcy93ZWJ2aWV3L3dlYnZpZXcud3hzcyAqLyJdfQ== */
+	
 </style>

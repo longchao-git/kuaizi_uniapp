@@ -1,6 +1,5 @@
-<template>
+﻿<template>
 	<view>
-		<!--<import src="../../components/showToast.wxml"></import>-->
 		<block data-type="template" data-is="showToast" data-attr="showToast: showToast">
 			<block v-if="showToast.isShow? showToast.isShow: false">
 				<!-- <view class="toast-bg" wx:if="{{showToast.mask==false? false : true}}"></view>   -->
@@ -141,13 +140,11 @@
 					arr.forEach((currentValue, index, arr) => {
 						res.data.items[index].number = Number(res.data.items[index].number);
 						res.data.items[index].time = formatTime(Number(res.data.items[index]
-						.dateline));
+							.dateline));
 					}); //   console.log(res.data.items);
 
-					that.setData({
-						info: res.data,
-						logLists: res.data.items
-					});
+					that.info = res.data
+					that.logLists = res.data.items;
 				}
 
 				;
@@ -176,14 +173,12 @@
 								var arr = res.data.items;
 								arr.forEach((currentValue, index, arr) => {
 									res.data.items[index].number = Number(res.data.items[index]
-									.number);
+										.number);
 									res.data.items[index].time = formatTime(Number(res.data.items[
 										index].dateline));
 								});
-								that.setData({
-									logLists: that.logLists.concat(res.data.items),
-									page: page
-								});
+								that.logLists = that.logLists.concat(res.data.items)
+								that.page = page
 							}
 						}
 
@@ -201,13 +196,9 @@
 			//提现
 			tapCashShow() {
 				if (this.cashShow) {
-					this.setData({
-						cashShow: false
-					});
+					this.cashShow = false;
 				} else {
-					this.setData({
-						cashShow: true
-					});
+					this.cashShow = true;
 				}
 
 				;
@@ -228,9 +219,7 @@
 						title: res.message
 					});
 					setTimeout(function() {
-						that.setData({
-							cashShow: false
-						});
+						that.cashShow = false;
 					}, 1200);
 				});
 			},
@@ -243,7 +232,3 @@
 		}
 	};
 </script>
-<style>
-	/* pages/ucenter/money/money.wxss */
-	/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIiUzQ2lucHV0JTIwY3NzJTIwZV8xUThSJTNFIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBLG1DQUFtQyIsImZpbGUiOiJ0by5jc3MiLCJzb3VyY2VzQ29udGVudCI6WyIvKiBwYWdlcy91Y2VudGVyL21vbmV5L21vbmV5Lnd4c3MgKi8iXX0= */
-</style>

@@ -1,19 +1,7 @@
-<template>
+﻿<template>
 	<view>
-		<!--提示框引入-开始-->
-		<!--<import src="../components/showToast.wxml"></import>-->
-		<block data-type="template" data-is="showToast" data-attr="showToast: showToast">
-			<block v-if="showToast.isShow? showToast.isShow: false">
-				<!-- <view class="toast-bg" wx:if="{{showToast.mask==false? false : true}}"></view>   -->
-				<view class="toast-center">
-					<view class="toast">
-						<image class="toast-icon" :src="showToast.icon" mode="scaleToFill" v-if="showToast.icon">
-						</image>
-						<text class="toast-text">{{showToast.title}}</text>
-					</view>
-				</view>
-			</block>
-		</block>
+		<!--提示框引入-开始：使用全局 Toast 组件-->
+		<Toast :showToast="showToast" />
 		<!--提示框引入-结束-->
 		<view class="page">
 			<view class="topmask" :hidden="topmask"></view>
@@ -116,42 +104,38 @@
 		components: {},
 		props: {},
 		onShow: function() {
-			this.setData({
-				topmask: true
-			});
+			this.topmask = true
+			;
 			var that = this;
 			uni.getStorage({
 				key: 'addrInfo',
 				success: function(res) {
 					that.label = res.data.label;
-					that.setData({
-						name: res.data.name,
+					that.name = res.data.name,
 						mobile: res.data.mobile,
 						num: res.data.num,
 						current: res.data.label - 1,
 						addr_id: res.data.id
-					});
+					;
 				}
 			});
 			uni.getStorage({
 				key: 'addrInfo2',
 				success: function(res) {
 					that.label = res.data.label;
-					that.setData({
-						name: res.data.name,
+					that.name = res.data.name,
 						mobile: res.data.mobile,
 						num: res.data.num
-					});
+					;
 				}
 			});
 			uni.getStorage({
 				key: 'addr',
 				success: function(res) {
-					that.setData({
-						addr: res.data.addr,
+					that.addr = res.data.addr,
 						lat: res.data.lat,
 						lng: res.data.lng
-					});
+					;
 				}
 			});
 		},
@@ -161,29 +145,24 @@
 		methods: {
 			switchTab: function(e) {
 				this.label = e.currentTarget.dataset.idx + 1;
-				this.setData({
-					current: e.currentTarget.dataset.idx
-				});
+				this.current = e.currentTarget.dataset.idx
+				;
 			},
 			changename: function(e) {
-				this.setData({
-					name: e.detail.value
-				});
+				this.name = e.detail.value
+				;
 			},
 			changephone: function(e) {
-				this.setData({
-					mobile: e.detail.value
-				});
+				this.mobile = e.detail.value
+				;
 			},
 			changedoor: function(e) {
-				this.setData({
-					num: e.detail.value
-				});
+				this.num = e.detail.value
+				;
 			},
 			changeaddr: function(e) {
-				this.setData({
-					topmask: false
-				});
+				this.topmask = false
+				;
 				var that = this;
 				app.globalData.setstorage('addrInfo2', {
 					name: that.name,
@@ -330,5 +309,5 @@
 	}
 
 
-	/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIiUzQ2lucHV0JTIwY3NzJTIwaWZINFlrJTNFIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBLGtCQUFrQixnQkFBZ0IsRUFBRSxjQUFjLENBQUM7QUFDbkQsdUJBQXVCLGdCQUFnQixFQUFFLG1CQUFtQixDQUFDO0FBQzdELHVCQUF1QixnQkFBZ0IsRUFBRSxXQUFXLENBQUM7QUFDckQsMkJBQTJCLGNBQWMsRUFBRSxZQUFZLEVBQUUsYUFBYSxDQUFDLGtCQUFrQixDQUFDO0FBQzFGLDBCQUEwQixrQkFBa0IsRUFBRSxxQkFBcUIsRUFBRSx1QkFBdUIsRUFBRSxhQUFhLEVBQUUsYUFBYSxFQUFFLGtCQUFrQixFQUFFLGtCQUFrQixFQUFFLG1CQUFtQixFQUFFLGdCQUFnQixFQUFFLG1CQUFtQixDQUFDO0FBQy9OLGtDQUFrQywwQkFBMEIsRUFBRSxjQUFjLENBQUM7QUFDN0UsZ0NBQWdDLGtCQUFrQixFQUFFLE1BQU0sRUFBRSxPQUFPLEVBQUUsVUFBVSxDQUFDIiwiZmlsZSI6InRvLmNzcyIsInNvdXJjZXNDb250ZW50IjpbIi5hZGRhZGRyX2Zvcm1faW50e2JhY2tncm91bmQ6ICNmZmY7IHBhZGRpbmc6IDIwcnB4O31cclxuLmFkZGFkZHJfZm9ybV9pbnQgLmJ0eyBmb250LXNpemU6IDI4cnB4OyBtYXJnaW4tcmlnaHQ6IDIwcnB4O31cclxuLmFkZGFkZHJfZm9ybV9pbnQgLmludHtmb250LXNpemU6IDI4cnB4OyBjb2xvcjogIzU1NTt9XHJcbi5hZGRhZGRyX2Zvcm1faW50IC5saW5raWNve2Rpc3BsYXk6IGJsb2NrOyB3aWR0aDogMjhycHg7IGhlaWdodDogMjhycHg7bWFyZ2luLWxlZnQ6IDE0cnB4O31cclxuLmFkZGFkZHJfZm9ybV9sYWJsZSBsYWJlbHtwb3NpdGlvbjogcmVsYXRpdmU7IGRpc3BsYXk6IGlubGluZS1ibG9jazsgYm9yZGVyOiAycnB4IHNvbGlkICNjY2M7IHdpZHRoOiAxMTZycHg7IGhlaWdodDogNTJycHg7IGxpbmUtaGVpZ2h0OiA1MnJweDsgdGV4dC1hbGlnbjogY2VudGVyOyBtYXJnaW4tcmlnaHQ6IDE2cnB4OyBmb250LXNpemU6IDI4cnB4OyBib3JkZXItcmFkaXVzOiA0cnB4O31cclxuLmFkZGFkZHJfZm9ybV9sYWJsZSBsYWJlbC5hY3RpdmV7IGJvcmRlcjogMnJweCBzb2xpZCAjMjBBRDIwOyBjb2xvcjogIzIwQUQyMDt9XHJcbi5hZGRhZGRyX2Zvcm1fbGFibGUgbGFiZWwgcmFkaW97cG9zaXRpb246IGFic29sdXRlOyB0b3A6IDA7IGxlZnQ6IDA7IG9wYWNpdHk6IDA7fVxyXG5cclxuXHJcblxyXG5cclxuXHJcblxyXG5cclxuXHJcblxyXG5cclxuIl19 */
+	
 </style>

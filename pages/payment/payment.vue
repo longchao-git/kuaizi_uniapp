@@ -1,19 +1,7 @@
-<template>
+﻿<template>
 	<view>
-		<!--提示框引入-开始-->
-		<!--<import src="../components/showToast.wxml"></import>-->
-		<block data-type="template" data-is="showToast" data-attr="showToast: showToast">
-			<block v-if="showToast.isShow? showToast.isShow: false">
-				<!-- <view class="toast-bg" wx:if="{{showToast.mask==false? false : true}}"></view>   -->
-				<view class="toast-center">
-					<view class="toast">
-						<image class="toast-icon" :src="showToast.icon" mode="scaleToFill" v-if="showToast.icon">
-						</image>
-						<text class="toast-text">{{showToast.title}}</text>
-					</view>
-				</view>
-			</block>
-		</block>
+		<!--提示框引入-开始：使用全局 Toast 组件-->
+		<Toast :showToast="showToast" />
 		<!--提示框引入-结束-->
 		<view class="pubPage pubPaypage">
 			<view class="pubPageCont">
@@ -170,10 +158,8 @@
 			}, function(res) {
 				//  console.log(res);
 				if (res.error == '0') {
-					that.setData({
-						orderAmount: Number(res.data.order.amount),
-						money: Number(res.data.money)
-					});
+					that.orderAmount = Number(res.data.order.amount)
+					that.money = Number(res.data.money);
 					uni.removeStorage({
 						key: 'payorderid'
 					});
@@ -186,96 +172,86 @@
 
 					if (payAmount > 0) {
 						// #ifdef MP-ALIPAY 
-						that.setData({
+						this.code = 'alipay_mini';
+						this.payAmount = payAmount;
+						this.zhifuitems = [{
+							ico: "/static/image/icon_alipay.png",
+							name: '支付宝支付',
 							code: 'alipay_mini',
-							payAmount: payAmount,
-							zhifuitems: [{
-								ico: "/static/image/icon_alipay.png",
-								name: '支付宝支付',
-								code: 'alipay_mini',
-								checked: 'true'
-							}]
-						});
+							checked: 'true'
+						}];
 						// #endif 
 						// #ifdef  H5
-						that.setData({
+						this.code = 'yaband';
+						this.payAmount = payAmount;
+						this.zhifuitems = [{
+							ico: "/static/image/payWay013x.png",
+							name: 'H5支付',
 							code: 'yaband',
-							payAmount: payAmount,
-							zhifuitems: [{
-								ico: "/static/image/payWay013x.png",
-								name: 'H5支付',
-								code: 'yaband',
-								checked: 'true'
-							}]
-						});
+							checked: 'true'
+						}];
 						// #endif 
 						// #ifdef MP-WEIXIN
-						that.setData({
+						this.code = 'yaband';
+						this.payAmount = payAmount;
+						this.zhifuitems = [{
+							ico: "/static/image/icon_wechatPay3x.png",
+							name: '微信支付',
 							code: 'yaband',
-							payAmount: payAmount,
-							zhifuitems: [{
-								ico: "/static/image/icon_wechatPay3x.png",
-								name: '微信支付',
-								code: 'yaband',
-								checked: 'true'
-							}]
-						});
+							checked: 'true'
+						}];
 						// #endif 
 
 					} else {
-						that.setData({
-							code: 'money',
-							use_money: 1,
-							payAmount: 0,
+						this.code = 'money';
+						this.use_money = 1;
+						this.payAmount = 0;
 
-							// #ifdef  MP-ALIPAY
-							zhifuitems: [{
-								ico: "/static/image/icon_moneyPay3x.png",
-								name: '余额支付',
-								code: 'money',
-								checked: 'false'
-							}, {
-								ico: "/static/image/icon_alipay.png",
-								name: '支付宝支付',
-								code: 'alipay_mini',
-								checked: 'false'
-							}],
-							// #endif
-							// #ifdef  H5
-							zhifuitems: [{
-								ico: "/static/image/icon_moneyPay3x.png",
-								name: '余额支付',
-								code: 'money',
-								checked: 'false'
-							}, {
-								ico: "/static/image/icon_wechatPay3x.png",
-								name: 'H5支付',
-								code: 'yaband',
-								checked: 'false'
-							}],
-							// #endif
-							// #ifdef MP-WEIXIN 
-							zhifuitems: [{
-								ico: "/static/image/icon_moneyPay3x.png",
-								name: '余额支付',
-								code: 'money',
-								checked: 'false'
-							}, {
-								ico: "/static/image/icon_wechatPay3x.png",
-								name: '微信支付',
-								code: 'yaband',
-								checked: 'false'
-							}],
-							// #endif 
-						});
+						// #ifdef  MP-ALIPAY
+						this.zhifuitems = [{
+							ico: "/static/image/icon_moneyPay3x.png",
+							name: '余额支付',
+							code: 'money',
+							checked: 'false'
+						}, {
+							ico: "/static/image/icon_alipay.png",
+							name: '支付宝支付',
+							code: 'alipay_mini',
+							checked: 'false'
+						}];
+						// #endif
+						// #ifdef  H5
+						this.zhifuitems = [{
+							ico: "/static/image/icon_moneyPay3x.png",
+							name: '余额支付',
+							code: 'money',
+							checked: 'false'
+						}, {
+							ico: "/static/image/icon_wechatPay3x.png",
+							name: 'H5支付',
+							code: 'yaband',
+							checked: 'false'
+						}];
+						// #endif
+						// #ifdef MP-WEIXIN 
+						this.zhifuitems = [{
+							ico: "/static/image/icon_moneyPay3x.png",
+							name: '余额支付',
+							code: 'money',
+							checked: 'false'
+						}, {
+							ico: "/static/image/icon_wechatPay3x.png",
+							name: '微信支付',
+							code: 'yaband',
+							checked: 'false'
+						}];
+						// #endif 
 					};
-					if (that.isType != 1) {
+					if (this.isType != 1) {
 						app.globalData.ordersDetail({
 							"order_id": order_id
 						}, function(res) {
-							if (res.error == '0') that.setLastPayTime(Number(res.data.detail
-									.pay_ltime) *
-								60);
+							if (res.error == '0') that.setLastPayTime(Number(res.data.detail.pay_ltime) * 60);
 						});
 					}
 
@@ -294,17 +270,13 @@
 		methods: {
 			//选择余额支付；
 			switchYue: function(e) {
-				this.setData({
-					yuePay: e.detail.value
-				});
+				this.yuePay = e.detail.value;
 				this.calculate();
 			},
 			radioChange: function(e) {
 				console.log(e.detail.value);
 				var zhifuitems = this.zhifuitems;
-				this.setData({
-					code: e.detail.value
-				});
+				this.code = e.detail.value;
 
 				for (var i in zhifuitems) {
 					zhifuitems[i].checked = "false";
@@ -314,9 +286,7 @@
 					};
 				}
 
-				this.setData({
-					zhifuitems: zhifuitems
-				});
+				this.zhifuitems = zhifuitems;
 				this.calculate();
 			},
 
@@ -327,53 +297,27 @@
 					payAmount = this.payAmount;
 
 				if (yuePay) {
-					this.setData({
-						use_money: 1,
-						code: 'yaband'
-					});
+					this.use_money = 1
+					this.code = 'yaband'
 				} else {
 					if (code == 'money') {
-						this.setData({
-							use_money: 1
-						});
+						this.use_money = 1;
 					}
 					// #ifdef MP-WEIXIN
 					else if (code == 'yaband') {
-						this.setData({
-							use_money: 0
-						});
+						this.use_money = 0;
 					}
 					// #endif
 					// #ifdef MP-ALIPAY
 					else if (code == 'alipay_mini') {
-						this.setData({
-							use_money: 0
-						});
+						this.use_money = 0;
 					}
 					// #endif
 
 				}
 			},
 
-			// calculate: function() {
-			//     var that = this;
-			//     var code = that.data.code; //是否用余额支付 true为是，false为否；
-			//     var amount = that.data.order.amount; //消费总金额；
-			//     var yue_money = that.data.money; //账户余额；
-			//     var otherPay = (amount - yue_money).toFixed(2);
-			//     console.log(that.data.code);
-			//     if (code == 'money') {
-			//         //余额抵扣；
-			//         that.setData({
-			//             use_money: 1,
-			//         });
-			//     } else {
-			//         // 余额抵扣部分，微信支付；
-			//         that.setData({
-			//             code: 'yaband',
-			//         });
-			//     };
-			// },
+
 			//支付倒计时
 			formatTime(time) {
 				// var h = Math.floor(time / 60 / 60);
@@ -401,13 +345,9 @@
 					time--; // console.log(time);
 
 					if (that.formatTime(time) != 0) {
-						that.setData({
-							LastPayTime: that.formatTime(time)
-						});
+						that.LastPayTime = that.formatTime(time);
 					} else {
-						that.setData({
-							LastPayTime: "支付剩余00分00秒"
-						});
+						that.LastPayTime = "支付剩余00分00秒";
 						clearInterval(timer);
 						app.globalData.topage("/pages/orderDetail/detail?orderid=" + order_id, "redirect");
 					}
@@ -655,5 +595,4 @@
 	}
 
 	/*支付页面结束*/
-	/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIiUzQ2lucHV0JTIwY3NzJTIwRkpZajQ3JTNFIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBLCtCQUErQjtBQUMvQixTQUFTO0FBQ1Q7OzttRkFHbUY7QUFDbkYsc0JBQXNCLGdCQUFnQixFQUFFLGtCQUFrQixFQUFFLGdCQUFnQixDQUFDO0FBQzdFLDZCQUE2QixnQkFBZ0IsRUFBRSxrQkFBa0IsQ0FBQztBQUNsRSw0QkFBNEIsZ0JBQWdCLEVBQUUsa0JBQWtCLEVBQUUsV0FBVyxDQUFDO0FBQzlFLDRCQUE0QixnQkFBZ0IsRUFBRSxXQUFXLEVBQUUsa0JBQWtCLEVBQUUsbUJBQW1CLEVBQUUsb0JBQW9CLENBQUM7QUFDekgsNEJBQTRCLGVBQWUsRUFBRSxlQUFlLEVBQUUsa0JBQWtCLENBQUM7QUFDakYsa0NBQWtDLGFBQWEsRUFBRSxlQUFlLEVBQUUsZUFBZSxFQUFFLGdDQUFnQyxFQUFFLGtCQUFrQixDQUFDO0FBQ3hJLHVDQUF1QyxrQkFBa0IsRUFBRSxhQUFhLEVBQUUsVUFBVSxFQUFFLFVBQVUsQ0FBQztBQUNqRyx3Q0FBd0Msa0JBQWtCLEVBQUUsYUFBYSxFQUFFLFVBQVUsRUFBRSxVQUFVLENBQUM7QUFDbEcsNkNBQTZDLGVBQWUsQ0FBQztBQUM3RCxpQ0FBaUMsV0FBVyxFQUFFLFlBQVksRUFBRSxVQUFVLEVBQUUsa0JBQWtCLENBQUM7QUFDM0Ysd0NBQXdDLFdBQVcsRUFBRSxZQUFZLEVBQUUsV0FBVyxDQUFDO0FBQy9FLGlDQUFpQyxVQUFVLEVBQUUsZUFBZSxFQUFFLGlCQUFpQixFQUFFLFVBQVUsQ0FBQztBQUM1RixxQ0FBcUMsZUFBZSxFQUFFLFVBQVUsQ0FBQztBQUNqRSxxQ0FBcUMsYUFBYSxDQUFDLFdBQVcsQ0FBQyxlQUFlLEVBQUUsZ0JBQWdCLENBQUM7QUFDakcsbUNBQW1DLFdBQVcsQ0FBQyxlQUFlLENBQUM7QUFDL0QsZ0NBQWdDLGtCQUFrQixDQUFDO0FBQ25ELGlDQUFpQyxnQkFBZ0IsQ0FBQztBQUNsRCxvQ0FBb0MsV0FBVyxDQUFDLGVBQWUsRUFBRSxZQUFZLEVBQUUsWUFBWSxDQUFDLG1CQUFtQixFQUFFLG1CQUFtQixDQUFDLDBCQUEwQixFQUFFLG1CQUFtQixDQUFDO0FBQ3JMLGtDQUFrQyxrQkFBa0IsQ0FBQyxPQUFPLEVBQUUsTUFBTSxFQUFFLFdBQVcsRUFBRSxZQUFZLENBQUMsZ0JBQWdCLEVBQUUsVUFBVSxFQUFFLFdBQVcsQ0FBQztBQUMxSSxzQkFBc0IsbUJBQW1CLEVBQUUsZ0JBQWdCLENBQUM7QUFDNUQsZ0NBQWdDLGFBQWEsRUFBRSxVQUFVLEVBQUUsWUFBWSxFQUFFLGlCQUFpQixFQUFFLGlCQUFpQixDQUFDLG1CQUFtQixDQUFDLG1CQUFtQixFQUFFLGVBQWUsRUFBRSxVQUFVLEVBQUUsUUFBUSxDQUFDOztBQUU3TCxTQUFTIiwiZmlsZSI6InRvLmNzcyIsInNvdXJjZXNDb250ZW50IjpbIi8qIHBhZ2VzL3BheW1lbnQvcGF5bWVudC53eHNzICovXHJcbi8q5pSv5LuY6aG16Z2i5byA5aeLKi9cclxuLyogLnB1YlBheXBhZ2UgLmluZm9fbGlzdHsgb3ZlcmZsb3c6aGlkZGVuOyBiYWNrZ3JvdW5kOiNmZmY7IHBvc2l0aW9uOnJlbGF0aXZlOyBwYWRkaW5nOjI0cnB4IDMwcnB4OyBmb250LXNpemU6MjhycHg7IGxpbmUtaGVpZ2h0OjQwcnB4OyBib3JkZXItYm90dG9tOjJycHggc29saWQgI2U2ZTZlNjt9XHJcbi5wdWJQYXlwYWdlIC5pbmZvX2xpc3Q6bGFzdC1jaGlsZHsgYm9yZGVyLWJvdHRvbTowcnB4O31cclxuLnB1YlBheXBhZ2UgLmluZm9fbGlzdCAuYnR7IGNvbG9yOiM2NjY7fVxyXG4ucHViUGF5cGFnZSAuaW5mb19saXN0IC5wcmljZXsgZm9udC13ZWlnaHQ6Ym9sZDsgZm9udC1zaXplOjM2cnB4OyBjb2xvcjojZmY2NjAwO30gKi9cclxuLnB1YlBheXBhZ2UgLmluZm9fYm94e3BhZGRpbmc6IDYwcnB4IDA7IHRleHQtYWxpZ246IGNlbnRlcjsgYmFja2dyb3VuZDogI2ZmZjt9XHJcbi5wdWJQYXlwYWdlIC5pbmZvX2JveCAucHJpY2V7Zm9udC1zaXplOiA3MnJweDsgbGluZS1oZWlnaHQ6IDg0cnB4O31cclxuLnB1YlBheXBhZ2UgLmluZm9fYm94IC50aW1le2ZvbnQtc2l6ZTogMjhycHg7IGxpbmUtaGVpZ2h0OiA0MHJweDsgY29sb3I6ICM2NjY7fVxyXG4ucHViUGF5cGFnZSAucGF5X3dheSAudGl0bGV7Zm9udC1zaXplOiAyNHJweDsgY29sb3I6ICM2NjY7IGxpbmUtaGVpZ2h0OiA0MHJweDsgZm9udC13ZWlnaHQ6IG5vcm1hbDsgcGFkZGluZzogMTZycHggMjRycHg7fVxyXG4ucHViUGF5cGFnZSAucGF5X3dheSAubGlzdHsgYmFja2dyb3VuZDojZmZmOyBwYWRkaW5nOjAgNDhycHg7IHBvc2l0aW9uOiByZWxhdGl2ZTt9XHJcbi5wdWJQYXlwYWdlIC5wYXlfd2F5IC5saXN0IGxhYmVseyBkaXNwbGF5OmJsb2NrOyBvdmVyZmxvdzpoaWRkZW47IHBhZGRpbmc6MzBycHggMDsgYm9yZGVyLWJvdHRvbToycnB4IHNvbGlkICNmNWY1ZjU7IHBvc2l0aW9uOiByZWxhdGl2ZTt9XHJcbi5wdWJQYXlwYWdlIC5wYXlfd2F5IC5saXN0IGxhYmVsIHJhZGlve3Bvc2l0aW9uOiBhYnNvbHV0ZTsgcmlnaHQ6IC0xMnJweDsgdG9wOiAxNnJweDsgb3BhY2l0eTogMDt9XHJcbi5wdWJQYXlwYWdlIC5wYXlfd2F5IC5saXN0IGxhYmVsIHN3aXRjaHtwb3NpdGlvbjogYWJzb2x1dGU7IHJpZ2h0OiAtMTJycHg7IHRvcDogMTJycHg7IG9wYWNpdHk6IDA7fVxyXG4ucHViUGF5cGFnZSAucGF5X3dheSAubGlzdCBsYWJlbDpsYXN0LWNoaWxkeyBib3JkZXItYm90dG9tOjA7fVxyXG4ucHViUGF5cGFnZSAucGF5X3dheSAubGlzdCAuaWNveyB3aWR0aDo0MHJweDsgaGVpZ2h0OjQwcnB4OyBmbG9hdDpsZWZ0OyBtYXJnaW4tcmlnaHQ6MjBycHg7fVxyXG4ucHViUGF5cGFnZSAucGF5X3dheSAubGlzdCAuc2VsZWN0X2ljb3sgd2lkdGg6NDBycHg7IGhlaWdodDo0MHJweDsgZmxvYXQ6cmlnaHQ7fVxyXG4ucHViUGF5cGFnZSAucGF5X3dheSAubGlzdCAudHh0eyBmbG9hdDpsZWZ0OyBmb250LXNpemU6MzJycHg7IGxpbmUtaGVpZ2h0OjQwcnB4OyBjb2xvcjojNjY2O31cclxuLnB1YlBheXBhZ2UgLnBheV93YXkgLmxpc3QgLnR4dCB0ZXh0e2ZvbnQtc2l6ZToyNHJweDsgY29sb3I6Izk5OTt9XHJcbi5wdWJQYXlwYWdlIC5wYXlfd2F5IC5saXN0IHd4LXJhZGlveyBkaXNwbGF5OmJsb2NrO2Zsb2F0OnJpZ2h0O21hcmdpbi10b3A6N3JweDsgYmFja2dyb3VuZDogI2ZmZjt9XHJcbi5wdWJQYXlwYWdlIC5wYXlfd2F5IC5saXN0IHN3aXRjaCB7ZmxvYXQ6cmlnaHQ7bWFyZ2luLXRvcDo3cnB4O31cclxuLnB1YlBheXBhZ2UgLnBheV93YXkgLmxpc3QgLmJpZ3tsaW5lLWhlaWdodDogMzBycHg7fVxyXG4ucHViUGF5cGFnZSAucGF5X3dheSAubGlzdCAubWluIHtmb250LXNpemU6IDI0cnB4O31cclxuLnB1YlBheXBhZ2UgLnBheV93YXkgLmxpc3QgLmRpc2FibGV7ZmxvYXQ6cmlnaHQ7bWFyZ2luLXRvcDo3cnB4OyB3aWR0aDogNDRycHg7IGhlaWdodDo0NHJweDtib3JkZXItcmFkaXVzOiAxMDAlOyBiYWNrZ3JvdW5kOiAjZmFmYWZhO2JvcmRlcjogMnJweCBzb2xpZCAjZTZlNmU2OyBtYXJnaW4tcmlnaHQ6IDEwcnB4O31cclxuLnB1YlBheXBhZ2UgLnBheV93YXkgLmxpc3QgLm1hc2sge3Bvc2l0aW9uOiBhYnNvbHV0ZTtsZWZ0OiAwOyB0b3A6IDA7IHdpZHRoOiAxMDAlOyBoZWlnaHQ6IDEwMCU7YmFja2dyb3VuZDogIzY2Njsgb3BhY2l0eTogMDsgei1pbmRleDogMTA7fSBcclxuLnB1YlBheXBhZ2UgLmJ0bl9ib3h7IHBhZGRpbmc6MzBycHggMzBycHg7IGJhY2tncm91bmQ6ICNmZmY7fVxyXG4ucHViUGF5cGFnZSAuYnRuX2JveCAubG9uZ19idG57IGRpc3BsYXk6YmxvY2s7IHdpZHRoOjEwMCU7IGhlaWdodDo4MHJweDsgbGluZS1oZWlnaHQ6ODBycHg7IHRleHQtYWxpZ246Y2VudGVyO2JhY2tncm91bmQ6ICNGRjcyNUM7Ym9yZGVyLXJhZGl1czogOHJweDsgZm9udC1zaXplOjMycnB4OyBjb2xvcjojZmZmOyBib3JkZXI6MDt9XHJcblxyXG4vKuaUr+S7mOmhtemdoue7k+adnyovIl19 */
 </style>

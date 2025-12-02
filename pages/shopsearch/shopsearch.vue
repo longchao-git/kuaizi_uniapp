@@ -1,19 +1,7 @@
-<template>
+﻿<template>
 	<view>
-		<!--提示框引入-开始-->
-		<!--<import src="../components/showToast.wxml"></import>-->
-		<block data-type="template" data-is="showToast" data-attr="showToast: showToast">
-			<block v-if="showToast.isShow? showToast.isShow: false">
-				<!-- <view class="toast-bg" wx:if="{{showToast.mask==false? false : true}}"></view>   -->
-				<view class="toast-center">
-					<view class="toast">
-						<image class="toast-icon" :src="showToast.icon" mode="scaleToFill" v-if="showToast.icon">
-						</image>
-						<text class="toast-text">{{showToast.title}}</text>
-					</view>
-				</view>
-			</block>
-		</block>
+		<!--提示框引入-开始：使用全局 Toast 组件-->
+		<Toast :showToast="showToast" />
 		<!--提示框引入-结束-->
 		<view class="ser_box_box">
 			<view class="ser_box">
@@ -24,113 +12,95 @@
 		</view>
 		<!--列表-开始-->
 		<view class="goodsListBox" :style="'padding-bottom:' + (have_must ? '164rpx' : '100rpx') + ';'">
-				
+
 			<block v-if="products.length &&products.length > 0">
 				<view v-for="(proList, index) in products" :key="index" class="goodsList">
-				<image :src="proList.photo" class="img fl"></image>
-				<view class="wz_box">
-					<view class="tit overflow_clear">{{proList.title}}</view>
-					<view class="discount" v-if="proList.is_discount == '1'">
-						<view class="fl zhe">
-							<text class="one">{{proList.disclabel}}</text>
-							<text class="two">{{proList.quotalabel}}</text>
+					<image :src="proList.photo" class="img fl"></image>
+					<view class="wz_box">
+						<view class="tit overflow_clear">{{proList.title}}</view>
+						<view class="discount" v-if="proList.is_discount == '1'">
+							<view class="fl zhe">
+								<text class="one">{{proList.disclabel}}</text>
+								<text class="two">{{proList.quotalabel}}</text>
+							</view>
+							<view class="fl shu">剩余{{proList.quota}}份</view>
 						</view>
-						<view class="fl shu">剩余{{proList.quota}}份</view>
+						<!-- 已售{{proList.sales}} /  -->
+						<view class="txt">库存{{proList.sale_sku}}</view>
+						<view class="price"><text>€</text>{{proList.price}}<text>/{{proList.unit}}</text> <text
+								class="del ml5"
+								v-if="proList.is_discount == '1'">{{proList.oldprice}}/{{proList.unit}}</text></view>
 					</view>
-					<!-- 已售{{proList.sales}} /  -->
-					<view class="txt">库存{{proList.sale_sku}}</view>
-					<view class="price"><text>€</text>{{proList.price}}<text>/{{proList.unit}}</text> <text
-							class="del ml5"
-							v-if="proList.is_discount == '1'">{{proList.oldprice}}/{{proList.unit}}</text></view>
-				</view>
-				<!--加减框开始-->
-				<view class="goods_int_box" v-if="proList.specs.length == 0 && proList.specification.length == 0">
-					<image src="/static/image/icon_remove_new.png" class="jian" v-if="proList.num != 0"
-						@tap="reduceCart" :data-sku_id="proList.sku_id" :data-sku_obj="proList"></image>
-					<view class="num" v-if="proList.num != 0">{{proList.num}}</view>
-					<image src="/static/image/icon_add_new.png" class="jia" @tap="addCart"
-						:data-sku_id="proList.sku_id" :data-sku_obj="proList"></image>
-					<view class="clear"></view>
-				</view>
-				<!--加减框结束-->
-				<!--选规格-开始-->
-				<view class="spec" @tap="setspecShow" :data-product_id="proList.product_id" :data-products="proList"
-					v-else>可选规格</view>
-				<view class="specMask" :hidden="specShow_idx == proList.product_id ? false : true">
-					<image src="/static/image/index_btn_close2x.png" class="close" @tap="setspecShow"></image>
-					<view class="tit">{{proList.title}}</view>
-					<view class="discount" v-if="proList.is_discount == '1'">
-						<view class="fl zhe">
-							<text class="one">{{proList.disclabel}}</text>
-							<text class="two">{{proList.quotalabel}}</text>
-						</view>
-						<view class="fl shu">剩余{{proList.quota}}份</view>
+					<!--加减框开始-->
+					<view class="goods_int_box" v-if="proList.specs.length == 0 && proList.specification.length == 0">
+						<image src="/static/image/icon_remove_new.png" class="jian" v-if="proList.num != 0"
+							@tap="reduceCart" :data-sku_id="proList.sku_id" :data-sku_obj="proList"></image>
+						<view class="num" v-if="proList.num != 0">{{proList.num}}</view>
+						<image src="/static/image/icon_add_new.png" class="jia" @tap="addCart"
+							:data-sku_id="proList.sku_id" :data-sku_obj="proList"></image>
+						<view class="clear"></view>
 					</view>
-					<view class="cont">
-						<view class="spec_bt" v-if="proList.specs.length > 0">规格</view>
-						<view class="spec_list">
-							<view v-for="(item, specs_idx) in proList.specs" :key="specs_idx"
-								:class="'list ' + (specsIdx == specs_idx ? 'on' : '')" @tap="specsOpt"
-								:data-specs_idx="specs_idx" :data-products="proList">{{item.spec_name}}</view>
+					<!--加减框结束-->
+					<!--选规格-开始-->
+					<view class="spec" @tap="setspecShow" :data-product_id="proList.product_id" :data-products="proList"
+						v-else>可选规格</view>
+					<view class="specMask" :hidden="specShow_idx == proList.product_id ? false : true">
+						<image src="/static/image/index_btn_close2x.png" class="close" @tap="setspecShow"></image>
+						<view class="tit">{{proList.title}}</view>
+						<view class="discount" v-if="proList.is_discount == '1'">
+							<view class="fl zhe">
+								<text class="one">{{proList.disclabel}}</text>
+								<text class="two">{{proList.quotalabel}}</text>
+							</view>
+							<view class="fl shu">剩余{{proList.quota}}份</view>
 						</view>
-						<view class="attr" v-if="proList.specification.length > 0">
-							<block v-for="(item, specification_idx) in proList.specification" :key="specification_idx">
-								<view class="bt">{{item.key}}</view>
-								<view class="spec_list">
-									<view v-for="(item, index) in item.val" :key="index"
-										:class="'list ' + (index == specsK[specification_idx] ? 'on' : '')"
-										@tap="setspecsK" :data-idx="index" :data-specification_idx="specification_idx"
-										:data-products="proList">{{item}}</view>
-								</view>
-							</block>
+						<view class="cont">
+							<view class="spec_bt" v-if="proList.specs.length > 0">规格</view>
+							<view class="spec_list">
+								<view v-for="(item, specs_idx) in proList.specs" :key="specs_idx"
+									:class="'list ' + (specsIdx == specs_idx ? 'on' : '')" @tap="specsOpt"
+									:data-specs_idx="specs_idx" :data-products="proList">{{item.spec_name}}</view>
+							</view>
+							<view class="attr" v-if="proList.specification.length > 0">
+								<block v-for="(item, specification_idx) in proList.specification"
+									:key="specification_idx">
+									<view class="bt">{{item.key}}</view>
+									<view class="spec_list">
+										<view v-for="(item, index) in item.val" :key="index"
+											:class="'list ' + (index == specsK[specification_idx] ? 'on' : '')"
+											@tap="setspecsK" :data-idx="index"
+											:data-specification_idx="specification_idx" :data-products="proList">
+											{{item}}
+										</view>
+									</view>
+								</block>
+							</view>
+						</view>
+						<view class="bottom">
+							<view class="price fl"><text>€</text>
+								<block v-if="proList.specs.length > 0">{{proList.specs[specsIdx].price}}</block>
+								<block v-else>{{proList.price}}</block>
+							</view>
+							<!--加减框开始-->
+							<view class="goods_int_box fr">
+								<image src="/static/image/icon_remove_new.png" class="jian" v-if="newSpecs.num != 0"
+									@tap="reduceCart" :data-sku_id="newSpecs.sku_id" :data-sku_obj="newSpecs"></image>
+								<view class="num" v-if="newSpecs.num != 0">{{newSpecs.num}}</view>
+								<image src="/static/image/icon_add_new.png" class="jia" @tap="addCart"
+									:data-sku_id="newSpecs.sku_id" :data-sku_obj="newSpecs"></image>
+								<view class="clear"></view>
+							</view>
+							<!--加减框结束-->
 						</view>
 					</view>
-					<view class="bottom">
-						<view class="price fl"><text>€</text>
-							<block v-if="proList.specs.length > 0">{{proList.specs[specsIdx].price}}</block>
-							<block v-else>{{proList.price}}</block>
-						</view>
-						<!--加减框开始-->
-						<view class="goods_int_box fr">
-							<image src="/static/image/icon_remove_new.png" class="jian" v-if="newSpecs.num != 0"
-								@tap="reduceCart" :data-sku_id="newSpecs.sku_id" :data-sku_obj="newSpecs"></image>
-							<view class="num" v-if="newSpecs.num != 0">{{newSpecs.num}}</view>
-							<image src="/static/image/icon_add_new.png" class="jia" @tap="addCart"
-								:data-sku_id="newSpecs.sku_id" :data-sku_obj="newSpecs"></image>
-							<view class="clear"></view>
-						</view>
-						<!--加减框结束-->
-					</view>
-				</view>
-				<!--选规格-结束-->
+					<!--选规格-结束-->
 				</view>
 			</block>
-			<view class="empty-placeholder" v-else >
-				<image src="/static/image/noorder.png" mode="aspectFit"></image>
-				<view class="txt">暂无商品，换个关键词试试</view>
-			</view>
+			<NoData :show="!products.length || products.length === 0" text="暂无商品，换个关键词试试" />
 		</view>
 		<!--列表-结束-->
 		<!--购物车-开始-->
-		<!-- <view class="goods_footer">
-    <view class="cart fl" wx:if="{{total_num > 0}}" bindtap="cartShow">
-        <image src="../../image/index_btn_cart3x.png">
-            <view class="num">{{total_num}}</view>
-        </image> 
-    </view>
-    <view class="cart fl" wx:else>
-        <image src="../../image/index_btn_cart3x.png"></image> 
-    </view>
-    <view class="wz_box fl">
-        <view class="price fontcl1"><span>€</span>{{total_price}}</view>
-        <view class='black9'>配送费以订单为准</view>
-    </view>
-    <view class="btn btn2 fr" wx:if="{{priceDif != 0}}">还差{{priceDif}}起送</view>
-    <view class="btn btn2 fr" wx:elif="{{have_must == false && is_must != '0'}}">请添加必点商品</view>
-    <view class="btn fr" wx:elif="{{total_num > 0}}" bindtap='linkOrdersubmit'>去结算</view>
-    <view class="btn btn2 fr" wx:else>去结算</view>
-    <view class="clear"></view>
-</view> -->
+
 		<view class="goods_footer">
 			<view class="cart fl" v-if="total_num > 0" @tap="setcartShow">
 				<image src="/static/image/index_btn_cart3x.png">
@@ -141,7 +111,8 @@
 				<image src="/static/image/index_btn_cart3x.png"></image>
 			</view>
 			<view class="wz_box fl">
-				<view class="price fontcl1">€{{totalPrice}}<span style="font-size: 24rpx;text-decoration: line-through;margin-left: 10rpx;color: #999;"
+				<view class="price fontcl1">€{{totalPrice}}<span
+						style="font-size: 24rpx;text-decoration: line-through;margin-left: 10rpx;color: #999;"
 						v-if="total_oldprice > 0 && total_oldprice > totalPrice">€{{total_oldprice}}</span></view>
 				<view class="black9">配送费以订单为准</view>
 			</view>
@@ -205,9 +176,7 @@
 			</view>
 		</view>
 		<!--凑一凑-结束-->
-		<!--自提浮动-开始-->
-		<!-- <view class='zitiFixed' bindtap='linkOrdersubmit_ziti' wx:if="{{have_must == true}}">自提无须达到起送价 <text>去自提</text> <image src='../../image/icon-arrowR-orange2x.png'></image></view> -->
-		<!--自提浮动-结束-->
+
 		<!--自提浮动-开始-->
 		<template v-if="have_must == true">
 			<view class="zitiFixed">
@@ -341,25 +310,22 @@
 				;
 			} else {
 				have_must = false;
-			}
+			};
+			that.total_num = ecart.total_count()
+			that.total_price = ecart.total_price()
+			that.package_price = ecart.package_price()
+			that.cartLists = ecart.shop_cart
+			that.have_must = have_must
+			that.priceDif = that.setpriceDif(min_amount, ecart.total_price())
+			//计算是否达到起送价；
+			that.goodsArr = goodsArr
+			that.total_oldprice = ecart.total_oldprice()
+			that.is_must = shopInfo.have_must
+			that.manjian = shopInfo.manjian ? shopInfo.manjian.config : []
+			that.firstAmount = shopInfo.first_youhui
+			that.first_share = shopInfo.support.first_share //首单是否共享
 
 			;
-			that.setData({
-				total_num: ecart.total_count(),
-				total_price: ecart.total_price(),
-				package_price: ecart.package_price(),
-				cartLists: ecart.shop_cart,
-				have_must: have_must,
-				priceDif: that.setpriceDif(min_amount, ecart.total_price()),
-				//计算是否达到起送价；
-				goodsArr: goodsArr,
-				total_oldprice: ecart.total_oldprice(),
-				is_must: shopInfo.have_must,
-				manjian: shopInfo.manjian ? shopInfo.manjian.config : [],
-				firstAmount: shopInfo.first_youhui,
-				first_share: shopInfo.support.first_share //首单是否共享
-
-			});
 			setTimeout(function() {
 				that.resetData();
 			}, 200);
@@ -435,14 +401,10 @@
 						;
 
 						if (page > 1) {
-							that.setData({
-								products: that.products.concat(products),
-								page: page + 1
-							});
+							that.products = that.products.concat(products)
+							that.page = page + 1;
 						} else {
-							that.setData({
-								page: page + 1
-							});
+							that.page = page + 1;
 						}
 
 						;
@@ -538,15 +500,10 @@
 								}
 
 								;
-							}
-
-							;
+							};
 						};
-						console.log(products);
-						that.setData({
-							products: products,
-							page: 1
-						});
+						that.products = products
+						that.page = 1;
 					} else {
 						uni.showToast({
 							title: res.message
@@ -593,15 +550,11 @@
 				}
 
 				;
-				that.setData({
-					couLists: couLists
-				}); // console.log(couLists);
+				that.couLists = couLists; // console.log(couLists);
 
 				if (couLists.length > 0) {
-					that.setData({
-						couShow: true,
-						cartShow: false
-					});
+					that.couShow = true
+					that.cartShow = false;
 				} else {
 					uni.showToast({
 						title: "暂无满足要求的凑单商品"
@@ -645,9 +598,7 @@
 				}
 
 				;
-				that.setData({
-					couLists: couLists
-				});
+				that.couLists = couLists;
 			},
 
 			//4.3计算满减 起送价信息
@@ -686,21 +637,15 @@
 					}
 
 					;
-					this.setData({
-						couPrice: 0
-					});
+					this.couPrice = 0;
 				} else if (song > 0 && totalOldPrice >= 0 && song > totalOldPrice) {
 					// console.log("执行1", totalOldPrice);
 					html = '还差' + (song - totalOldPrice).toFixed(2) + '€起送,';
-					this.setData({
-						couPrice: (song - totalOldPrice).toFixed(2)
-					});
+					this.couPrice = (song - totalOldPrice).toFixed(2);
 				} else if (!useMj && differencePrice > 0) {
 					// console.log("执行2");
 					html = '已减' + differencePrice;
-					this.setData({
-						couPrice: 0
-					});
+					this.couPrice = 0;
 				} else if (useMj > 0 && typeof manjian == 'object' && manjian.length > 0) {
 					var nowMj = {};
 					var nextMj = {};
@@ -728,29 +673,21 @@
 					if (Object.keys(nowMj).length > 0 && Object.keys(nextMj).length > 0) {
 						html = '已减' + nowMj.coupon_amount + '€, 再买' + (nextMj.order_amount - totalOldPrice).toFixed(2) +
 							'€减' + nextMj.coupon_amount + '€,';
-						this.setData({
-							couPrice: (nextMj.order_amount - totalOldPrice).toFixed(2)
-						});
+						this.couPrice = (nextMj.order_amount - totalOldPrice).toFixed(2);
 					} else if (Object.keys(nowMj).length > 0 && Object.keys(nextMj).length == 0) {
 						html = '已减' + nowMj.coupon_amount;
-						this.setData({
-							couPrice: 0
-						});
+						this.couPrice = 0;
 					} else if (Object.keys(nowMj).length == 0 && Object.keys(nextMj).length > 0) {
 						html = '满' + nextMj.order_amount + '€减' + nextMj.coupon_amount + ', 还差' + (nextMj.order_amount -
 							totalOldPrice).toFixed(2) + '€';
-						this.setData({
-							couPrice: (nextMj.order_amount - totalOldPrice).toFixed(2)
-						});
+						this.couPrice = (nextMj.order_amount - totalOldPrice).toFixed(2);
 					}
 
 					; // console.log("执行3", html);
 				}
 
 				;
-				this.setData({
-					couTips: html
-				});
+				this.couTips = html;
 			},
 
 			//4.2获取最近的满减金额
@@ -819,9 +756,7 @@
 
 				;
 				that.useFirst = useFirst == 1 ? true : false;
-				that.setData({
-					totalPrice: total_price.toFixed(2)
-				});
+				that.totalPrice = total_price.toFixed(2);
 			},
 
 			getMjAmount(total_price) {
@@ -927,29 +862,23 @@
 					;
 				} else {
 					have_must = false;
-				}
-
-				;
-				that.setData({
-					products: products,
-					total_num: ecart.total_count(),
-					total_price: ecart.total_price(),
-					package_price: ecart.package_price(),
-					cartLists: ecart.shop_cart,
-					have_must: have_must,
-					priceDif: that.setpriceDif(min_amount, ecart.total_price()),
-					//计算是否达到起送价；
-					total_oldprice: ecart.total_oldprice()
-				}); //计算优惠后总价
+				};
+				that.products = products
+				that.total_num = ecart.total_count()
+				that.total_price = ecart.total_price()
+				that.package_price = ecart.package_price()
+				that.cartLists = ecart.shop_cart
+				that.have_must = have_must
+				that.priceDif = that.setpriceDif(min_amount, ecart.total_price())
+				//计算是否达到起送价；
+				that.total_oldprice = ecart.total_oldprice(); //计算优惠后总价
 
 				that.getAmount(); //凑一凑数据
 
 				that.resetDataCou(); //当购物车为空弹层隐藏；
 
 				if (ecart.total_count() == 0) {
-					that.setData({
-						cartShow: false
-					});
+					that.cartShow = false;
 				}
 
 				;
@@ -1036,9 +965,7 @@
 				newSpecs.num += 1; //渲染数据
 
 				that.resetData(sku_id);
-				that.setData({
-					newSpecs: newSpecs
-				});
+				that.newSpecs = newSpecs;
 			},
 
 			//减少购物车
@@ -1098,9 +1025,7 @@
 				newSpecs.num -= 1; //渲染数据
 
 				that.resetData(sku_id);
-				that.setData({
-					newSpecs: newSpecs
-				});
+				that.newSpecs = newSpecs;
 			},
 
 			//清空购物车
@@ -1146,23 +1071,19 @@
 
 				;
 				that.total_price = ecart.total_price();
-				that.setData({
-					products: products,
-					total_num: ecart.total_count(),
-					package_price: ecart.package_price(),
-					cartLists: ecart.shop_cart,
-					have_must: have_must,
-					priceDif: that.setpriceDif(min_amount, ecart.total_price()) //计算是否达到起送价；
+				that.products = products
+				that.total_num = ecart.total_count()
+				that.package_price = ecart.package_price()
+				that.cartLists = ecart.shop_cart
+				that.have_must = have_must
+				that.priceDif = that.setpriceDif(min_amount, ecart.total_price()) //计算是否达到起送价；
 
-				}); //当购物车为空弹层隐藏；
+				//当购物车为空弹层隐藏；
 
 				if (ecart.total_count() == 0) {
-					that.setData({
-						cartShow: false
-					});
+					that.cartShow = false;
 				}
 
-				;
 			},
 
 			//规格临时数据渲染；
@@ -1209,18 +1130,14 @@
 				}
 
 				;
-				that.setData({
-					newSpecs: newSpecs
-				});
+				that.newSpecs = newSpecs;
 			},
 
 			//规格筛选；
 			specsOpt(e) {
 				var specs_idx = e.currentTarget.dataset.specs_idx,
 					products = e.currentTarget.dataset.products;
-				this.setData({
-					specsIdx: specs_idx
-				}); //规格临时数据渲染；
+				this.specsIdx = specs_idx; //规格临时数据渲染；
 
 				this.specsData(products.specs[specs_idx].sku_id, products);
 			},
@@ -1233,9 +1150,7 @@
 					products = e.currentTarget.dataset.products,
 					specsIdx = this.specsIdx;
 				specsK[specification_idx] = idx;
-				this.setData({
-					specsK: specsK
-				}); //规格临时数据渲染；
+				this.specsK = specsK; //规格临时数据渲染；
 
 				if (products.specs.length > 0) {
 					this.specsData(products.specs[specsIdx].sku_id, products);
@@ -1254,20 +1169,15 @@
 					specsK = [];
 
 				if (product_id) {
-					that.setData({
-						specShow_idx: product_id,
-						specShow: true
-					}); //构建临时数据；
+					that.specShow_idx = product_id
+					that.specShow = true; //构建临时数据；
 
 					for (let i = 0; i < products.specification.length; i++) {
 						specsK.push(0);
 					}
 
-					;
-					that.setData({
-						specsIdx: 0,
-						specsK: specsK
-					}); //规格临时数据渲染；
+					that.specsIdx = 0
+					that.specsK = specsK; //规格临时数据渲染；
 
 					if (products.specs.length > 0) {
 						that.specsData(products.specs[0].sku_id, products);
@@ -1277,10 +1187,8 @@
 
 					;
 				} else {
-					that.setData({
-						specShow_idx: null,
-						specShow: false
-					});
+					that.specShow_idx = null
+					that.specShow = false
 					str_name = '';
 					str_obj = {};
 				}
@@ -1294,15 +1202,11 @@
 				var cartShow = that.cartShow;
 
 				if (cartShow) {
-					that.setData({
-						cartShow: false,
-						couShow: false
-					});
+					that.cartShow = false
+					that.couShow = false
 				} else {
-					that.setData({
-						cartShow: true,
-						couShow: false
-					});
+					that.cartShow = true
+					that.couShow = false
 				}
 
 				;
@@ -1350,26 +1254,20 @@
 
 			linkOrdersubmit_ziti() {
 				var that = this;
-				that.setData({
-					is_ziti: true
-				});
+				that.is_ziti = true;
 				app.globalData.afterCheckLogin(that.ordertocallback);
 			},
 
 			linkOrdersubmit() {
 				var that = this;
-				that.setData({
-					is_ziti: false
-				});
+				that.is_ziti = false;
 				app.globalData.afterCheckLogin(that.ordertocallback);
 			},
 
 			hideMask() {
-				this.setData({
-					cartShow: false,
-					couShow: false,
-					shareShow: false
-				});
+				this.cartShow = false
+				this.couShow = false
+				this.shareShow = false
 			},
 
 			cateTap() {
@@ -1980,6 +1878,4 @@
 		height: 24rpx;
 		margin-left: 12rpx;
 	}
-
-	/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIiUzQ2lucHV0JTIwY3NzJTIwY21yTnFDJTNFIiwiPG5vIHNvdXJjZT4iXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUEsYUFBYSxlQUFlLEVBQUUsVUFBVSxFQUFFLE9BQU8sRUFBRSxNQUFNLEVDQXpELGtCQUFBLENBQUEsaURBQUEsQ0FBQSw0Q0FBQSxDQUFBLGNBQUEsQ0RBMkQsUUFBUSxFQUFFLGdCQUFnQixDQUFDO0FBQ3RGLFNBQVMsK0JBQStCLENBQUMsZUFBZSxFQUFFLG9CQUFvQixFQUFFLG1CQUFtQixFQUFFLGFBQWEsRUFBRSx1QkFBdUIsRUFBRSxrQkFBa0IsQ0FBQztBQUNoSyxnQkFBZ0IsV0FBVyxFQUFFLGFBQWEsRUFBRSxXQUFXLEVBQUUsZUFBZSxDQUFDO0FBQ3pFLGNBQWMsa0JBQWtCLEVBQUUsVUFBVSxDQUFDLFdBQVcsRUFBRSxZQUFZLEVBQUUsYUFBYSxDQUFDO0FBQ3RGLG9CQUFvQixrQkFBa0IsRUFBRSxZQUFZLEVBQUUsVUFBVSxFQUFFLGFBQWEsRUFBRSxrQkFBa0IsRUFBRSxhQUFhLEVBQUUsVUFBVSxFQUFFLGdCQUFnQixFQUFFLG1CQUFtQixDQUFDOzs7Ozs7QUFNdEssT0FBTztBQUNQLEtBQUs7QUFDTCxVQUFVLGVBQWUsRUFBRSxXQUFXLEVBQUUsU0FBUyxFQUFFLFFBQVEsRUFBRSxnQkFBZ0IsRUFBRSxtQkFBbUIsRUFBRSwrQkFBK0IsQ0FBQyx1Q0FBdUMsRUFBRSxnQkFBZ0IsRUFBRSxVQUFVLENBQUM7QUFDMU0saUJBQWlCLFlBQVksRUFBRSxhQUFhLEVBQUUsa0JBQWtCLEVBQUUsWUFBWSxFQUFFLFVBQVUsQ0FBQztBQUMzRixlQUFlLGtCQUFrQixFQUFFLGdCQUFnQixFQUFFLGtCQUFrQixFQUFFLDBCQUEwQixDQUFDO0FBQ3BHLG9CQUFvQixnQkFBZ0IsRUFBRSxlQUFlLENBQUM7QUFDdEQseUJBQXlCLHlCQUF5QixFQUFFLG1CQUFtQixDQUFDO0FBQ3hFLDhCQUE4QixrQkFBa0IsRUFBRSxXQUFXLEVB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LEVBQUUsUUFBUSxDQUFDOztBQUVqSCxXQUFXO0FBQ1gsZ0JBQWdCLGNBQWMsQ0FBQyxrQ0FBa0MsQ0FBQyxrQkFBa0IsRUFBRSxhQUFhLEVBQUUsZ0JBQWdCLENBQUMsa0JBQWtCLENBQUMsV0FBVyxFQUFFLGNBQWMsQ0FBQyxTQUFTLENBQUMsTUFBTSxDQUFDLGFBQWEsQ0FBQyxVQUFVLENBQUM7QUFDL00scUJBQXFCLGNBQWMsRUFBRSxnQkFBZ0IsQ0FBQztBQUN0RCxzQkFBc0IsWUFBWSxFQUFFLGFBQWEsRUFBRSxrQkFBa0IsQ0FBQyIsImZpbGUiOiJ0by5jc3MiLCJzb3VyY2VzQ29udGVudCI6WyIuc2VyX2JveF9ib3h7cG9zaXRpb246IGZpeGVkOyB6LWluZGV4OiAxOyBsZWZ0OiAwOyB0b3A6IDA7IHJpZ2h0OiAwOyBiYWNrZ3JvdW5kOiAjZmZmO31cclxuLnNlcl9ib3h7bWFyZ2luOjEwcnB4IDE1MHJweCAxMHJweCAyMHJweDtiYWNrZ3JvdW5kOiNmZmY7IGJvcmRlci1yYWRpdXM6IDEwcnB4OyBwYWRkaW5nLWxlZnQ6IDY2cnB4OyBoZWlnaHQ6IDU2cnB4OyBib3JkZXI6IDJycHggc29saWQgI2VlZTsgcG9zaXRpb246IHJlbGF0aXZlO31cclxuLnNlcl9ib3ggaW5wdXR7IHdpZHRoOiAxMDAlOyBoZWlnaHQ6IDU2cnB4OyBjb2xvcjogIzMzMzsgZm9udC1zaXplOjI4cnB4O31cclxuLnNlcl9ib3ggLmljb3twb3NpdGlvbjogYWJzb2x1dGU7IHRvcDogMTVycHg7bGVmdDogMjBycHg7IHdpZHRoOiAyNnJweDsgaGVpZ2h0OiAyNnJweDt9XHJcbi5zZXJfYm94X2JveCBidXR0b257cG9zaXRpb246IGFic29sdXRlOyByaWdodDogMjBycHg7IHRvcDogMTBycHg7IGhlaWdodDogNTZycHg7IGxpbmUtaGVpZ2h0OiA1NnJweDsgd2lkdGg6IDExMHJweDsgcGFkZGluZzogMDsgZm9udC1zaXplOiAyOHJweDsgYmFja2dyb3VuZDogI2ZmNjYwMDt9XHJcblxyXG5cclxuXHJcblxyXG5cclxuLyrph43mnoTmoLflvI8qL1xyXG4vKuinhOagvCovXHJcbi5zcGVjTWFza3twb3NpdGlvbjogZml4ZWQ7IHotaW5kZXg6IDIxOyBsZWZ0OiA1MCU7IHRvcDogNTAlOyBiYWNrZ3JvdW5kOiAjZmZmOyBib3JkZXItcmFkaXVzOiA2cnB4OyB0cmFuc2Zvcm06IHRyYW5zbGF0ZSgtNTAlLC01MCUpOy13ZWJraXQtdHJhbnNmb3JtOiB0cmFuc2xhdGUoLTUwJSwtNTAlKTsgb3ZlcmZsb3c6IGhpZGRlbjsgd2lkdGg6IDgwJTt9XHJcbi5zcGVjTWFzayAuY2xvc2V7d2lkdGg6IDM2cnB4OyBoZWlnaHQ6IDM2cnB4OyBwb3NpdGlvbjogYWJzb2x1dGU7IHJpZ2h0OiAyMHJweDsgdG9wOiAyMHJweDt9XHJcbi5zcGVjTWFzayAudGl0e3RleHQtYWxpZ246IGNlbnRlcjsgZm9udC1zaXplOiAzMnJweDsgbGluZS1oZWlnaHQ6IDQwcnB4OyBwYWRkaW5nOiA2MHJweCAyMHJweCAxNHJweDt9XHJcbi5zcGVjTWFzayAuZGlzY291bnR7b3ZlcmZsb3c6IGhpZGRlbjsgbWFyZ2luOiAwIDMwcnB4O31cclxuLnNwZWNNYXNrIC5kaXNjb3VudCAuemhle2JvcmRlcjoycnB4IHNvbGlkICNGRjQ4NDg7IGJvcmRlci1yYWRpdXM6IDRycHg7fVxyXG4uc3BlY01hc2sgLmRpc2NvdW50IC56aGUgLm9uZXtiYWNrZ3JvdW5kOiNGRjQ4NDg7IGNvbG9yOiAjZmZmOyBwYWRkaW5nOiAwIDhycHg7fVxyXG4uc3BlY01hc2sgLmRpc2NvdW50IC56aGUgLnR3b3tjb2xvcjogI0ZGNDg0ODsgcGFkZGluZzogMCA4cnB4O31cclxuLnNwZWNNYXNrIC5kaXNjb3VudCAuc2h1e2NvbG9yOiAjZmY2NjAwO2JhY2tncm91bmQ6ICNmZWI7IHBhZGRpbmc6IDAgOHJweDsgbWFyZ2luLWxlZnQ6IDEycnB4O31cclxuLnNwZWNNYXNrIC5ib3R0b217b3ZlcmZsb3c6IGhpZGRlbjsgYmFja2dyb3VuZDogI2Y1ZjVmNTsgcGFkZGluZzogMjBycHg7fVxyXG4uc3BlY01hc2sgLmJvdHRvbSAucHJpY2V7Zm9udC1zaXplOiA0MHJweDsgY29sb3I6ICNmNjA7fVxyXG4uc3BlY01hc2sgLmJvdHRvbSAucHJpY2UgdGV4dHtmb250LXNpemU6IDI0cnB4O31cclxuLnNwZWNNYXNrIC5ib3R0b20gLmdvb2RzX2ludF9ib3h7cG9zaXRpb246cmVsYXRpdmU7ICByaWdodDogYXV0bzsgYm90dG9tOiBhdXRvO31cclxuLnNwZWNNYXNrIC5jb250e3BhZGRpbmc6IDAgMzBycHggMzBycHg7IG1heC1oZWlnaHQ6IDUwMHJweDsgIG92ZXJmbG93OiBhdXRvOy13ZWJraXQtb3ZlcmZsb3ctc2Nyb2xsaW5nOiB0b3VjaDt9XHJcbi5zcGVjTWFzayAuY29udCAuc3BlY19idHtmb250LXNpemU6IDI4cnB4OyBsaW5lLWhlaWdodDogNDBycHg7IG1hcmdpbjogMTZycHggMDt9XHJcbi5zcGVjTWFzayAuY29udCAuc3BlY19saXN0e292ZXJmbG93OiBoaWRkZW47fVxyXG4uc3BlY01hc2sgLmNvbnQgLnNwZWNfbGlzdCAubGlzdHtmbG9hdDogbGVmdDsgcGFkZGluZzogNHJweCAyNHJweDsgbGluZS1oZWlnaHQ6IDQwcnB4OyBib3JkZXI6IDJycHggc29saWQgI2U2ZTZlNjsgYm9yZGVyLXJhZGl1czogNHJweDsgZm9udC1zaXplOiAyNHJweDsgY29sb3I6ICMzMzM7IG1hcmdpbjogMCAxNnJweCAxNnJweCAwO31cclxuLnNwZWNNYXNrIC5jb250IC5zcGVjX2xpc3QgLmxpc3Qub257Ym9yZGVyLWNvbG9yOiAjMjBBRDIwOyBiYWNrZ3JvdW5kOiAjZjFmY2YxOyBjb2xvcjogIzIwQUQyMDt9XHJcbi5zcGVjTWFzayAuY29udCAuYXR0cntiYWNrZ3JvdW5kOiAjZWRmMmY1OyBwYWRkaW5nOiA0cnB4IDAgOHJweCAxNnJweDsgYm9yZGVyLXJhZGl1czogNnJweDt9XHJcbi5zcGVjTWFzayAuY29udCAuYXR0ciAuYnR7bGluZS1oZWlnaHQ6IDQwcnB4OyBtYXJnaW46IDE2cnB4IDA7fVxyXG5cclxuLmdvb2RzTGlzdEJveHt3aWR0aDogMTAwJTtwYWRkaW5nLWJvdHRvbTogMTAwcnB4OyBwYWRkaW5nLXRvcDo4MHJweDsgIGJveC1zaXppbmc6IGJvcmRlci1ib3g7fVxyXG4uY2F0ZVRpdF90b3B7YmFja2dyb3VuZDogI2Y0ZjRmNDsgaGVpZ2h0OiA1MnJweDtsaW5lLWhlaWdodDogNTJycHg7IHBhZGRpbmc6IDAgMjRycHg7IGJvcmRlci1sZWZ0OiAycHggc29saWQgI2U2ZTZlNjsgY29sb3I6ICM2NjY7IHBvc2l0aW9uOiBmaXhlZDsgbGVmdDogMTUwcnB4OyB0b3A6IDMyMHJweDsgcmlnaHQ6IDA7IHotaW5kZXg6IDI7fVxyXG4uZ29vZHNMaXN0Qm94IC5saXN0X2JveHtiYWNrZ3JvdW5kOiAjZmZmO31cclxuLmNhdGVUaXR7YmFja2dyb3VuZDogI2Y0ZjRmNDsgaGVpZ2h0OiA1MnJweDtsaW5lLWhlaWdodDogNTJycHg7IHBhZGRpbmc6IDAgMjRycHg7IGJvcmRlci1sZWZ0OiAycHggc29saWQgI2U2ZTZlNjsgY29sb3I6ICM2NjY7fVxyXG4uZ29vZHNMaXN0e3BhZGRpbmc6IDIwcnB4OyBib3JkZXItYm90dG9tOiAxcHggc29saWQgI2U2ZTZlNjsgcG9zaXRpb246IHJlbGF0aXZlOyBib3gtc2l6aW5nOiBib3JkZXItYm94OyAtd2Via2l0LWJveC1zaXppbmc6IGJvcmRlci1ib3g7IGJhY2tncm91bmQ6ICNmZmY7fVxyXG4uZ29vZHNMaXN0Omxhc3QtY2hpbGR7Ym9yZGVyLWJvdHRvbTogMDt9XHJcbi5nb29kc0xpc3QgLmltZ3t3aWR0aDogMTIwcnB4OyBoZWlnaHQ6IDEyMHJweDsgYmFja2dyb3VuZDogI2VlZTsgb3ZlcmZsb3c6IGhpZGRlbjt9XHJcbi5nb29kc0xpc3QgLnd6X2JveHsgbWFyZ2luLWxlZnQ6IDE0MHJweDtwb3NpdGlvbjogcmVsYXRpdmU7fVxyXG4uZ29vZHNMaXN0IC53el9ib3ggLnRpdHtmb250LXNpemU6IDI0cnB4OyBsaW5lLWhlaWdodDogNDBycHg7IG1hcmdpbi1ib3R0b206IDZycHg7fVxyXG4uZ29vZHNMaXN0IC53el9ib3ggLnR4dHtmb250LXNpemU6IDIycnB4OyBsaW5lLWhlaWdodDogNDBycHg7IGNvbG9yOiAjOTk5O31cclxuLmdvb2RzTGlzdCAud3pfYm94IC5wcmljZXtmb250LXNpemU6IDMwcnB4OyBsaW5lLWhlaWdodDogNDBycHg7IGNvbG9yOiAjZmY5OTAwOyBtYXJnaW4tdG9wOiA0cnB4O31cclxuLmdvb2RzTGlzdCAud3pfYm94IC5wcmljZSB0ZXh0e2ZvbnQtc2l6ZTogMjRycHg7fVxyXG4uZ29vZHNMaXN0IC53el9ib3ggLmRlbHtjb2xvcjogIzk5OTsgcG9zaXRpb246IHJlbGF0aXZlOyBmb250LXNpemU6IDIwcnB4O31cclxuLmdvb2RzTGlzdCAud3pfYm94IC5kZWw6YWZ0ZXJ7Y29udGVudDogJyc7IHBvc2l0aW9uOiBhYnNvbHV0ZTsgbGVmdDogMDsgdG9wOiA1MCU7IHdpZHRoOiAxMDAlOyBoZWlnaHQ6IDJycHg7IGJhY2tncm91bmQ6ICM5OTk7fVxyXG4uZ29vZHNMaXN0IC53el9ib3ggLmRpc2NvdW50e292ZXJmbG93OiBoaWRkZW47fVxyXG4uZ29vZHNMaXN0IC53el9ib3ggLmRpc2NvdW50IC56aGV7Ym9yZGVyOjJycHggc29saWQgI0ZGNDg0ODsgYm9yZGVyLXJhZGl1czogNHJweDt9XHJcbi5nb29kc0xpc3QgLnd6X2JveCAuZGlzY291bnQgLnpoZSAub25le2JhY2tncm91bmQ6I0ZGNDg0ODsgY29sb3I6ICNmZmY7IHBhZGRpbmc6IDAgOHJweDt9XHJcbi5nb29kc0xpc3QgLnd6X2JveCAuZGlzY291bnQgLnpoZSAudHdve2NvbG9yOiAjRkY0ODQ4OyBwYWRkaW5nOiAwIDhycHg7fVxyXG4uZ29vZHNMaXN0IC53el9ib3ggLmRpc2NvdW50IC5zaHV7Y29sb3I6ICNmZjY2MDA7YmFja2dyb3VuZDogI2ZlYjsgcGFkZGluZzogMCA4cnB4OyBtYXJnaW4tbGVmdDogMTJycHg7fVxyXG4uZ29vZHNMaXN0IC5zcGVje3Bvc2l0aW9uOiBhYnNvbHV0ZTsgcmlnaHQ6IDIwcnB4OyBib3R0b206IDIycnB4OyBmb250LXNpemU6IDI0cnB4OyBsaW5lLWhlaWdodDogNTJycHg7IHBhZGRpbmc6IDAgMjBycHg7IGNvbG9yOiAjZmZmOyBib3JkZXItcmFkaXVzOiA1MnJweDsgYmFja2dyb3VuZDogIzIwQUQyMDt9XHJcbi5nb29kc0xpc3QgLmdvb2RzX2ludF9ib3h7cG9zaXRpb246IGFic29sdXRlOyByaWdodDogMjBycHg7IGJvdHRvbTogMjJycHg7fVxyXG4uZ29vZHNfaW50X2JveHtoZWlnaHQ6IDUwcnB4O31cclxuLmdvb2RzX2ludF9ib3ggLm51bXt3aWR0aDogNjBycHg7IGhlaWdodDogNTBycHg7IGxpbmUtaGVpZ2h0OiA1MHJweDsgdGV4dC1hbGlnbjogY2VudGVyO2Zsb2F0OiBsZWZ0O31cclxuLmdvb2RzX2ludF9ib3ggLmppYW4sLmdvb2RzX2ludF9ib3ggLmppYXt3aWR0aDogNTBycHg7IGhlaWdodDogNTBycHg7IGZsb2F0OiBsZWZ0O31cclxuXHJcbi5nb29kc19mb290ZXJ7IGhlaWdodDogMTAwcnB4OyBiYWNrZ3JvdW5kOiAjZmZmOyBib3gtc2hhZG93OiAwIC0xcHggMXB4ICNlZWU7IHBvc2l0aW9uOiBmaXhlZDsgei1pbmRleDogMTE7IGxlZnQ6IDA7IGJvdHRvbTogMDsgd2lkdGg6IDEwMCU7fVxyXG4uZ29vZHNfZm9vdGVyIC5jYXJ0e21hcmdpbi1sZWZ0OiAxNnJweDsgbWFyZ2luLXRvcDogLTEycnB4OyBwb3NpdGlvbjogcmVsYXRpdmU7fVxyXG4uZ29vZHNfZm9vdGVyIC5jYXJ0IC5udW17cG9zaXRpb246IGFic29sdXRlO3JpZ2h0OiA0cnB4OyB0b3A6NHJweDttaW4td2lkdGg6IDI0cnB4O2hlaWdodDogMjRycHg7IGJvcmRlci1yYWRpdXM6IDIwcnB4OyB0ZXh0LWFsaWduOiBjZW50ZXI7IGZvbnQtc2l6ZTogMjBycHg7IGNvbG9yOiAjZmZmOyBiYWNrZ3JvdW5kOiAjZmY5OTAwOyBsaW5lLWhlaWdodDogMjRycHg7fVxyXG4uZ29vZHNfZm9vdGVyIC5jYXJ0LC5nb29kc19mb290ZXIgLmNhcnQgaW1hZ2V7IGhlaWdodDogMTAwcnB4OyB3aWR0aDogMTAwcnB4O31cclxuLmdvb2RzX2Zvb3RlciAud3pfYm94e21hcmdpbi1sZWZ0OiAyMHJweDsgbGluZS1oZWlnaHQ6IDQwcnB4OyBwYWRkaW5nLXRvcDogOHJweDt9XHJcbi5nb29kc19mb290ZXIgLnd6X2JveCAucHJpY2V7IGZvbnQtc2l6ZTogMzJycHg7IGxpbmUtaGVpZ2h0OiA0MHJweDsgY29sb3I6ICNmZjk5MDA7fVxyXG4uZ29vZHNfZm9vdGVyIC53el9ib3ggLnByaWNlIHNtYWxse2ZvbnQtc2l6ZTogMjRycHg7Y29sb3I6ICM5OTk7IHBvc2l0aW9uOiByZWxhdGl2ZTsgbWFyZ2luLWxlZnQ6IDhycHg7fVxyXG4uZ29vZHNfZm9vdGVyIC53el9ib3ggLnByaWNlIHNtYWxsOmFmdGVye2NvbnRlbnQ6ICcnOyB3aWR0aDogMTAwJTsgaGVpZ2h0OiAycnB4OyBiYWNrZ3JvdW5kOiAjOTk5OyBwb3NpdGlvbjogYWJzb2x1dGU7IGxlZnQ6IDA7IHRvcDogNTAlO31cclxuLmdvb2RzX2Zvb3RlciAuYnRue3dpZHRoOiAyMjhycHg7IGhlaWdodDogMTAwcnB4OyBsaW5lLWhlaWdodDogMTAwcnB4OyB0ZXh0LWFsaWduOiBjZW50ZXI7IGZvbnQtc2l6ZTogMzJycHg7IGNvbG9yOiAjZmZmOyBiYWNrZ3JvdW5kOiAjZjYwO31cclxuLmdvb2RzX2Zvb3RlciAuYnRuMntiYWNrZ3JvdW5kOiAjYWFhOyBmb250LXNpemU6IDI2cnB4O31cclxuXHJcbi8q6LSt54mp6L2mKi9cclxuLmdvb2RzX2NhcnR7LXdlYmtpdC1vdmVyZmxvdy1zY3JvbGxpbmc6IHRvdWNoO2JhY2tncm91bmQ6ICNmZmY7IHdpZHRoOiAxMDAlOyBwb3NpdGlvbjogZml4ZWQ7IHotaW5kZXg6IDEwOyBsZWZ0OjA7IGJvdHRvbTogMTAwcnB4OyBtYXgtaGVpZ2h0OmNhbGMoODAlIC0gMjAwcnB4KTsgIG92ZXJmbG93OiBhdXRvOy13ZWJraXQtb3ZlcmZsb3ctc2Nyb2xsaW5nOiB0b3VjaDt0cmFuc2Zvcm06IHRyYW5zbGF0ZSgwLDEwMCUpOy13ZWJraXQtdHJhbnNmb3JtOiB0cmFuc2xhdGUoMCwxMDAlKTsgdHJhbnNpdGlvbjogYWxsIDAuNXMgZWFzZTsgLXdlYmtpdC10cmFuc2l0aW9uOiBhbGwgMC41cyBlYXNlO31cclxuLmdvb2RzX2NhcnQuc2hvd3t0cmFuc2Zvcm06IHRyYW5zbGF0ZSgwLDApOy13ZWJraXQtdHJhbnNmb3JtOiB0cmFuc2xhdGUoMCwwKTt9XHJcbi5nb29kc19jYXJ0IC50aXRfYm94e2JhY2tncm91bmQ6ICNlZGYyZjU7cGFkZGluZzogMjBycHggMjBycHg7IGhlaWdodDogNDBycHg7IHBvc2l0aW9uOnN0aWNreTsgbGVmdDogMDsgdG9wOiAwOyB6LWluZGV4OiAxO31cclxuLmdvb2RzX2NhcnQgLnRpdF9ib3ggLnRpdHsgZm9udC1zaXplOiAzMnJweDsgbGluZS1oZWlnaHQ6IDQwcnB4OyBib3JkZXItbGVmdDogNnJweCBzb2xpZCAjMjBBRDIwOyBwYWRkaW5nLWxlZnQ6IDIwcnB4O31cclxuLmdvb2RzX2NhcnQgLnRpdF9ib3ggLmNsZWFyX2J0bnsgZm9udC1zaXplOiAyNHJweDsgIGxpbmUtaGVpZ2h0OiA0MHJweDsgY29sb3I6ICMzMzM7fVxyXG4uZ29vZHNfY2FydCAudGl0X2JveCAuY2xlYXJfYnRuIC5pY297d2lkdGg6IDI0cnB4OyBoZWlnaHQ6IDI4cnB4OyB2ZXJ0aWNhbC1hbGlnbjogbWlkZGxlOyBtYXJnaW4tcmlnaHQ6IDhycHg7fVxyXG4uZ29vZHNfY2FydCAubGlzdHtwYWRkaW5nOiAyOHJweCAyNHJweDsgbGluZS1oZWlnaHQ6IDQ4cnB4OyBib3JkZXItYm90dG9tOiAxcHggc29saWQgI2U2ZWFlZDt9XHJcbi5nb29kc19jYXJ0IC5saXN0IC5wcmljZXt3aWR0aDogMjAwcnB4OyBjb2xvcjogI2ZmOTkwMDsgdGV4dC1hbGlnbjogcmlnaHQ7IHBhZGRpbmctcmlnaHQ6IDIwcnB4O31cclxuLmdvb2RzX2NhcnQgLmxpc3QgLnByaWNlIC5vbGR7Zm9udC1zaXplOiAxOHJweDsgY29sb3I6ICM5OTk7IHBvc2l0aW9uOiByZWxhdGl2ZTt9XHJcbi5nb29kc19jYXJ0IC5saXN0IC5wcmljZSAub2xkOmFmdGVye3dpZHRoOiAxMDAlOyBoZWlnaHQ6IDJycHg7IGJhY2tncm91bmQ6ICM5OTk7IHBvc2l0aW9uOiBhYnNvbHV0ZTsgbGVmdDogMDsgdG9wOjUwJTsgY29udGVudDogJyc7fVxyXG4uZ29vZHNfY2FydCAubGlzdCAuYnR7bWFyZ2luLXJpZ2h0OiAzNjBycHg7fVxyXG4uZ29vZHNfY2FydCAubGlzdCAuYnQ6YmVmb3Jle2NvbnRlbnQ6ICcnO2JhY2tncm91bmQ6ICM2NWJjMDU7IHdpZHRoOiAxMHJweDsgaGVpZ2h0OiAxMHJweDsgYm9yZGVyLXJhZGl1czogMTAwJTsgZGlzcGxheTogaW5saW5lLWJsb2NrOyBtYXJnaW4tcmlnaHQ6IDE2cnB4O31cclxuXHJcbi8q6Ieq5o+Q5rWu5bGCKi9cclxuLnppdGlGaXhlZHtkaXNwbGF5OiBibG9jazsgd2lkdGg6IDEyMHJweDsgaGVpZ2h0OiA2MHJweDsgdGV4dC1hbGlnbjogY2VudGVyO3Bvc2l0aW9uOmZpeGVkO3otaW5kZXg6MTtyaWdodDozMHJweDtib3R0b206MTY4cnB4O31cclxuLnppdGlGaXhlZCB0ZXh0e2NvbG9yOiAjMzMzOyBmb250LXNpemU6IDI0cnB4OyBsaW5lLWhlaWdodDogNDRycHg7IHBvc2l0aW9uOiBhYnNvbHV0ZTsgbGVmdDogMDsgdG9wOiAwOyByaWdodDogMDt9XHJcblxyXG4vKuS8mOaDoOaPkOekuuiuoeeul+aCrOa1riovXHJcbi5jb3VudFRpcHNGaXhlZHtkaXNwbGF5OiBibG9jaztiYWNrZ3JvdW5kOiByZ2JhKDI1NSwyNDAsMjA5LDAuOTMpO2xpbmUtaGVpZ2h0OiA2NHJweDsgaGVpZ2h0OiA2NHJweDsgZm9udC1zaXplOiAyNHJweDt0ZXh0LWFsaWduOiBjZW50ZXI7Y29sb3I6ICMzMzM7IHBvc2l0aW9uOmZpeGVkO3otaW5kZXg6MTtsZWZ0OjA7Ym90dG9tOjEwMHJweDt3aWR0aDoxMDAlO31cclxuLmNvdW50VGlwc0ZpeGVkIHRleHR7Y29sb3I6ICNmZjY2MDA7IGZvbnQtc2l6ZTogMjhycHg7fVxyXG4uY291bnRUaXBzRml4ZWQgaW1hZ2V7d2lkdGg6IDE0cnB4OyBoZWlnaHQ6IDI0cnB4OyBtYXJnaW4tbGVmdDogMTJycHg7fSIsbnVsbF19 */
 </style>

@@ -23,7 +23,3 @@
 		methods: {}
 	};
 </script>
-<style>
-	/* pages/outsideLink/integral/integral.wxss */
-	/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIiUzQ2lucHV0JTIwY3NzJTIwTWlmT3N2JTNFIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBLDZDQUE2QyIsImZpbGUiOiJ0by5jc3MiLCJzb3VyY2VzQ29udGVudCI6WyIvKiBwYWdlcy9vdXRzaWRlTGluay9pbnRlZ3JhbC9pbnRlZ3JhbC53eHNzICovIl19 */
-</style>

@@ -156,18 +156,6 @@
 			}
 		},
 		{
-			"path": "pages/huodong/huodong",
-			"style": {
-				"navigationBarTitleText": "活动大放送"
-			}
-		},
-		{
-			"path": "pages/getcoupon/getcoupon",
-			"style": {
-				"navigationBarTitleText": "领取优惠券"
-			}
-		},
-		{
 			"path": "pages/shoplist/shoplist",
 			"style": {
 				"navigationBarTitleText": "商家列表"
@@ -179,7 +167,6 @@
 				"navigationBarTitleText": "商家搜索"
 			}
 		},
-
 		{
 			"path": "pages/orderDetail/detail",
 			"style": {
@@ -191,42 +178,6 @@
 			"path": "pages/indexSearch/search",
 			"style": {
 				"navigationBarTitleText": "搜索"
-			}
-		},
-		{
-			"path": "pages/addr/addr",
-			"style": {
-				"navigationBarTitleText": "我的收货地址"
-			}
-		},
-		{
-			"path": "pages/addaddr/addaddr",
-			"style": {
-				"navigationBarTitleText": "新增地址"
-			}
-		},
-		{
-			"path": "pages/collect/collect",
-			"style": {
-				"navigationBarTitleText": "我的收藏"
-			}
-		},
-		{
-			"path": "pages/ordevlt/ordevlt",
-			"style": {
-				"navigationBarTitleText": "评价"
-			}
-		},
-		{
-			"path": "pages/editaddr/editaddr",
-			"style": {
-				"navigationBarTitleText": "修改地址"
-			}
-		},
-		{
-			"path": "pages/noaddr/noaddr",
-			"style": {
-				"navigationBarTitleText": "我的收货地址"
 			}
 		},
 		{
@@ -263,54 +214,6 @@
 			"path": "pages/outsideLink/integralMall/integralMall",
 			"style": {
 				"navigationBarTitleText": "积分商城"
-			}
-		},
-		{
-			"path": "pages/enter/riderEnter/riderEnter",
-			"style": {
-				"navigationBarTitleText": "骑手入驻"
-			}
-		},
-		{
-			"path": "pages/buyNewCard/buyNewCard",
-			"style": {
-				"navigationBarTitleText": "购买配送会员卡"
-			}
-		},
-		{
-			"path": "pages/membersCard/membersCard",
-			"style": {
-				"navigationBarTitleText": "配送会员卡"
-			}
-		},
-		{
-			"path": "pages/card_payment/payment",
-			"style": {
-				"navigationBarTitleText": "支付"
-			}
-		},
-		{
-			"path": "pages/enter/enterVerify/enterVerify",
-			"style": {
-				"navigationBarTitleText": "审核"
-			}
-		},
-		{
-			"path": "pages/enter/shopsEnter/shopsEnter",
-			"style": {
-				"navigationBarTitleText": "商家入驻"
-			}
-		},
-		{
-			"path": "pages/enter/agreement/agreement",
-			"style": {
-				"navigationBarTitleText": "入驻协议"
-			}
-		},
-		{
-			"path": "pages/couponcoderedemption/couponcoderedemption",
-			"style": {
-				"navigationBarTitleText": "优惠码兑换"
 			}
 		},
 		{
@@ -394,5 +297,122 @@
 		"navigationBarBackgroundColor": "#FFFFFF",
 		"backgroundColor": "#f7f7f7"
 	},
-	"subPackages": []
+	"subPackages": [
+		{
+			"root": "subPages/user",
+			"pages": [
+				{
+					"path": "addr/addr",
+					"style": {
+						"navigationBarTitleText": "我的收货地址"
+					}
+				},
+				{
+					"path": "addaddr/addaddr",
+					"style": {
+						"navigationBarTitleText": "新增地址"
+					}
+				},
+				{
+					"path": "editaddr/editaddr",
+					"style": {
+						"navigationBarTitleText": "修改地址"
+					}
+				},
+				{
+					"path": "noaddr/noaddr",
+					"style": {
+						"navigationBarTitleText": "我的收货地址"
+					}
+				},
+				{
+					"path": "collect/collect",
+					"style": {
+						"navigationBarTitleText": "我的收藏"
+					}
+				},
+				{
+					"path": "ordevlt/ordevlt",
+					"style": {
+						"navigationBarTitleText": "评价"
+					}
+				}
+			]
+		},
+		{
+			"root": "subPages/activity",
+			"pages": [
+				{
+					"path": "huodong/huodong",
+					"style": {
+						"navigationBarTitleText": "活动大放送"
+					}
+				},
+				{
+					"path": "getcoupon/getcoupon",
+					"style": {
+						"navigationBarTitleText": "领取优惠券"
+					}
+				},
+				{
+					"path": "couponcoderedemption/couponcoderedemption",
+					"style": {
+						"navigationBarTitleText": "优惠码兑换"
+					}
+				}
+			]
+		},
+		{
+			"root": "subPages/enter",
+			"pages": [
+				{
+					"path": "riderEnter/riderEnter",
+					"style": {
+						"navigationBarTitleText": "骑手入驻"
+					}
+				},
+				{
+					"path": "shopsEnter/shopsEnter",
+					"style": {
+						"navigationBarTitleText": "商家入驻"
+					}
+				},
+				{
+					"path": "enterVerify/enterVerify",
+					"style": {
+						"navigationBarTitleText": "审核"
+					}
+				},
+				{
+					"path": "agreement/agreement",
+					"style": {
+						"navigationBarTitleText": "入驻协议"
+					}
+				}
+			]
+		},
+		{
+			"root": "subPages/member",
+			"pages": [
+				{
+					"path": "buyNewCard/buyNewCard",
+					"style": {
+						"navigationBarTitleText": "购买配送会员卡"
+					}
+				},
+				{
+					"path": "membersCard/membersCard",
+					"style": {
+						"navigationBarTitleText": "配送会员卡"
+					}
+				},
+				{
+					"path": "card_payment/payment",
+					"style": {
+						"navigationBarTitleText": "支付"
+					}
+				}
+			]
+		}
+	]
 }

@@ -1,22 +1,11 @@
-<template>
+﻿<template>
 	<view>
 		<skeleton :loading="loading" :showAvatar='false' :row="skeleton1.row" :showTitle="skeleton1.showTitle">
 			<view>
-				<!--提示框引入-开始-->
-				<!--<import src="../components/showToast.wxml"></import>-->
-				<block data-type="template" data-is="showToast" data-attr="showToast: showToast">
-					<block v-if="showToast.isShow? showToast.isShow: false">
-						<!-- <view class="toast-bg" wx:if="{{showToast.mask==false? false : true}}"></view>   -->
-						<view class="toast-center">
-							<view class="toast">
-								<image class="toast-icon" :src="showToast.icon" mode="scaleToFill"
-									v-if="showToast.icon"></image>
-								<text class="toast-text">{{showToast.title}}</text>
-							</view>
-						</view>
-					</block>
-				</block>
+				<!--提示框引入-开始：使用全局 Toast 组件-->
+				<Toast :showToast="showToast" />
 				<!--提示框引入-结束-->
+
 				<view class="page">
 					<!--内容开始-->
 					<view class="add_view">
@@ -57,8 +46,8 @@
 
 							<view class="pub_list_bd addaddr_form_lable">
 								<radio-group class="radio-group">
-									<label v-for="(item, idx) in items" :key="idx" :data-idx="idx"
-										@tap="switchTab" :class="'radio ' + (current==idx ? 'active' : '')">
+									<label v-for="(item, idx) in items" :key="idx" :data-idx="idx" @tap="switchTab"
+										:class="'radio ' + (current==idx ? 'active' : '')">
 										<radio :value="item.name" :checked="item.checked"></radio>{{item.value}}
 									</label>
 								</radio-group>
@@ -130,12 +119,11 @@
 				key: 'addrInfo',
 				success: function(res) {
 					if (res.data) {
-						that.setData({
-							name: res.data.name,
+						that.name = res.data.name,
 							mobile: res.data.mobile,
 							num: res.data.num,
 							label: res.data.label
-						});
+						;
 					}
 
 				}
@@ -144,11 +132,10 @@
 				key: 'addr',
 				success: function(res) {
 					if (res.data) {
-						that.setData({
-							addr: res.data.addr,
+						that.addr = res.data.addr,
 							lat: res.data.lat,
 							lng: res.data.lng
-						});
+						;
 					}
 				}
 			});
@@ -166,25 +153,21 @@
 			},
 			switchTab: function(e) {
 				console.log(e)
-				this.setData({
-					current: e.currentTarget.dataset.idx,
+				this.current = e.currentTarget.dataset.idx,
 					label: e.currentTarget.dataset.idx + 1
-				});
+				;
 			},
 			changename: function(e) {
-				this.setData({
-					name: e.detail.value
-				});
+				this.name = e.detail.value
+				;
 			},
 			changephone: function(e) {
-				this.setData({
-					mobile: e.detail.value
-				});
+				this.mobile = e.detail.value
+				;
 			},
 			changedoor: function(e) {
-				this.setData({
-					num: e.detail.value
-				});
+				this.num = e.detail.value
+				;
 			},
 			changeaddr: function(e) {
 				var that = this;
@@ -297,5 +280,5 @@
 		border: none;
 	}
 
-	/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIiUzQ2lucHV0JTIwY3NzJTIwUmlBMUpfJTNFIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBLGtCQUFrQixnQkFBZ0IsRUFBRSxjQUFjLENBQUM7QUFDbkQsdUJBQXVCLGdCQUFnQixFQUFFLG1CQUFtQixDQUFDO0FBQzdELHVCQUF1QixnQkFBZ0IsRUFBRSxXQUFXLENBQUM7QUFDckQsMkJBQTJCLGNBQWMsRUFBRSxZQUFZLEVBQUUsYUFBYSxFQUFFLGtCQUFrQixDQUFDOztBQUUzRiwwQkFBMEIsa0JBQWtCLEVBQUUscUJBQXFCLEVBQUUsdUJBQXVCLEVBQUUsYUFBYSxFQUFFLGFBQWEsRUFBRSxrQkFBa0IsRUFBRSxrQkFBa0IsRUFBRSxtQkFBbUIsRUFBRSxnQkFBZ0IsRUFBRSxtQkFBbUIsQ0FBQztBQUMvTixrQ0FBa0MsMEJBQTBCLEVBQUUsY0FBYyxDQUFDO0FBQzdFLGdDQUFnQyxrQkFBa0IsRUFBRSxNQUFNLEVBQUUsT0FBTyxFQUFFLFVBQVUsQ0FBQyIsImZpbGUiOiJ0by5jc3MiLCJzb3VyY2VzQ29udGVudCI6WyIuYWRkYWRkcl9mb3JtX2ludHtiYWNrZ3JvdW5kOiAjZmZmOyBwYWRkaW5nOiAyMHJweDt9XHJcbi5hZGRhZGRyX2Zvcm1faW50IC5idHsgZm9udC1zaXplOiAyOHJweDsgbWFyZ2luLXJpZ2h0OiAyMHJweDt9XHJcbi5hZGRhZGRyX2Zvcm1faW50IC5pbnR7Zm9udC1zaXplOiAyOHJweDsgY29sb3I6ICM1NTU7fVxyXG4uYWRkYWRkcl9mb3JtX2ludCAubGlua2ljb3tkaXNwbGF5OiBibG9jazsgd2lkdGg6IDI4cnB4OyBoZWlnaHQ6IDI4cnB4OyBtYXJnaW4tbGVmdDogMTRycHg7fVxyXG5cclxuLmFkZGFkZHJfZm9ybV9sYWJsZSBsYWJlbHtwb3NpdGlvbjogcmVsYXRpdmU7IGRpc3BsYXk6IGlubGluZS1ibG9jazsgYm9yZGVyOiAycnB4IHNvbGlkICNjY2M7IHdpZHRoOiAxMTZycHg7IGhlaWdodDogNTJycHg7IGxpbmUtaGVpZ2h0OiA1MnJweDsgdGV4dC1hbGlnbjogY2VudGVyOyBtYXJnaW4tcmlnaHQ6IDE2cnB4OyBmb250LXNpemU6IDI4cnB4OyBib3JkZXItcmFkaXVzOiA0cnB4O31cclxuLmFkZGFkZHJfZm9ybV9sYWJsZSBsYWJlbC5hY3RpdmV7IGJvcmRlcjogMnJweCBzb2xpZCAjMjBBRDIwOyBjb2xvcjogIzIwQUQyMDt9XHJcbi5hZGRhZGRyX2Zvcm1fbGFibGUgbGFiZWwgcmFkaW97cG9zaXRpb246IGFic29sdXRlOyB0b3A6IDA7IGxlZnQ6IDA7IG9wYWNpdHk6IDA7fVxyXG4iXX0= */
+	
 </style>

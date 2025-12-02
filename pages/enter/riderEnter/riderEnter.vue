@@ -1,9 +1,6 @@
-<template>
+﻿<template>
 	<view>
-		<!--pages/enter/riderEnter/riderEnter.wxml-->
-		<!-- 
-<import src="../../../components/showToast.wxml" />
-<template is="showToast" data="{{showToast: showToast}}" /> -->
+
 
 		<view class="lists">
 			<view class="listsL">用户名</view>
@@ -55,7 +52,7 @@
 </template>
 
 <script>
-	// pages/enter/riderEnter/riderEnter.js
+	// subPages/enter/riderEnter/riderEnter.js
 	const app = getApp();
 	var params = {
 		mobile: ''
@@ -94,9 +91,8 @@
 				console.log(res);
 
 				if (res.error == '0') {
-					that.setData({
-						citys: res.data.items
-					});
+					that.citys = res.data.items
+					;
 				} else {
 					app.globalData.msgbox(res.message);
 				}
@@ -141,40 +137,35 @@
 			// 输入密码是否可见
 			eyeOnOff: function() {
 				var eyeShow = this.eyeShow;
-				this.setData({
-					eyeShow: !eyeShow
-				});
+				this.eyeShow = !eyeShow
+				;
 			},
 			// 监听用户名输入
 			bindUserName: function(event) {
 				var inputUserName = event.detail.value;
-				this.setData({
-					userName: inputUserName
-				});
+				this.userName = inputUserName
+				;
 				this.isEnter();
 			},
 			// 监听手机号输入
 			bindTel: function(event) {
 				var inputTel = event.detail.value;
-				this.setData({
-					tel: inputTel
-				});
+				this.tel = inputTel
+				;
 				this.isEnter();
 			},
 			// 监听输入密码框
 			bindInput: function(event) {
 				// console.log(event.detail.value)
-				this.setData({
-					inputPwd: event.detail.value
-				});
+				this.inputPwd = event.detail.value
+				;
 				this.isEnter();
 			},
 			// 监听验证码
 			bindCode: function(event) {
 				// console.log(event.detail.value)
-				this.setData({
-					inputCode: event.detail.value
-				});
+				this.inputCode = event.detail.value
+				;
 				this.isEnter();
 			},
 			// 立即入驻按钮
@@ -204,13 +195,11 @@
 			isEnter: function() {
 				if (this.inputPwd != '' && this.tel != '' && this.inputCode != '' && this.userName != '' && this
 					.cityShow != false) {
-					this.setData({
-						isBtnActive: false
-					});
+					this.isBtnActive = false
+					;
 				} else {
-					this.setData({
-						isBtnActive: true
-					});
+					this.isBtnActive = true
+					;
 				}
 			},
 			getCode: function() {
@@ -227,18 +216,16 @@
 								currentTime = '0' + currentTime;
 							}
 
-							that.setData({
-								time: currentTime + "s后重试",
+							that.time = currentTime + "s后重试",
 								getCodeDisabled: true
-							});
+							;
 
 							if (currentTime <= 0) {
 								clearInterval(interval);
-								that.setData({
-									time: "重新发送",
+								that.time = "重新发送",
 									currentTime: 60,
 									getCodeDisabled: false
-								});
+								;
 							}
 						}, 1000);
 					} else {
@@ -253,17 +240,16 @@
 			// 省市区选择器
 			bindPickerChange: function(e) {
 				console.log('picker发送选择改变，携带值为', e.detail.value);
-				this.setData({
-					index: e.detail.value,
+				this.index = e.detail.value,
 					cityShow: true
-				});
+				;
 				this.isEnter();
 			}
 		}
 	};
 </script>
 <style>
-	/* pages/enter/riderEnter/riderEnter.wxss */
+	/* subPages/enter/riderEnter/riderEnter.wxss */
 
 	.lists {
 		width: 710rpx;
@@ -382,5 +368,5 @@
 
 
 
-	/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIiUzQ2lucHV0JTIwY3NzJTIwcE15bm10JTNFIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBLDJDQUEyQzs7QUFFM0MsT0FBTyxZQUFZLENBQUMsa0JBQWtCLENBQUMsbUJBQW1CLENBQUMsY0FBYyxDQUFDLG1CQUFtQixDQUFDLGdCQUFnQixDQUFDLDZCQUE2QixDQUFDO0FBQzdJLFFBQVEsV0FBVyxDQUFDLFlBQVksQ0FBQyxnQkFBZ0IsQ0FBQyxVQUFVLENBQUM7QUFDN0QsYUFBYSxjQUFjLENBQUMsV0FBVyxDQUFDLGNBQWMsQ0FBQyxtQkFBbUIsQ0FBQyxnQkFBZ0IsQ0FBQyxVQUFVLENBQUMsWUFBWSxDQUFDOztBQUVwSCxTQUFTLGNBQWMsQ0FBQyxhQUFhLENBQUMsa0JBQWtCLENBQUMsZ0JBQWdCLENBQUMsWUFBWSxDQUFDLFlBQVksQ0FBQyxhQUFhLENBQUMsV0FBVyxDQUFDLGVBQWUsQ0FBQyxTQUFTLENBQUMsaUJBQWlCLENBQUMsZ0JBQWdCLENBQUMsVUFBVSxDQUFDOztBQUV0TSxnQkFBZ0IsUUFBUSxDQUFDLDJCQUEyQixDQUFDO0FBQ3JELFlBQVksV0FBVyxDQUFDLFlBQVksQ0FBQyxhQUFhLENBQUMsaUJBQWlCLENBQUM7QUFDckUsa0JBQWtCLFdBQVcsQ0FBQyxhQUFhLENBQUM7QUFDNUMsY0FBYyxZQUFZLENBQUMsY0FBYyxDQUFDLG1CQUFtQixDQUFDLFdBQVcsQ0FBQztBQUMxRSxRQUFRLGdCQUFnQixDQUFDLFVBQVUsQ0FBQyxVQUFVLENBQUMsWUFBWSxDQUFDOztBQUU1RCxXQUFXLFdBQVcsQ0FBQyxlQUFlLENBQUMsZ0JBQWdCLENBQUMsVUFBVSxDQUFDLGFBQWEsQ0FBQyxrQkFBa0IsQ0FBQyxpQkFBaUIsQ0FBQztBQUN0SCxpQkFBaUIsY0FBYyxDQUFDLFdBQVcsQ0FBQyxXQUFXLENBQUMsYUFBYSxDQUFDLGtCQUFrQixDQUFDO0FBQ3pGLGdCQUFnQixhQUFhLENBQUM7O0FBRTlCO0lBQ0ksVUFBVTtJQUNWLGFBQWE7SUFDYixrQkFBa0I7SUFDbEIsZ0JBQWdCO0lBQ2hCLFdBQVc7SUFDWCxjQUFjO0lBQ2QsaUJBQWlCO0lBQ2pCLGNBQWM7R0FDZixrQkFBa0I7SUFDakIsb0JBQW9CO0FBQ3hCOztBQUVBLGlCQUFpQixXQUFXLENBQUMiLCJmaWxlIjoidG8uY3NzIiwic291cmNlc0NvbnRlbnQiOlsiLyogcGFnZXMvZW50ZXIvcmlkZXJFbnRlci9yaWRlckVudGVyLnd4c3MgKi9cclxuXHJcbi5saXN0c3t3aWR0aDo3MTBycHg7cGFkZGluZy1sZWZ0OjIwcnB4O3BhZGRpbmctcmlnaHQ6MjBycHg7aGVpZ2h0OiAxMDBycHg7bGluZS1oZWlnaHQ6IDEwMHJweDtiYWNrZ3JvdW5kOiAjZmZmO2JvcmRlci1ib3R0b206MXJweCBzb2xpZCAjZWVlO31cclxuLmxpc3RzTHtmbG9hdDogbGVmdDt3aWR0aDoxNDBycHg7Zm9udC1zaXplOiAzMHJweDtjb2xvcjojMzMzO31cclxuLmxpc3RzIGlucHV0e2Rpc3BsYXk6IGJsb2NrO2Zsb2F0OiBsZWZ0O2hlaWdodDogMTAwcnB4O2xpbmUtaGVpZ2h0OiAxMDBycHg7Zm9udC1zaXplOiAzMHJweDtjb2xvcjojMzMzO3dpZHRoOjM3MHJweDt9XHJcblxyXG4uZ2V0Q29kZXtkaXNwbGF5OiBibG9jaztoZWlnaHQ6IDgwcnB4O2xpbmUtaGVpZ2h0OiA4MHJweDttYXJnaW4tdG9wOjEwcnB4O3dpZHRoOjIwMHJweDtmbG9hdDogcmlnaHQ7b3V0bGluZTogbm9uZTtib3JkZXI6bm9uZTtiYWNrZ3JvdW5kOm5vbmU7cGFkZGluZzowO3RleHQtYWxpZ246Y2VudGVyO2ZvbnQtc2l6ZTogMzBycHg7Y29sb3I6I2Y2MDt9XHJcblxyXG4uZ2V0Q29kZTo6YWZ0ZXJ7Ym9yZGVyOjA7Ym9yZGVyLWxlZnQ6IDFweCBzb2xpZCAjY2NjO31cclxuLmV5ZS1vbi1vZmZ7d2lkdGg6NjBycHg7ZmxvYXQ6IHJpZ2h0O2hlaWdodDogNjBycHg7bWFyZ2luLXRvcDogMjBycHg7fVxyXG4uZXllLW9uLW9mZiBpbWFnZXt3aWR0aDo2MHJweDtoZWlnaHQ6IDYwcnB4O31cclxuLmxpc3RzIHBpY2tlcnt3aWR0aDo1MDBycHg7aGVpZ2h0OiAxMDBycHg7bGluZS1oZWlnaHQ6IDEwMHJweDtmbG9hdDogbGVmdDt9XHJcbi5waWNrZXJ7Zm9udC1zaXplOjMwcnB4IDtjb2xvcjojMzMzO3dpZHRoOjEwMCU7aGVpZ2h0OiAxMDAlO31cclxuXHJcbi5hZ3JlZW1lbnR7d2lkdGg6NjkwcHg7cGFkZGluZzowIDMwcnB4O2ZvbnQtc2l6ZTogMjhycHg7Y29sb3I6Izk5OTtoZWlnaHQ6IDMwcnB4O2xpbmUtaGVpZ2h0OiAzMHJweDttYXJnaW4tdG9wOiA0MHJweDt9XHJcbi5hZ3JlZW1lbnQgaW1hZ2V7ZGlzcGxheTogYmxvY2s7ZmxvYXQ6IGxlZnQ7d2lkdGg6MzBycHg7aGVpZ2h0OiAzMHJweDttYXJnaW4tcmlnaHQ6MTBycHg7fVxyXG4uYWdyZWVtZW50IHRleHR7Y29sb3I6IzFCODJEMjt9XHJcblxyXG4uZW50ZXJCdG57ICAgIFxyXG4gICAgd2lkdGg6IDkyJTtcclxuICAgIGhlaWdodDogODhycHg7XHJcbiAgICBsaW5lLWhlaWdodDogODhycHg7XHJcbiAgICBmb250LXNpemU6IDMycnB4O1xyXG4gICAgY29sb3I6ICNmZmY7XHJcbiAgICBtYXJnaW46IDAgYXV0bztcclxuICAgIG1hcmdpbi10b3A6IDY2cnB4O1xyXG4gICAgZGlzcGxheTogYmxvY2s7XHJcbiAgIGJhY2tncm91bmQ6I0ZGNzI1QztcclxuICAgIGJvcmRlci1yYWRpdXM6IDEwcnB4O1xyXG59XHJcblxyXG4uZW50ZXJCdG46OmFmdGVye2JvcmRlcjpub25lO31cclxuXHJcblxyXG5cclxuXHJcbiJdfQ== */
+	
 </style>

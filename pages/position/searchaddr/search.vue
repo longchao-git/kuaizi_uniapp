@@ -1,4 +1,4 @@
-<template>
+﻿<template>
 	<view>
 		<skeleton :loading="loading" :showAvatar='false' :row="skeleton1.row" :showTitle="skeleton1.showTitle">
 			<view>
@@ -132,17 +132,13 @@
 				console.log("定位", ret);
 
 				if (ret.error == 0) {
-					that.setData({
-						currentaddr: ret.data.addr.addr,
-						chooseaddr: {
-							lat: ret.data.addr.lat,
-							lng: ret.data.addr.lng
-						}
-					});
+					that.currentaddr = ret.data.addr.addr;
+					that.chooseaddr = {
+						lat: ret.data.addr.lat,
+						lng: ret.data.addr.lng
+					};
 				} else {
-					that.setData({
-						currentaddr: "定位失败,请重新定位"
-					});
+					that.currentaddr = "定位失败,请重新定位";
 				}
 			});
 		},
@@ -152,23 +148,13 @@
 			uni.getStorage({
 				key: 'fzCity',
 				success: function(res) {
-					that.setData({
-						currentCity: res.data
-					});
+					that.currentCity = res.data;
 				}
 			});
 			app.globalData.getcitylist({}, res => {
 				if (res.error === '0') app.globalData.allcitylist = res.data.items;
 			}); // 调用接口
-			// var keyword = that.data.keyword;
-			// qqmapsdk.search({
-			//     keyword: keyword,
-			//     success: function(res) {
-			//         that.setData({
-			//             addr_lists: res.data,
-			//         });
-			//     }
-			// });
+
 
 			if (app.globalData._CFG.TOKEN.length > 0) {
 				app.globalData.mineAddr({
@@ -184,9 +170,7 @@
 							key: 'useraddr',
 							success: function(res) {
 								that.useraddrbt = true;
-								that.setData({
-									addr_lis: res.data
-								});
+								that.addr_lis = res.data;
 							}
 						});
 					}
@@ -208,27 +192,8 @@
 			//实时搜索
 			keywordSearch: function(e) {
 				var that = this;
-				that.setData({
-					keyword: e.detail.value
-				}); // // 调用接口
-				// var keyword = that.data.keyword;
-				// qqmapsdk.getSuggestion({
-				//     keyword: keyword,
-				//     success: function(res) {
-				//         if (res.data.length == 0) {
-				//             that.setData({
-				//                 searchlen: true,
-				//             });
-				//         } else {
-				//             that.setData({
-				//                 searchlen: false,
-				//             });
-				//         }
-				//         that.setData({
-				//             addr_lists: res.data,
-				//         });
-				//     },
-				// });
+				that.keyword = e.detail.value; // // 调用接口
+
 			},
 			sbmt: function(e) {
 				var that = this; // 调用接口
@@ -239,9 +204,7 @@
 					// &location=40.935,-0.76&radius=30000
 					success: res => {
 						if (res.data.status == 0) {
-							that.setData({
-								addr_lists: res.data.data
-							});
+							that.addr_lists = res.data.data;
 							if (res.data.data.length <= 0) return utils.showfail('该范围没有搜索到地址');
 						} else { // utils.showfail('搜索失败，请稍后再试');
 						}
@@ -249,22 +212,7 @@
 					fail: err => {
 						utils.showfail('搜索失败，请稍后再试');
 					}
-				}); // qqmapsdk.getSuggestion({
-				//     keyword: keyword,
-				//     page_size: 10,
-				//     policy: 1,
-				//     success: function(res) {
-				//         if (res.data.length == 0) {
-				//             that.setData({
-				//                 searchlen: true,
-				//             });
-				//         }
-				//         that.setData({
-				//             addr_lists: res.data,
-				//         });
-				//     }
-				// });
-				// console.log("地址列表",that.data.addr_lists);
+				});
 			},
 			addrTo: function(e) {
 				var that = this;
@@ -506,6 +454,4 @@
 	.addr_list .bottom .tag.bg4 {
 		background: #666666;
 	}
-
-	/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIiUzQ2lucHV0JTIwY3NzJTIwQlNqbW1OJTNFIiwiPG5vIHNvdXJjZT4iXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUEsYUFBYSxlQUFlLEVBQUUsV0FBVyxFQUFFLE9BQU8sRUFBRSxNQUFNLEVDQTFELG9CQUFBLENBQUEsaURBQUEsQ0FBQSw0Q0FBQSxDQUFBLGdCQUFBLENEQTRELFFBQVEsRUFBRSxnQkFBZ0IsRUFBRSxnQkFBZ0IsRUFBRSxhQUFhLEVBQUUsbUJBQW1CLENBQUM7QUFDN0ksU0FBUywrQkFBK0IsRUFBRSxrQkFBa0IsRUFBRSxvQkFBb0IsRUFBRSxtQkFBbUIsRUFBRSxhQUFhLEVBQUUsdUJBQXVCLEVBQUUsa0JBQWtCLEVBQUUsT0FBTyxDQUFDO0FBQzdLLGdCQUFnQixXQUFXLEVBQUUsYUFBYSxFQUFFLFdBQVcsRUFBRSxlQUFlLENBQUM7QUFDekUsY0FBYyxrQkFBa0IsRUFBRSxVQUFVLENBQUMsV0FBVyxFQUFFLFlBQVksRUFBRSxhQUFhLENBQUM7QUFDdEYsb0JBQW9CLGtCQUFrQixFQUFFLFlBQVksRUFBRSxVQUFVLEVBQUUsYUFBYSxFQUFFLGtCQUFrQixFQUFFLGFBQWEsRUFBRSxVQUFVLEVBQUUsZ0JBQWdCLEVBQUUsZ0JBQWdCLENBQUM7QUFDbkssbUJBQW1CLGtCQUFrQixFQUFFLDRCQUE0QixDQUFDO0FBQ3BFLHdCQUF3QixrQkFBa0IsRUFBRSxxQkFBcUIsRUFBRSxlQUFlLENBQUMsc0JBQXNCLENBQUMsa0JBQWtCLEVBQUUsZ0JBQWdCLEVBQUUsc0JBQXNCLEVBQUUsZ0JBQWdCLENBQUM7QUFDekwsd0JBQXdCLFlBQVksQ0FBQyxhQUFhLEVBQUUsaUJBQWlCLEVBQUUsc0JBQXNCLENBQUM7QUFDOUYsY0FBYyxnQkFBZ0IsQ0FBQztBQUMvQixvQkFBb0IsWUFBWSxFQUFFLGFBQWEsRUFBRSxjQUFjLEVBQUUsaUJBQWlCLENBQUM7QUFDbkYsc0JBQXNCLGtCQUFrQixFQUFFLGtCQUFrQixFQUFFLDJCQUEyQixFQUFFLGlDQUFpQyxDQUFDO0FBQzdILDBCQUEwQixnQkFBZ0IsRUFBRSxvQkFBb0IsQ0FBQztBQUNqRSxtQkFBbUIsaUJBQWlCLENBQUM7QUFDckMsWUFBWSxnQkFBZ0IsQ0FBQyxhQUFhLENBQUMsZ0JBQWdCLENBQUMsYUFBYSxDQUFDLDhCQUE4QixDQUFDLGtCQUFrQixDQUFDLG1CQUFtQixDQUFDLGdCQUFnQixDQUFDLFdBQVcsQ0FBQyxnQkFBZ0IsQ0FBQyxzQkFBc0IsQ0FBQztBQUNyTixpQkFBaUIsY0FBYyxDQUFDLGNBQWMsQ0FBQztBQUMvQyxpQkFBaUIsTUFBTSxDQUFDLHVCQUF1QixDQUFDLGdCQUFnQixDQUFDLG1CQUFtQixDQUFDO0FBQ3JGLFNBQVMsb0JBQW9CLENBQUM7O0FBRTlCLFNBQVMsa0JBQWtCLENBQUMsb0JBQW9CLEVBQUUsZUFBZSxFQUFFLFdBQVcsRUFBRSxpQkFBaUIsQ0FBQztBQUNsRyxlQUFlLFlBQVksRUFBRSxZQUFZLEVBQUUsbUJBQW1CLENBQUM7O0FBRS9ELFdBQVcsZ0JBQWdCLENBQUM7QUFDNUIsZUFBZSxjQUFjLEVBQUUsZ0JBQWdCLEVBQUUsa0JBQWtCLENBQUM7QUFDcEUsaUJBQWlCLGdCQUFnQixFQUFFLGtCQUFrQixFQUFFLFdBQVcsRUFBRSxtQkFBbUIsQ0FBQztBQUN4RixtQkFBbUIscUJBQXFCLENBQUM7QUFDekMseUJBQXlCLFlBQVksRUFBRSxhQUFhLEVBQUUsa0JBQWtCLEVBQUUsbUJBQW1CLEVBQUUsa0JBQWtCLEVBQUUsV0FBVyxDQUFDO0FBQy9ILDRCQUE0QixtQkFBbUIsQ0FBQztBQUNoRCw0QkFBNEIsbUJBQW1CLENBQUM7QUFDaEQsNEJBQTRCLG1CQUFtQixDQUFDO0FBQ2hELDRCQUE0QixtQkFBbUIsQ0FBQyIsImZpbGUiOiJ0by5jc3MiLCJzb3VyY2VzQ29udGVudCI6WyIuc2VyX2JveF9ib3h7cG9zaXRpb246IGZpeGVkOyB6LWluZGV4OiAxMDsgbGVmdDogMDsgdG9wOiAwOyByaWdodDogMDsgYmFja2dyb3VuZDogI2ZmZjsgb3ZlcmZsb3c6IGhpZGRlbjsgZGlzcGxheTogZmxleDsgYWxpZ24taXRlbXM6IGNlbnRlcjt9XHJcbi5zZXJfYm94e21hcmdpbjoxMHJweCAxNTBycHggMTBycHggMjBycHg7IGJhY2tncm91bmQ6I2Y3ZjdmNzsgYm9yZGVyLXJhZGl1czogMTBycHg7IHBhZGRpbmctbGVmdDogNjZycHg7IGhlaWdodDogNTZycHg7IGJvcmRlcjogMnJweCBzb2xpZCAjZWVlOyBwb3NpdGlvbjogcmVsYXRpdmU7IGZsZXg6IDE7fVxyXG4uc2VyX2JveCBpbnB1dHsgd2lkdGg6IDEwMCU7IGhlaWdodDogNTZycHg7IGNvbG9yOiAjMzMzOyBmb250LXNpemU6MjhycHg7fVxyXG4uc2VyX2JveCAuaWNve3Bvc2l0aW9uOiBhYnNvbHV0ZTsgdG9wOiAxNXJweDtsZWZ0OiAyMHJweDsgd2lkdGg6IDI2cnB4OyBoZWlnaHQ6IDI2cnB4O31cclxuLnNlcl9ib3hfYm94IGJ1dHRvbntwb3NpdGlvbjogYWJzb2x1dGU7IHJpZ2h0OiAyMHJweDsgdG9wOiAxMHJweDsgaGVpZ2h0OiA1NnJweDsgbGluZS1oZWlnaHQ6IDU2cnB4OyB3aWR0aDogMTEwcnB4OyBwYWRkaW5nOiAwOyBmb250LXNpemU6IDI4cnB4OyBiYWNrZ3JvdW5kOiAjZjkwO31cclxuLnNlcl9ib3hfYm94IC5jaXR5e2xpbmUtaGVpZ2h0OiA1NnJweDsgcGFkZGluZzogMTBycHggMCAxMHJweCAyMHJweDt9XHJcbi5zZXJfYm94X2JveCAuY2l0eSB0ZXh0e2xpbmUtaGVpZ2h0OiA1NnJweDsgZGlzcGxheTogaW5saW5lLWJsb2NrOyBvdmVyZmxvdzpoaWRkZW47dGV4dC1vdmVyZmxvdzplbGxpcHNpczt3aGl0ZS1zcGFjZTpub3dyYXA7IG1heC13aWR0aDogODBycHg7IHZlcnRpY2FsLWFsaWduOiBib3R0b207IGZvbnQtc2l6ZTogMjZycHg7fVxyXG4uc2VyX2JveF9ib3ggLmNpdHkgLmljb3t3aWR0aDogMTZycHg7aGVpZ2h0OiAxMHJweDsgbWFyZ2luLWxlZnQ6IDRycHg7IHZlcnRpY2FsLWFsaWduOiBtaWRkbGU7fVxyXG4ubWFwQWRkcl9saXN0e2JhY2tncm91bmQ6ICNmZmY7fVxyXG4ubWFwQWRkcl9saXN0IC5pY297IHdpZHRoOiAyOHJweDsgaGVpZ2h0OiAzMnJweDsgbWFyZ2luOjAgMzBycHg7IG1hcmdpbi10b3A6IDUwcnB4O31cclxuLm1hcEFkZHJfbGlzdCAud3pfYm94e21hcmdpbi1sZWZ0OiA4OHJweDsgbGluZS1oZWlnaHQ6IDQwcnB4OyBwYWRkaW5nOjIwcnB4IDIwcnB4IDIwcnB4IDA7IGJvcmRlci1ib3R0b206IDJycHggc29saWQgI2U2ZTZlNjt9XHJcbi5tYXBBZGRyX2xpc3QgLnd6X2JveCAuYnR7Zm9udC1zaXplOiAyOHJweDsgbWFyZ2luLWJvdHRvbTogMTBycHg7fVxyXG4ubWFwQWRkcl9saXN0X2JveHsgcGFkZGluZy10b3A6NDBycHg7fVxyXG4uY3VycmVudGFkZHttYXJnaW4tdG9wOjgycnB4O2hlaWdodDogODBycHg7YmFja2dyb3VuZDogI2ZmZjtkaXNwbGF5OiBmbGV4O2p1c3RpZnktY29udGVudDogc3BhY2UtYmV0d2VlbjtsaW5lLWhlaWdodDogODBycHg7cGFkZGluZy1sZWZ0OiAyNHJweDtmb250LXNpemU6IDI4cnB4O3dpZHRoOiAxMDAlO292ZXJmbG93OiBoaWRkZW47Ym94LXNpemluZzogYm9yZGVyLWJveDt9XHJcbi5jdXJyZW50YWRkIHZpZXd7Y29sb3I6ICMyMGFkMjA7ZmxleC1zaHJpbms6IDA7fVxyXG4uY3VycmVudGFkZCB0ZXh0e2ZsZXg6MTt0ZXh0LW92ZXJmbG93OiBlbGxpcHNpcztvdmVyZmxvdzogaGlkZGVuO3doaXRlLXNwYWNlOiBub3dyYXA7fVxyXG4ucmVmcmVzaHtwYWRkaW5nLXJpZ2h0OiAyNHJweDt9XHJcblxyXG4uYWRkcl9ub3t0ZXh0LWFsaWduOiBjZW50ZXI7cGFkZGluZzogNTBweCAwIDIwcHg7IGZvbnQtc2l6ZTogMTNweDsgY29sb3I6ICM2NjY7IGxpbmUtaGVpZ2h0OiAyMHB4O31cclxuLmFkZHJfbm8gaW1hZ2V7d2lkdGg6IDEzMHB4OyBoZWlnaHQ6IDg3cHg7IG1hcmdpbi1ib3R0b206IDEwcHg7fVxyXG5cclxuLmFkZHJfbGlzdHtiYWNrZ3JvdW5kOiAjZmZmO31cclxuLmFkZHJfbGlzdCAuYnR7cGFkZGluZzogMjBycHg7IGZvbnQtc2l6ZTogMjhycHg7IGxpbmUtaGVpZ2h0OiA0MHJweDt9XHJcbi5hZGRyX2xpc3QgLmFkZHJ7Zm9udC1zaXplOiAyNHJweDsgbGluZS1oZWlnaHQ6IDQwcnB4OyBjb2xvcjogIzY2NjsgbWFyZ2luLWxlZnQ6IDExMnJweDt9XHJcbi5hZGRyX2xpc3QgLmJvdHRvbXtwYWRkaW5nOjAgMjBycHggMjBycHg7fVxyXG4uYWRkcl9saXN0IC5ib3R0b20gLnRhZ3sgd2lkdGg6IDk2cnB4OyBoZWlnaHQ6IDQwcnB4OyBsaW5lLWhlaWdodDogNDBycHg7IGJvcmRlci1yYWRpdXM6IDZycHg7IHRleHQtYWxpZ246IGNlbnRlcjsgY29sb3I6ICNmZmY7fVxyXG4uYWRkcl9saXN0IC5ib3R0b20gLnRhZy5iZzF7YmFja2dyb3VuZDogI2ZmNjY2MDt9XHJcbi5hZGRyX2xpc3QgLmJvdHRvbSAudGFnLmJnMntiYWNrZ3JvdW5kOiAjMTRBQUU0O31cclxuLmFkZHJfbGlzdCAuYm90dG9tIC50YWcuYmcze2JhY2tncm91bmQ6ICMyMEFEMjA7fVxyXG4uYWRkcl9saXN0IC5ib3R0b20gLnRhZy5iZzR7YmFja2dyb3VuZDogIzY2NjY2Njt9XHJcbiIsbnVsbF19 */
 </style>

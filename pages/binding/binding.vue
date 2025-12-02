@@ -1,20 +1,7 @@
-<template>
+﻿<template>
 	<view class="contentView">
-		<!--提示框引入-开始-->
-
-		<block data-type="template" data-is="showToast" data-attr="showToast: showToast">
-			<block v-if="showToast.isShow? showToast.isShow: false">
-
-				<view class="toast-center">
-					<view class="toast">
-						<image class="toast-icon" :src="showToast.icon" mode="scaleToFill" v-if="showToast.icon">
-						</image>
-						<text class="toast-text">{{showToast.title}}</text>
-					</view>
-				</view>
-			</block>
-		</block>
-
+		<!--提示框引入-开始：使用全局 Toast 组件-->
+		<Toast :showToast="showToast" />
 		<!--提示框引入-结束-->
 		<view class="bindingForm_box">
 			<view class="bindingForm">
@@ -222,14 +209,10 @@
 		onLoad() {
 
 			// #ifdef  H5 
-			this.setData({
-				hasInter: false
-			});
+			this.hasInter = false;
 			// #endif 
 			// #ifdef MP-ALIPAY || MP-WEIXIN
-			this.setData({
-				hasInter: true
-			});
+			this.hasInter = true;
 			// #endif 
 		},
 		components: {},
@@ -244,29 +227,21 @@
 				let idx = e.currentTarget.dataset.index;
 				console.log(e)
 				let list = this.list
-				this.setData({
-					textPhone: list[idx].value,
-					hasList: false
-				})
+				this.textPhone = list[idx].value
+				this.hasList = false;
 			},
 			showActionSheet: function() {
-				this.setData({
-					hasList: true
-				})
+				this.hasList = true;
 			},
 			setcascas: function() {
-				this.setData({
-					hasSignup: true,
-					hasZevalue: true,
-					buttonName: '快速登录'
-				});
+				this.hasSignup = true
+				this.hasZevalue = true
+				this.buttonName = '快速登录';
 			},
 			sethasSignup: function() {
-				this.setData({
-					hasSignup: true,
-					hasZevalue: false,
-					buttonName: '立即注册'
-				});
+				this.hasSignup = true
+				hasZevalue = false
+				buttonName = '立即注册';
 			},
 			formSubmit: function(e) {},
 			sendCode: function(e) {
@@ -281,19 +256,14 @@
 			},
 			sendpic() {
 				params.img_code = this.codevalue;
-				this.setData({
-					img: '',
-					codevalue: '',
-					code: ''
-				});
-				console.log(params)
+				this.img = ''
+				this.codevalue = ''
+				this.code = ''
 				this.getcode();
 			},
 
 			changeimg() {
-				this.setData({
-					img: ''
-				});
+				this.img = '';
 				this.getVerifyCode();
 			},
 			bindClientPassport() {
@@ -334,29 +304,23 @@
 				// #ifdef MP-ALIPAY 
 				app.globalData.getVerifyImage({}, function(res) {
 					console.log(res)
-					that.setData({
-						numberPop: false,
+					that.numberPop = false,
 						img: res,
-						codevalue: ''
-					});
+						codevalue: '';
 				});
 				return
 				// #endif 
 
 				app.globalData.getVerifyCode({}, function(res) {
 
-					that.setData({
-						numberPop: false,
-						img: 'data:image/png;base64,' + res,
-						codevalue: ''
-					});
+					that.numberPop = false
+					that.img = 'data:image/png;base64,' + res
+					that.codevalue = '';
 				});
 
 			},
 			HasetGA() {
-				this.setData({
-					Hasiphone: false,
-				})
+				this.Hasiphone = false;
 			},
 			getcode() {
 				var that = this;
@@ -373,30 +337,23 @@
 							that.getVerifyCode();
 						} else if (res.error == '0') {
 							if (res.data.sms_code == '0') {
-								that.setData({
-									sendclass: 'on',
-									numberPop: true,
-									img: '',
-									Hasiphone: true
-								});
+								that.sendclass = 'on'
+								that.numberPop = true
+								that.img = ''
+								that.Hasiphone = true;
 
 								if (currentTime > 0) {
 									currentTime = maxTime;
 									interval = setInterval(function() {
 										currentTime--;
-										that.setData({
-											time: currentTime
-										});
+										that.time = currentTime;
 
 										if (currentTime <= 0) {
 											clearInterval(interval);
 											currentTime = 60;
-											that.setData({
-												sendclass: '',
-												time: currentTime,
-												sendbtn: '重新发送',
-
-											});
+											that.sendclass = ''
+											that.time = currentTime
+											that.sendbtn = '重新发送'
 										}
 									}, 1000);
 								} else {
@@ -406,10 +363,7 @@
 									});
 								}
 							} else {
-								that.getVerifyCode(); // that.setData({
-								//     numberPop: false,
-								//     img: app._CFG.BASE_API + '?API=magic/verify&PHPSESSID=' + app._CFG.PHPSESSID
-								// })
+								that.getVerifyCode();
 							}
 						} else {
 							uni.showToast({
@@ -422,11 +376,9 @@
 			},
 
 			cancel() {
-				this.setData({
-					numberPop: true,
-					codevalue: '',
-					img: ''
-				});
+				this.numberPop = true
+				this.codevalue = ''
+				this.img = '';
 			},
 
 			submit: function(e) {
@@ -845,6 +797,4 @@
 		align-items: center;
 		text-align: center;
 	}
-
-	/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIiUzQ2lucHV0JTIwY3NzJTIwTmdkZVVKJTNFIiwiPG5vIHNvdXJjZT4iXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUEsaUJBQWlCLGtCQUFrQixFQUFFLFVBQVUsQ0FBQyxnQkFBZ0I7QUFDaEUsYUFBYSxVQUFVLENBQUMsZ0JBQWdCO0FBQ3hDLHNCQUFzQixrQkFBa0IsRUFBRSxnQkFBZ0IsQ0FBQztBQUMzRCxtQ0FBbUMsOEJBQThCLENBQUM7QUFDbEUsNEJBQTRCLFdBQVcsRUFBRSxhQUFhLEVBQUUsbUJBQW1CLEVBQUUsZ0JBQWdCLEVBQUUsV0FBVyxDQUFDO0FBQzNHLDRCQUE0QixrQkFBa0IsRUFBRSxXQUFXLEVBQUUsWUFBWSxFQUFFLGFBQWEsRUFBRSxrQkFBa0IsRUFBRSxVQUFVLEVBQUUsZ0JBQWdCLEVBQUUsZ0JBQWdCLEVBQUUsV0FBVyxFQUFFLG1CQUFtQixDQUFDO0FBQy9MLCtCQUErQixnQkFBZ0IsQ0FBQztBQUNoRCxnQkFBZ0IsY0FBYyxFQUFFLGdCQUFnQixFQUFFLFdBQVcsQ0FBQztBQUM5RCxXQUFXLG1CQUFtQixFQUFFLGFBQWEsRUFBRSxrQkFBa0IsRUFBRSxtQkFBbUIsRUFBRSxnQkFBZ0IsRUFBRSxXQUFXLENBQUM7QUFDdEgsV0FBVyxXQUFXLENBQUMsWUFBWSxDQUFDO0FBQ3BDLFlBQVksY0FBYyxFQUFFLFVBQVUsRUFBRSxLQUFLLEVDVjdDLG9CQUFBLENBQUEsaURBQUEsQ0FBQSw0Q0FBQSxDQUFBLGdCQUFBLENEVStDLE1BQU0sRUFBRSxVQUFVLEVBQUUsV0FBVyxFQUFFLGVBQWUsRUFBRSxXQUFXLENBQUM7QUFDN0csU0FBUyxVQUFVLENBQUMsZUFBZSxDQUFDLFFBQVEsQ0FBQyxRQUFRLENBQUMsY0FBYyxDQUFDLGdCQUFnQixDQUFDLFlBQVksQ0FBQyxtQkFBbUIsQ0FBQyxtQkFBbUIsQ0FBQyxvQkFBb0I7QUFDL0osZUFBZSxhQUFhLENBQUMsYUFBYSxDQUFDLHlCQUF5QixDQUFDO0FBQ3JFLGdCQUFnQixnQkFBZ0IsQ0FBQyxjQUFjLENBQUMsa0JBQWtCLENBQUMsbUJBQW1CLENBQUMsc0JBQXNCLENBQUM7QUFDOUcsa0JBQWtCLGFBQWEsQ0FBQyxjQUFjLENBQUMsOEJBQThCLENBQUM7QUFDOUUsZ0JBQWdCLG9CQUFvQixDQUFDLG1CQUFtQixDQUFDO0FBQ3pELHdCQUF3QixhQUFhLENBQUMsYUFBYSxDQUFDLHlCQUF5QixDQUFDLGdCQUFnQixDQUFDO0FBQy9GLGVBQWUsY0FBYyxDQUFDLGdCQUFnQixDQUFDLGtCQUFrQixDQUFDLG1CQUFtQixDQUFDLGFBQWEsQ0FBQyxzQkFBc0IsQ0FBQztBQUMzSCxvQkFBb0IsT0FBTyxDQUFDIiwiZmlsZSI6InRvLmNzcyIsInNvdXJjZXNDb250ZW50IjpbIi5iaW5kaW5nRm9ybV9ib3h7cGFkZGluZy10b3A6IDIwcnB4OyB3aWR0aDoxMDAlO292ZXJmbG93OiBoaWRkZW59XHJcbi5iaW5kaW5nRm9ybXt3aWR0aDoxMDAlO292ZXJmbG93OiBoaWRkZW59XHJcbi5iaW5kaW5nRm9ybSAuaW50X2JveHtwb3NpdGlvbjogcmVsYXRpdmU7IGJhY2tncm91bmQ6ICNmZmY7fVxyXG4uYmluZGluZ0Zvcm0gLmludF9ib3g6Zmlyc3QtY2hpbGR7IGJvcmRlci1ib3R0b206IDJycHggc29saWQgI2VlZTt9XHJcbi5iaW5kaW5nRm9ybSAuaW50X2JveCBpbnB1dHt3aWR0aDogMTAwJTsgaGVpZ2h0OiA4MHJweDsgcGFkZGluZy1sZWZ0OiAyMHJweDsgZm9udC1zaXplOiAyOHJweDsgY29sb3I6ICMzMzM7fVxyXG4uYmluZGluZ0Zvcm0gLmludF9ib3ggLnNlbmR7cG9zaXRpb246IGFic29sdXRlOyB6LWluZGV4OiAxMDsgcmlnaHQ6IDE2cnB4OyBoZWlnaHQ6IDU0cnB4OyBsaW5lLWhlaWdodDogNTRycHg7IHRvcDogMTRycHg7IGZvbnQtc2l6ZTogMjRycHg7IHBhZGRpbmc6IDAgMTZycHg7IGNvbG9yOiAjZmZmOyBiYWNrZ3JvdW5kOiAjZmY5OTAwO31cclxuLmJpbmRpbmdGb3JtIC5pbnRfYm94IC5zZW5kLm9ue2JhY2tncm91bmQ6ICNjY2M7fVxyXG4uc2VjdGlvbl9fdGl0bGV7cGFkZGluZzogMjBycHg7IGZvbnQtc2l6ZTogMjRycHg7IGNvbG9yOiAjOTk5O31cclxuLmxvbmdfYnRueyBtYXJnaW46IDIwcnB4IDMwcnB4OyBoZWlnaHQ6IDc2cnB4OyBsaW5lLWhlaWdodDogNzZycHg7IGJhY2tncm91bmQ6ICMyMEFEMjA7IGZvbnQtc2l6ZTogMzBycHg7IGNvbG9yOiAjZmZmO31cclxuLm51bWJlclBvcHt3aWR0aDogMTAwJTtoZWlnaHQ6IDEwMCU7fVxyXG4ubWFza19iZzJ7ICBwb3NpdGlvbjpmaXhlZDsgei1pbmRleDo5OTsgdG9wOjA7IGxlZnQ6MDsgd2lkdGg6MTAwJTsgaGVpZ2h0OjEwMCU7IGJhY2tncm91bmQ6IzAwMDsgb3BhY2l0eTowLjQ7fVxyXG4ucGljY29kZXt3aWR0aDogOTAlO3Bvc2l0aW9uOiBmaXhlZDt0b3A6IDUwJTtsZWZ0OiA1JTtoZWlnaHQ6IDM2MHJweDtiYWNrZ3JvdW5kOiAjZmZmO3otaW5kZXg6IDEwMDttYXJnaW4tdG9wOiAtMTgwcnB4O2JvcmRlci1yYWRpdXM6IDhycHg7dHJhbnNmb3JtOnNjYWxlKDAsMCl9XHJcbi5waWNjb2RlIGltYWdle3dpZHRoOiAyMDRycHg7aGVpZ2h0OiA3NnJweDtib3JkZXI6MnJweCBzb2xpZCAjZGVkZWRlO31cclxuLnBpY2NvZGUgLnRpdGxle2ZvbnQtc2l6ZTogMzJycHg7aGVpZ2h0OiAxMDBycHg7dGV4dC1hbGlnbjogY2VudGVyO2xpbmUtaGVpZ2h0OiAxMDBycHg7Ym94LXNpemluZzogYm9yZGVyLWJveDt9XHJcbi5waWNjb2RlIC5jb250ZW50e2Rpc3BsYXk6IGZsZXg7cGFkZGluZzogNDBycHg7anVzdGlmeS1jb250ZW50OiBzcGFjZS1iZXR3ZWVuO31cclxuLnBpY2NvZGUuYWN0aXZle3RyYW5zZm9ybTpzY2FsZSgxLDEpO3RyYW5zaXRpb246IGFsbCAuM3M7fVxyXG4ucGljY29kZSAuY29udGVudCBpbnB1dHt3aWR0aDogMzYwcnB4O2hlaWdodDogNzZycHg7Ym9yZGVyOjJycHggc29saWQgI0RlZGVkZTtmb250LXNpemU6IDMycnB4O31cclxuLnBpY2NvZGUgLmJ0bnN7aGVpZ2h0OiAxMDBycHg7Zm9udC1zaXplOiAyOHJweDt0ZXh0LWFsaWduOiBjZW50ZXI7bGluZS1oZWlnaHQ6IDEwMHJweDtkaXNwbGF5OiBmbGV4O2JveC1zaXppbmc6IGJvcmRlci1ib3g7fVxyXG4ucGljY29kZSAuYnRucyB2aWV3e2ZsZXg6IDE7fVxyXG5cclxuXHJcblxyXG5cclxuIixudWxsXX0= */
 </style>

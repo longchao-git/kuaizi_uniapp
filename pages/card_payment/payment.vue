@@ -1,19 +1,7 @@
-<template>
+﻿<template>
 	<view>
-		<!--提示框引入-开始-->
-		<!--<import src="../components/showToast.wxml"></import>-->
-		<block data-type="template" data-is="showToast" data-attr="showToast: showToast">
-			<block v-if="showToast.isShow? showToast.isShow: false">
-				<!-- <view class="toast-bg" wx:if="{{showToast.mask==false? false : true}}"></view>   -->
-				<view class="toast-center">
-					<view class="toast">
-						<image class="toast-icon" :src="showToast.icon" mode="scaleToFill" v-if="showToast.icon">
-						</image>
-						<text class="toast-text">{{showToast.title}}</text>
-					</view>
-				</view>
-			</block>
-		</block>
+		<!--提示框引入-开始：使用全局 Toast 组件-->
+		<Toast :showToast="showToast" />
 		<!--提示框引入-结束-->
 		<view class="container">
 			<view class="pubPaypage">
@@ -95,11 +83,9 @@
 		props: {},
 
 		onLoad(e) {
-			this.setData({
-				title: e.title,
+			this.title = e.title,
 				amount: e.amount,
-				card_id: e.card_id
-			}); // order_id = e.orderid
+				card_id: e.card_id; // order_id = e.orderid
 			let payAmount = 0
 
 		},
@@ -109,9 +95,7 @@
 			app.globalData.mineInfo({}, function(res) {
 				//  console.log(res);
 				if (res.error == '0') {
-					that.setData({
-						money: res.data.money
-					});
+					that.money = res.data.money;
 				} else {
 					uni.showToast({
 						title: res.message
@@ -135,18 +119,10 @@
 			//选择余额支付；
 			switchYue: function(e) {
 				console.log(e);
-				this.setData({
-					yuePay: e.detail.value
-				});
+				this.yuePay = e.detail.value;
 				this.calculate();
 			},
-			// radioChange:function(e){
-			//   console.log(e)
-			//   this.setData({
-			//     code:e.detail.value
-			//   });
-			//   this.calculate();
-			// },
+
 			//计算余额全抵扣还是部分抵扣；
 			calculate: function() {
 				var that = this;
@@ -161,27 +137,21 @@
 				if (yuePay == true) {
 					if (otherPay > 0) {
 						// 余额抵扣部分，微信支付
-						that.setData({
-							payAmount: otherPay,
+						that.payAmount = otherPay,
 							code: 'yaband',
-							disable: true
-						});
+							disable: true;
 					} else {
 						//余额抵扣；
-						that.setData({
-							payAmount: 0,
+						that.payAmount = 0,
 							code: 'money',
-							disable: false
-						});
+							disable: false;
 					}
 
 					;
 				} else {
-					that.setData({
-						code: 'yaband',
+					that.code = 'yaband',
 						payAmount: 0,
-						disable: true
-					});
+						disable: true;
 				}
 
 				;
@@ -368,5 +338,4 @@
 	}
 
 	/*支付页面结束*/
-	/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIiUzQ2lucHV0JTIwY3NzJTIwUGZlMkFiJTNFIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBLCtCQUErQjtBQUMvQixTQUFTO0FBQ1Qsd0JBQXdCLGVBQWUsRUFBRSxlQUFlLEVBQUUsaUJBQWlCLEVBQUUsbUJBQW1CLEVBQUUsZUFBZSxFQUFFLGlCQUFpQixFQUFFLGdDQUFnQyxDQUFDLGFBQWEsQ0FBQztBQUNyTCxtQ0FBbUMsa0JBQWtCLENBQUM7QUFDdEQsNEJBQTRCLFVBQVUsQ0FBQztBQUN2QywyQkFBMkIsTUFBTSxDQUFDO0FBQ2xDLCtCQUErQixnQkFBZ0IsRUFBRSxlQUFlLEVBQUUsYUFBYSxDQUFDO0FBQ2hGLDRCQUE0QixlQUFlLEVBQUUsZUFBZSxFQUFFLGtCQUFrQixDQUFDO0FBQ2pGLGtDQUFrQyxhQUFhLEVBQUUsZUFBZSxFQUFFLGVBQWUsRUFBRSxnQ0FBZ0MsQ0FBQztBQUNwSCw2Q0FBNkMsZUFBZSxDQUFDO0FBQzdELGtDQUFrQyxXQUFXLEVBQUUsWUFBWSxFQUFFLFVBQVUsRUFBRSxrQkFBa0IsQ0FBQztBQUM1RixpQ0FBaUMsVUFBVSxFQUFFLGVBQWUsRUFBRSxpQkFBaUIsQ0FBQztBQUNoRixxQ0FBcUMsYUFBYSxDQUFDLFdBQVcsQ0FBQyxlQUFlLENBQUM7QUFDL0UsbUNBQW1DLFdBQVcsQ0FBQyxlQUFlLENBQUM7QUFDL0QsZ0NBQWdDLGtCQUFrQixDQUFDO0FBQ25ELGlDQUFpQyxnQkFBZ0IsQ0FBQztBQUNsRCxvQ0FBb0MsV0FBVyxDQUFDLGVBQWUsRUFBRSxZQUFZLEVBQUUsWUFBWSxDQUFDLG1CQUFtQixFQUFFLG1CQUFtQixDQUFDLDBCQUEwQixFQUFFLG1CQUFtQixDQUFDO0NBQ3BMLGtDQUFrQyxrQkFBa0IsQ0FBQyxPQUFPLEVBQUUsTUFBTSxFQUFFLFdBQVcsRUFBRSxZQUFZLENBQUMsZ0JBQWdCLEVBQUUsVUFBVSxFQUFFLFdBQVcsQ0FBQzs7OztBQUkzSSxzQkFBc0Isa0JBQWtCLENBQUM7QUFDekMsZ0NBQWdDLGFBQWEsRUFBRSxVQUFVLEVBQUUsWUFBWSxFQUFFLGlCQUFpQixFQUFFLGlCQUFpQixDQUFDLG1CQUFtQixDQUFDLG1CQUFtQixFQUFFLGVBQWUsRUFBRSxVQUFVLEVBQUUsUUFBUSxDQUFDOztBQUU3TCxTQUFTIiwiZmlsZSI6InRvLmNzcyIsInNvdXJjZXNDb250ZW50IjpbIi8qIHBhZ2VzL3BheW1lbnQvcGF5bWVudC53eHNzICovXHJcbi8q5pSv5LuY6aG16Z2i5byA5aeLKi9cclxuLnB1YlBheXBhZ2UgLmluZm9fbGlzdHsgb3ZlcmZsb3c6aGlkZGVuOyBiYWNrZ3JvdW5kOiNmZmY7IHBvc2l0aW9uOnJlbGF0aXZlOyBwYWRkaW5nOjI0cnB4IDMwcnB4OyBmb250LXNpemU6MjhycHg7IGxpbmUtaGVpZ2h0OjQwcnB4OyBib3JkZXItYm90dG9tOjJycHggc29saWQgI2U2ZTZlNjtkaXNwbGF5OiBmbGV4O31cclxuLnB1YlBheXBhZ2UgLmluZm9fbGlzdDpsYXN0LWNoaWxkeyBib3JkZXItYm90dG9tOjBycHg7fVxyXG4ucHViUGF5cGFnZSAuaW5mb19saXN0IC5idHsgY29sb3I6IzY2Njt9XHJcbi5wdWJQYXlwYWdlIC5pbmZvX2xpc3QgLmZye2ZsZXg6MTt9XHJcbi5wdWJQYXlwYWdlIC5pbmZvX2xpc3QgLnByaWNleyBmb250LXdlaWdodDpib2xkOyBmb250LXNpemU6MzZycHg7IGNvbG9yOiNmZjY2MDA7fVxyXG4ucHViUGF5cGFnZSAucGF5X3dheSAubGlzdHsgYmFja2dyb3VuZDojZmZmOyBwYWRkaW5nOjAgMjRycHg7IHBvc2l0aW9uOiByZWxhdGl2ZTt9XHJcbi5wdWJQYXlwYWdlIC5wYXlfd2F5IC5saXN0IGxhYmVseyBkaXNwbGF5OmJsb2NrOyBvdmVyZmxvdzpoaWRkZW47IHBhZGRpbmc6MzBycHggMDsgYm9yZGVyLWJvdHRvbToycnB4IHNvbGlkICNlNmU2ZTY7fVxyXG4ucHViUGF5cGFnZSAucGF5X3dheSAubGlzdCBsYWJlbDpsYXN0LWNoaWxkeyBib3JkZXItYm90dG9tOjA7fVxyXG4ucHViUGF5cGFnZSAucGF5X3dheSAubGlzdCBpbWFnZXsgd2lkdGg6NjBycHg7IGhlaWdodDo2MHJweDsgZmxvYXQ6bGVmdDsgbWFyZ2luLXJpZ2h0OjIwcnB4O31cclxuLnB1YlBheXBhZ2UgLnBheV93YXkgLmxpc3QgLnR4dHsgZmxvYXQ6bGVmdDsgZm9udC1zaXplOjI4cnB4OyBsaW5lLWhlaWdodDo2MHJweDt9XHJcbi5wdWJQYXlwYWdlIC5wYXlfd2F5IC5saXN0IHd4LXJhZGlveyBkaXNwbGF5OmJsb2NrO2Zsb2F0OnJpZ2h0O21hcmdpbi10b3A6N3JweDt9XHJcbi5wdWJQYXlwYWdlIC5wYXlfd2F5IC5saXN0IHN3aXRjaCB7ZmxvYXQ6cmlnaHQ7bWFyZ2luLXRvcDo3cnB4O31cclxuLnB1YlBheXBhZ2UgLnBheV93YXkgLmxpc3QgLmJpZ3tsaW5lLWhlaWdodDogMzBycHg7fVxyXG4ucHViUGF5cGFnZSAucGF5X3dheSAubGlzdCAubWluIHtmb250LXNpemU6IDI0cnB4O31cclxuLnB1YlBheXBhZ2UgLnBheV93YXkgLmxpc3QgLmRpc2FibGV7ZmxvYXQ6cmlnaHQ7bWFyZ2luLXRvcDo3cnB4OyB3aWR0aDogNDRycHg7IGhlaWdodDo0NHJweDtib3JkZXItcmFkaXVzOiAxMDAlOyBiYWNrZ3JvdW5kOiAjZmFmYWZhO2JvcmRlcjogMnJweCBzb2xpZCAjZTZlNmU2OyBtYXJnaW4tcmlnaHQ6IDEwcnB4O31cclxuIC5wdWJQYXlwYWdlIC5wYXlfd2F5IC5saXN0IC5tYXNrIHtwb3NpdGlvbjogYWJzb2x1dGU7bGVmdDogMDsgdG9wOiAwOyB3aWR0aDogMTAwJTsgaGVpZ2h0OiAxMDAlO2JhY2tncm91bmQ6ICM2NjY7IG9wYWNpdHk6IDA7IHotaW5kZXg6IDEwO30gXHJcblxyXG5cclxuXHJcbi5wdWJQYXlwYWdlIC5idG5fYm94eyBtYXJnaW46NjBycHggMzBycHg7fVxyXG4ucHViUGF5cGFnZSAuYnRuX2JveCAubG9uZ19idG57IGRpc3BsYXk6YmxvY2s7IHdpZHRoOjEwMCU7IGhlaWdodDo4MHJweDsgbGluZS1oZWlnaHQ6ODBycHg7IHRleHQtYWxpZ246Y2VudGVyO2JhY2tncm91bmQ6ICMyMEFEMjA7Ym9yZGVyLXJhZGl1czogOHJweDsgZm9udC1zaXplOjMycnB4OyBjb2xvcjojZmZmOyBib3JkZXI6MDt9XHJcblxyXG4vKuaUr+S7mOmhtemdoue7k+adnyovIl19 */
 </style>

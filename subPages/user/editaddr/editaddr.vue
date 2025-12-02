@@ -1,0 +1,301 @@
+﻿<template>
+	<view>
+		<!--提示框引入-开始：使用全局 Toast 组件-->
+		<Toast :showToast="showToast" />
+		<!--提示框引入-结束-->
+		<view class="page">
+			<view class="topmask" :hidden="topmask"></view>
+			<!--内容开始-->
+			<view class="add_view">
+				<view class="addaddr_form_int pub_list border_b">
+					<view class="bt">地址</view>
+					<view class="pub_list_bd">
+						<!--<input type="text" class="int" placeholder="小区/写字楼/学校等"  value="{{addr}}" bindtap="changeaddr"/>-->
+						<view class="int" @tap="changeaddr">{{addr}}</view>
+					</view>
+					<image src="/static/image/arrowright.png" class="linkico"></image>
+				</view>
+				<view class="addaddr_form_int pub_list border_b">
+					<view class="bt">门牌号</view>
+					<view class="pub_list_bd">
+						<input type="text" class="int" placeholder="例：5号楼101室" :value="num" id="door"
+							@input="changedoor">
+					</view>
+				</view>
+			</view>
+			<view class="add_view">
+				<view class="addaddr_form_int pub_list border_b">
+					<view class="bt">收货人</view>
+					<view class="pub_list_bd">
+						<input type="text" class="int" id="name" placeholder="请输入收货人姓名" :value="name"
+							@input="changename">
+					</view>
+				</view>
+				<view class="addaddr_form_int pub_list border_b mb10">
+					<view class="bt">手机号</view>
+					<view class="pub_list_bd">
+						<input type="text" class="int" id="phone" placeholder="请输入收货人手机号" :value="mobile"
+							@input="changephone">
+					</view>
+				</view>
+			</view>
+
+			<view class="add_view">
+				<view class="addaddr_form_int pub_list border_b mb10">
+
+					<view class="pub_list_bd addaddr_form_lable">
+						<radio-group class="radio-group">
+							<label v-for="(item, idx) in items" :key="idx" :data-idx="idx" @tap="switchTab"
+								:class="'radio ' + (current==idx ? 'active' : '')">
+								<radio :value="item.name" :checked="item.checked"></radio>{{item.value}}
+							</label>
+						</radio-group>
+					</view>
+				</view>
+			</view>
+
+			<view class="footer_btn_long">
+				<button class="mb10 buttom1" @tap="saveBtn">保存</button>
+				<button class="buttom2" @tap="modalTap"><text class="fontcl1">删除</text></button>
+			</view>
+			<!--内容结束-->
+		</view>
+
+	</view>
+</template>
+
+<script>
+	var app = getApp();
+
+	export default {
+		data() {
+			return {
+				items: [{
+					name: 'USA',
+					value: '公司'
+				}, {
+					name: 'CHN',
+					value: '家',
+					checked: 'true'
+				}, {
+					name: 'BRA',
+					value: '学校'
+				}, {
+					name: 'JPN',
+					value: '其他'
+				}],
+				name: '',
+				topmask: true,
+				mobile: '',
+				num: '',
+				addr: '小区/写字楼/学校等',
+				label: 0,
+
+				current: "",
+				addr_id: "",
+				lat: "",
+				lng: "",
+				showToast: {
+					isShow: false
+				}
+			};
+		},
+
+		components: {},
+		props: {},
+		onShow: function() {
+			this.topmask = true;
+			var that = this;
+			uni.getStorage({
+				key: 'addrInfo',
+				success: function(res) {
+					that.label = res.data.label
+					that.name = res.data.name
+					that.mobile = res.data.mobile
+					that.num = res.data.num
+					that.current = res.data.label - 1
+					that.addr_id = res.data.id;
+				}
+			});
+			uni.getStorage({
+				key: 'addrInfo2',
+				success: function(res) {
+					that.label = res.data.label
+					that.name = res.data.name
+					that.mobile = res.data.mobile
+					that.num = res.data.num
+				}
+			});
+			uni.getStorage({
+				key: 'addr',
+				success: function(res) {
+					that.addr = res.data.addr
+					that.lat = res.data.lat
+					that.lng = res.data.lng
+				}
+			});
+		},
+		onShareAppMessage: function() {
+			app.globalData.share('微信小程序外卖', '/pages/index/index');
+		},
+		methods: {
+			switchTab: function(e) {
+				this.label = e.currentTarget.dataset.idx + 1;
+				this.current = e.currentTarget.dataset.idx;
+			},
+			changename: function(e) {
+				this.name = e.detail.value;
+			},
+			changephone: function(e) {
+				this.mobile = e.detail.value;
+			},
+			changedoor: function(e) {
+				this.num = e.detail.value;
+			},
+			changeaddr: function(e) {
+				this.topmask = false;
+				var that = this;
+				app.globalData.setstorage('addrInfo2', {
+					name: that.name,
+					mobile: that.mobile,
+					num: that.num,
+					label: that.label
+				});
+				app.globalData.topage('../searchaddr/search');
+			},
+			saveBtn: function(e) {
+				var that = this,
+					datas = that;
+				var params = {
+					'page': 1,
+					'lng': datas.lng,
+					'lat': datas.lat,
+					'addr_id': datas.addr_id,
+					'addr': datas.addr,
+					'house': datas.num,
+					'mobile': datas.mobile,
+					'contact': datas.name,
+					'type': datas.label
+				};
+				app.globalData.editCreate(params, function(res) {
+					if (res.error == '0') {
+						uni.showToast({
+							title: '修改地址成功'
+						});
+						setTimeout(function() {
+							app.globalData.topage(1, 'back');
+						}, 1000);
+					} else {
+						uni.showToast({
+							title: res.message
+						});
+					}
+				});
+				app.globalData.remove('addrInfo', 'addrInfo2', 'addr');
+			},
+			modalTap: function(e) {
+				let that = this
+				uni.showModal({
+					title: '提示',
+					content: '确定要删除该地址吗？',
+					success: function(res) {
+						if (res.confirm) {
+							that.modalChange()
+						} else if (res.cancel) {
+							console.log('用户点击取消');
+						}
+					}
+				});
+
+			},
+
+			modalChange: function(e) {
+				var that = this;
+				var addr_id = that.addr_id;
+				app.globalData.addrDel({
+					"page": 1,
+					addr_id: addr_id
+				}, function(res) {
+					if (res.error == '0') {
+						app.globalData.topage('../addr/addr', 'back');
+					} else {
+						uni.showToast({
+							title: res.message
+						});
+					}
+				});
+
+			}
+		}
+	};
+</script>
+<style>
+	.addaddr_form_int {
+		background: #fff;
+		padding: 24rpx 0;
+	}
+
+	.addaddr_form_int .bt {
+		font-size: 28rpx;
+		margin-right: 30rpx;
+		width: 100rpx;
+		color: #3E4248;
+	}
+
+	.addaddr_form_int .int {
+		font-size: 28rpx;
+		color: #555;
+	}
+
+	.addaddr_form_int .linkico {
+		display: block;
+		width: 28rpx;
+		height: 28rpx;
+		margin-left: 14rpx;
+	}
+
+	.addaddr_form_lable label {
+		position: relative;
+		color: #252628;
+		display: inline-block;
+		border: 1rpx solid #999999;
+		width: 116rpx;
+		height: 52rpx;
+		line-height: 52rpx;
+		text-align: center;
+		margin-right: 16rpx;
+		font-size: 28rpx;
+		border-radius: 4rpx;
+	}
+
+	.addaddr_form_lable label.active {
+		border: 2rpx solid #FF797C;
+		color: #FF797C;
+	}
+
+	.addaddr_form_lable label radio {
+		position: absolute;
+		top: 0;
+		left: 0;
+		opacity: 0;
+	}
+
+	.pub_list_bd {
+		min-height: 40rpx;
+		line-height: 30rpx;
+	}
+
+	.add_view {
+		width: 630rpx;
+		margin: 20rpx 20rpx 0;
+		background: #FFFFFF;
+		border-radius: 16rpx;
+		padding: 0 30rpx;
+	}
+
+	.footer_btn_long .buttom1 {
+		background: #FF797C;
+		border: none;
+		color: #ffffff;
+	}
+</style>
