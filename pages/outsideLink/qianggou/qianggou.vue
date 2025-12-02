@@ -482,7 +482,7 @@
 		methods: {
 			bingTaociksa() {
 				uni.navigateTo({
-					url: '/pages/qiangOrder/qiangOrder'
+					url: '/subPages/qianggou/qiangOrder/qiangOrder'
 				})
 			},
 			//骨架屏
@@ -663,26 +663,23 @@
 				});
 			},
 			tosearchaddr: function() {
-				// app.globalData.topage('/pages/qianglist/qianglist?type=1');
 				app.globalData.topage('/pages/position/searchaddr/search');
 			},
 			//跳转商家搜索
 			tosearch: function() {
-				app.globalData.topage('/pages/qianglist/qianglist?type=1');
+				app.globalData.topage('/subPages/qianggou/qianglist/qianglist?type=1');
 			},
 			tosearchshoplist: function(e) {
 				app.globalData._CFG.title = e.currentTarget.dataset.tit;
-				app.globalData.topage('/pages/qianglist/qianglist?type=1&title=' + e.currentTarget.dataset.tit);
+				app.globalData.topage('/subPages/qianggou/qianglist/qianglist?type=1&title=' + e.currentTarget.dataset.tit);
 			},
-
 			//遮罩层阻止冒泡事件
 			catchtouchmove: function() {},
 
 			//去商家详情
 			gotoDetail(e) {
 				var id = e.currentTarget.id;
-				var url = '/pages/qiang/qiangdetail?id=' + id
-				app.globalData.topage(url);
+				app.globalData.topage('/subPages/qianggou/qiangdetail/qiangdetail?id=' + id);
 			},
 
 
@@ -705,7 +702,6 @@
 					});
 				} else {
 					app.globalData.gopage(obj.wxlink);
-					// app.globalData.topage('/pages/qianglist/qianglist?type=1&title=' + title);
 					return
 					var ss = url.indexOf('?');
 					if (ss == -1) {
@@ -717,9 +713,9 @@
 					if (url.indexOf('/qiang') != -1) {
 						app.globalData.topage('/pages/outsideLink/qianggou/qianggou');
 					} else if (url.indexOf('/paotui') != -1) {
-						app.globalData.topage('/pages/outsideLink/paotui/paotui');
+						app.globalData.topage('/subPages/other/paotui/paotui');
 					} else if (url.indexOf('/jifen') != -1) {
-						app.globalData.topage('/pages/outsideLink/integralMall/integralMall');
+						app.globalData.topage('/subPages/other/integralMall/integralMall');
 					} else {
 						app.globalData.gopage(src);
 					}

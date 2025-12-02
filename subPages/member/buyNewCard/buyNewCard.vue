@@ -120,7 +120,7 @@
 			},
 			// 去支付
 			goPay: function() {
-				app.globalData.topage('../card_payment/payment?title=' + this.footTitle + "&amount=" + this.footMoney +
+				app.globalData.topage('/subPages/member/card_payment/payment?title=' + this.footTitle + "&amount=" + this.footMoney +
 					"&card_id=" + this.footCardId);
 			}
 		}

@@ -326,7 +326,7 @@
 				if (double) {
 					app.globalData._CFG.payorderid = e.currentTarget.dataset.orderid;
 					uni.navigateTo({
-						url: '../payment/payment?orderid=' + e.currentTarget.dataset.orderid
+						url: '/subPages/order/payment/payment?orderid=' + e.currentTarget.dataset.orderid
 					});
 					double = false;
 					setTimeout(function() {
@@ -346,7 +346,7 @@
 			todetail: function(e) {
 				var id = e.currentTarget.id;
 				app.globalData._CFG.shoptail = id;
-				app.globalData.topage('../shoptail/shoptail?id=' + app.globalData._CFG.shoptail);
+				app.globalData.topage('/subPages/shop/shoptail/shoptail?id=' + app.globalData._CFG.shoptail);
 			},
 			onemore: function(e) {
 
@@ -430,15 +430,14 @@
 						});
 					}
 
-					app.globalData.topage('../shoptail/shoptail?id=' + app.globalData._CFG.shoptail);
+					app.globalData.topage('/subPages/shop/shoptail/shoptail?id=' + app.globalData._CFG.shoptail);
 				}
 			},
 			lookelv: function(e) {
 				console.log(e)
 				var id = e.currentTarget.dataset.shopid;
 				app.globalData._CFG.shoptail = id;
-				var url = '../shoptail/shoptail?currentNavtab=1&id=' + app.globalData._CFG.shoptail;
-				app.globalData.topage(url);
+				app.globalData.topage('/subPages/shop/shoptail/shoptail?currentNavtab=1&id=' + app.globalData._CFG.shoptail);
 			},
 			tuipop: function(e) {
 				this.tuikuan = false
@@ -545,7 +544,7 @@
 			},
 			toorderdetail: function(e) {
 				var orderid = e.currentTarget.dataset.orderid;
-				app.globalData.topage('../orderDetail/detail?orderid=' + orderid);
+				app.globalData.topage('/subPages/order/orderDetail/detail?orderid=' + orderid);
 			},
 			cui: function(e) {
 				app.globalData.ordersCui({
@@ -584,7 +583,7 @@
 			},
 			evltTap: function(e) {
 				var obj = JSON.stringify(e.currentTarget.dataset.obj);
-				app.globalData.topage('../ordevlt/ordevlt?obj=' + obj);
+				app.globalData.topage('/subPages/user/ordevlt/ordevlt?obj=' + obj);
 			},
 			//授权
 			closeSetting() {

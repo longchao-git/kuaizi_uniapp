@@ -161,7 +161,7 @@
 					num: that.num,
 					label: that.label
 				});
-				app.globalData.topage('../searchaddr/search');
+				app.globalData.topage('/pages/searchaddr/search');
 			},
 			saveBtn: function(e) {
 				var that = this,
@@ -217,7 +217,7 @@
 					addr_id: addr_id
 				}, function(res) {
 					if (res.error == '0') {
-						app.globalData.topage('../addr/addr', 'back');
+						app.globalData.topage('/subPages/user/addr/addr', 'back');
 					} else {
 						uni.showToast({
 							title: res.message

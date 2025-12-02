@@ -169,7 +169,7 @@
 		methods: {
 			// 跳转到购买新卡页面
 			toBuyNewCard: function() {
-				app.globalData.topage('../buyNewCard/buyNewCard');
+				app.globalData.topage('/subPages/member/buyNewCard/buyNewCard');
 			},
 			//   时间戳格式化时间
 			toDate: function(number) {

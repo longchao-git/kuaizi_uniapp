@@ -133,7 +133,7 @@
 					key: 'hisSearch',
 					data: hisSearch
 				});
-				app.globalData.topage('../searchshoplist/shoplist');
+				app.globalData.topage('/subPages/shop/searchshoplist/shoplist');
 			},
 			resou: function(e) {
 				console.log(333)
@@ -148,7 +148,7 @@
 			},
 			hislink: function(e) {
 				app.globalData._CFG.title = e.currentTarget.dataset.itm;
-				app.globalData.topage('../searchshoplist/shoplist');
+				app.globalData.topage('/subPages/shop/searchshoplist/shoplist');
 			}
 		}
 	};

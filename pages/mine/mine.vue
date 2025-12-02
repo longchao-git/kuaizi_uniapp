@@ -266,17 +266,17 @@
 				} else if (type == "invite") {
 					// 邀请好友
 					app.globalData.afterCheckLogin(function() {
-						app.globalData.topage('/pages/invite/index/index');
+						app.globalData.topage('/subPages/invite/index/index');
 					});
 				} else if (type == "msg") {
 					// 我的消息
 					app.globalData.afterCheckLogin(function() {
-						app.globalData.topage('/pages/myMessage/enter/enter');
+						app.globalData.topage('/subPages/message/enter/enter');
 					});
 				} else if (type == "jifen") {
 					// 积分商城
 					app.globalData.afterCheckLogin(function() {
-						app.globalData.topage('/pages/outsideLink/integralMall/integralMall');
+						app.globalData.topage('/subPages/other/integralMall/integralMall');
 					});
 				} else if (type == "qiang") {
 					// 抢购
@@ -286,7 +286,7 @@
 				} else if (type == "paotui") {
 					// 跑腿
 					app.globalData.afterCheckLogin(function() {
-						app.globalData.topage('/pages/outsideLink/paotui/paotui');
+						app.globalData.topage('/subPages/other/paotui/paotui');
 					});
 				} else if (type == "peicard") {
 					// 配送会员卡
@@ -294,7 +294,7 @@
 						if (that.userInfo.have_peicard > 0) {
 							app.globalData.topage('/subPages/member/membersCard/membersCard');
 						} else {
-							app.globalData.topage('../buyNewCard/buyNewCard');
+							app.globalData.topage('/subPages/member/buyNewCard/buyNewCard');
 						};
 					});
 				} else if (type == "hongbaopackage") {
@@ -328,9 +328,7 @@
 						icon: 'none',
 
 					});
-					// uni.navigateTo({
-					// 	url: "/pages/webview/webview?url=" + app.globalData.URL + '/page/about.html'
-					// })
+				
 
 				} else if (type == "promotion") {
 					// 优惠兑换码
@@ -351,23 +349,22 @@
 			// 红包
 			to2: function() {
 				app.globalData.afterCheckLogin(function() {
-					app.globalData.topage('/pages/packet/packet');
+					app.globalData.topage('/subPages/user/packet/packet');
 				});
 			},
 			// 余额
 			to3: function() {
+				console.log(11111)
 				uni.showToast({
 					title: '加班加点开发中',
 					icon: 'none',
 				});
-				// app.globalData.afterCheckLogin(function () {
-				//   app.globalData.topage('/pages/ucenter/money/money');
-				// });
+			
 			},
 			// 跳转到优惠券
 			toMyCoupon: function() {
 				app.globalData.afterCheckLogin(function() {
-					app.globalData.topage('/pages/myCoupon/myCoupon');
+					app.globalData.topage('/subPages/user/myCoupon/myCoupon');
 				});
 			},
 

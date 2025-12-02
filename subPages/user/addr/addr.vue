@@ -47,7 +47,7 @@
 					</view>
 				</view>
 				<view class="footer_btn_long">
-					<navigator url="../addaddr/addaddr">
+					<navigator url="/subPages/user/addaddr/addaddr">
 						<view>添加收货地址+</view>
 					</navigator>
 				</view>
@@ -177,7 +177,7 @@
 					lat: current.lat,
 					lng: current.lng
 				});
-				app.globalData.topage('../editaddr/editaddr?=' + e.currentTarget.id);
+				app.globalData.topage('/subPages/user/editaddr/editaddr?=' + e.currentTarget.id);
 			}
 		}
 	};

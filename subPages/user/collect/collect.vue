@@ -128,7 +128,7 @@
 			getdetail: function(e) {
 				var id = e.currentTarget.id;
 				app.globalData._CFG.shoptail = id;
-				app.globalData.topage('../shoptail/shoptail?id=' + app.globalData._CFG.shoptail);
+				app.globalData.topage('/subPages/shop/shoptail/shoptail?id=' + app.globalData._CFG.shoptail);
 			}
 		}
 	};

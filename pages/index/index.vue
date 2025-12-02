@@ -1035,7 +1035,7 @@
 			},
 			tosearchshoplist: function(e) {
 				app.globalData._CFG.title = e.currentTarget.dataset.tit;
-				app.globalData.topage('/pages/searchshoplist/shoplist');
+				app.globalData.topage('/subPages/shop/searchshoplist/shoplist');
 
 			},
 
@@ -1139,8 +1139,7 @@
 			gotoDetail(e) {
 				var id = e.currentTarget.id;
 				app.globalData._CFG.shoptail = id;
-				var url = '../shoptail/shoptail?id=' + app.globalData._CFG.shoptail;
-				app.globalData.topage(url);
+				app.globalData.topage('/subPages/shop/shoptail/shoptail?id=' + app.globalData._CFG.shoptail);
 			},
 
 			//商家列表活动折叠展开
@@ -1182,9 +1181,9 @@
 					if (url.indexOf('/qiang') != -1) {
 						app.globalData.topage('/pages/outsideLink/qianggou/qianggou');
 					} else if (url.indexOf('/paotui') != -1) {
-						app.globalData.topage('/pages/outsideLink/paotui/paotui');
+						app.globalData.topage('/subPages/other/paotui/paotui');
 					} else if (url.indexOf('/jifen') != -1) {
-						app.globalData.topage('/pages/outsideLink/integralMall/integralMall');
+						app.globalData.topage('/subPages/other/integralMall/integralMall');
 					} else {
 						app.globalData.gopage(src);
 					}

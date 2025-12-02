@@ -205,7 +205,7 @@
 					} else {
 
 						//#ifdef H5
-						__APP.topage('/pages/binding/binding');
+						__APP.topage('/subPages/user/binding/binding');
 						return
 						//#endif
 						// uni.showLoading({
@@ -355,7 +355,7 @@
 					},
 					function(ret) {
 						if (ret.error == "105") {
-							__APP.topage('/pages/binding/binding');
+							__APP.topage('/subPages/user/binding/binding');
 						} else if (ret.error != "0") {
 							__APP.msgbox(ret.message, "/static/image/error.png");
 							callback();

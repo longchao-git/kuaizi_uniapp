@@ -181,7 +181,7 @@
 			},
 			// 跳转到协议页面
 			toAgreement: function() {
-				app.globalData.topage("../agreement/agreement?enterType=shops");
+				app.globalData.topage("/subPages/enter/agreement/agreement?enterType=shops");
 			}
 		}
 	};

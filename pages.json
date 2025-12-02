@@ -1,5 +1,6 @@
 {
-	"pages": [{
+	"pages": [
+		{
 			"path": "pages/index/index",
 			"style": {
 				"enablePullDownRefresh": true,
@@ -21,14 +22,9 @@
 			}
 		},
 		{
-			"path": "pages/shoptail/shoptail",
+			"path": "pages/outsideLink/qianggou/qianggou",
 			"style": {
-				"navigationStyle": "custom",
-				"navigationBarTextStyle": "black",
-				"enablePullDownRefresh": false,
-				"app-plus": {
-					"bounce": "none" 
-				}
+				"navigationBarTitleText": "抢购"
 			}
 		},
 		{
@@ -38,53 +34,8 @@
 			}
 		},
 		{
-			"path": "pages/getNewHongbao/getNewHongbao",
-			"style": {
-				"navigationBarTitleText": "新人大礼砸中你啦！"
-			}
-		},
-		{
-			"path": "pages/myMessage/enter/enter",
-			"style": {
-				"navigationBarTitleText": "我的消息"
-			}
-		},
-		{
-			"path": "pages/myMessage/myMessage",
-			"style": {
-				"enablePullDownRefresh": true,
-				"navigationBarTitleText": "我的消息"
-			}
-		},
-		{
-			"path": "pages/myMessage/history/history",
-			"style": {
-				"navigationBarTitleText": "历史消息"
-			}
-		},
-		{
-			"path": "pages/payment/payment",
-			"style": {
-				"navigationBarTitleText": "支付"
-			}
-		},
-		{
-			"path": "pages/wm_order/wm_order",
-			"style": {
-				"navigationBarTitleText": "确认订单"
-			}
-		},
-		{
-			"path": "pages/invite/index/index",
-			"style": {
-				"navigationBarTitleText": "邀请好友"
-			}
-		},
-		{
-			"path": "pages/invite/share/share",
-			"style": {
-				"navigationBarTitleText": "邀请好友"
-			}
+			"path": "pages/getAuthorize/getAuthorize",
+			"style": {}
 		},
 		{
 			"path": "pages/position/searchaddr/search",
@@ -105,145 +56,9 @@
 			}
 		},
 		{
-			"path": "pages/myCoupon/myCoupon",
-			"style": {
-				"navigationBarTitleText": "我的优惠券"
-			}
-		},
-		{
-			"path": "pages/packet/packet",
-			"style": {
-				"navigationBarTitleText": "红包"
-			}
-		},
-		{
-			"path": "pages/ucenter/money/money",
-			"style": {
-				"navigationBarTitleText": "我的余额"
-			}
-		},
-		{
-			"path": "pages/ucenter/recharge/recharge",
-			"style": {
-				"navigationBarTitleText": "充值"
-			}
-		},
-		{
-			"path": "pages/webview/webview",
-			"style": {}
-		},
-		{
-			"path": "pages/getAuthorize/getAuthorize",
-			"style": {}
-		},
-		{
-			"path": "pages/shopsearch/shopsearch",
-			"style": {
-				"navigationBarTitleText": "搜索店内商品"
-			}
-		},
-		{
-			"path": "pages/bindingauto/bindingauto",
-			"style": {
-				"navigationBarTitleText": "申请手机号"
-			}
-		},
-		{
-			"path": "pages/binding/binding",
-			"style": {
-				"navigationBarTitleText": "绑定手机号",
-				"backgroundColor": "#eef2f5"
-			}
-		},
-		{
-			"path": "pages/shoplist/shoplist",
-			"style": {
-				"navigationBarTitleText": "商家列表"
-			}
-		},
-		{
-			"path": "pages/searchshoplist/shoplist",
-			"style": {
-				"navigationBarTitleText": "商家搜索"
-			}
-		},
-		{
-			"path": "pages/orderDetail/detail",
-			"style": {
-				"navigationBarTitleText": "订单详情",
-				"enablePullDownRefresh": true
-			}
-		},
-		{
 			"path": "pages/indexSearch/search",
 			"style": {
 				"navigationBarTitleText": "搜索"
-			}
-		},
-		{
-			"path": "pages/orderStatus/status",
-			"style": {
-				"navigationBarTitleText": "订单状态"
-			}
-		},
-		{
-			"path": "pages/outsideLink/aboutUs/aboutUs",
-			"style": {
-				"navigationBarTitleText": "关于我们"
-			}
-		},
-		{
-			"path": "pages/outsideLink/paotui/paotui",
-			"style": {
-				"navigationBarTitleText": "跑腿"
-			}
-		},
-		{
-			"path": "pages/outsideLink/qianggou/qianggou",
-			"style": {
-				"navigationBarTitleText": "抢购"
-			}
-		},
-		{
-			"path": "pages/outsideLink/integral/integral",
-			"style": {
-				"navigationBarTitleText": "积分"
-			}
-		},
-		{
-			"path": "pages/outsideLink/integralMall/integralMall",
-			"style": {
-				"navigationBarTitleText": "积分商城"
-			}
-		},
-		{
-			"path": "pages/qiang/qiangdetail",
-			"style": {
-				"navigationBarTitleText": "详情"
-			}
-		},
-		{
-			"path": "pages/qianglist/qianglist",
-			"style": {
-				"navigationBarTitleText": "列表"
-			}
-		},
-		{
-			"path": "pages/payOrder/payOrder",
-			"style": {
-				"navigationBarTitleText": "下单"
-			}
-		},
-		{
-			"path": "pages/qiangOrder/qiangOrder",
-			"style": {
-				"navigationBarTitleText": "团购订单"
-			}
-		},
-		{
-			"path": "pages/qiangOrder/detail",
-			"style": {
-				"navigationBarTitleText": "团购订单详情"
 			}
 		}
 	],
@@ -320,12 +135,6 @@
 					}
 				},
 				{
-					"path": "noaddr/noaddr",
-					"style": {
-						"navigationBarTitleText": "我的收货地址"
-					}
-				},
-				{
 					"path": "collect/collect",
 					"style": {
 						"navigationBarTitleText": "我的收藏"
@@ -336,6 +145,222 @@
 					"style": {
 						"navigationBarTitleText": "评价"
 					}
+				},
+				{
+					"path": "myCoupon/myCoupon",
+					"style": {
+						"navigationBarTitleText": "我的优惠券"
+					}
+				},
+				{
+					"path": "packet/packet",
+					"style": {
+						"navigationBarTitleText": "红包"
+					}
+				},
+				{
+					"path": "money/money",
+					"style": {
+						"navigationBarTitleText": "我的余额"
+					}
+				},
+				{
+					"path": "recharge/recharge",
+					"style": {
+						"navigationBarTitleText": "充值"
+					}
+				},
+				{
+					"path": "binding/binding",
+					"style": {
+						"navigationBarTitleText": "绑定手机号",
+						"backgroundColor": "#eef2f5"
+					}
+				},
+				{
+					"path": "bindingauto/bindingauto",
+					"style": {
+						"navigationBarTitleText": "申请手机号"
+					}
+				}
+			]
+		},
+		{
+			"root": "subPages/shop",
+			"pages": [
+				{
+					"path": "shoptail/shoptail",
+					"style": {
+						"navigationStyle": "custom",
+						"navigationBarTextStyle": "black",
+						"enablePullDownRefresh": false,
+						"app-plus": {
+							"bounce": "none"
+						}
+					}
+				},
+				{
+					"path": "shopsearch/shopsearch",
+					"style": {
+						"navigationBarTitleText": "搜索店内商品"
+					}
+				},
+				{
+					"path": "shoplist/shoplist",
+					"style": {
+						"navigationBarTitleText": "商家列表"
+					}
+				},
+				{
+					"path": "searchshoplist/shoplist",
+					"style": {
+						"navigationBarTitleText": "商家搜索"
+					}
+				}
+			]
+		},
+		{
+			"root": "subPages/order",
+			"pages": [
+				{
+					"path": "wm_order/wm_order",
+					"style": {
+						"navigationBarTitleText": "确认订单"
+					}
+				},
+				{
+					"path": "payment/payment",
+					"style": {
+						"navigationBarTitleText": "支付"
+					}
+				},
+				{
+					"path": "orderDetail/detail",
+					"style": {
+						"navigationBarTitleText": "订单详情",
+						"enablePullDownRefresh": true
+					}
+				},
+				{
+					"path": "orderStatus/status",
+					"style": {
+						"navigationBarTitleText": "订单状态"
+					}
+				},
+				{
+					"path": "payOrder/payOrder",
+					"style": {
+						"navigationBarTitleText": "下单"
+					}
+				}
+			]
+		},
+		{
+			"root": "subPages/qianggou",
+			"pages": [
+				{
+					"path": "qiangdetail/qiangdetail",
+					"style": {
+						"navigationBarTitleText": "详情"
+					}
+				},
+				{
+					"path": "qianglist/qianglist",
+					"style": {
+						"navigationBarTitleText": "列表"
+					}
+				},
+				{
+					"path": "qiangOrder/qiangOrder",
+					"style": {
+						"navigationBarTitleText": "团购订单"
+					}
+				},
+				{
+					"path": "qiangOrder/detail",
+					"style": {
+						"navigationBarTitleText": "团购订单详情"
+					}
+				}
+			]
+		},
+		{
+			"root": "subPages/invite",
+			"pages": [
+				{
+					"path": "index/index",
+					"style": {
+						"navigationBarTitleText": "邀请好友"
+					}
+				},
+				{
+					"path": "share/share",
+					"style": {
+						"navigationBarTitleText": "邀请好友"
+					}
+				},
+				{
+					"path": "getNewHongbao/getNewHongbao",
+					"style": {
+						"navigationBarTitleText": "新人大礼砸中你啦！"
+					}
+				}
+			]
+		},
+		{
+			"root": "subPages/message",
+			"pages": [
+				{
+					"path": "enter/enter",
+					"style": {
+						"navigationBarTitleText": "我的消息"
+					}
+				},
+				{
+					"path": "myMessage/myMessage",
+					"style": {
+						"enablePullDownRefresh": true,
+						"navigationBarTitleText": "我的消息"
+					}
+				},
+				{
+					"path": "history/history",
+					"style": {
+						"navigationBarTitleText": "历史消息"
+					}
+				}
+			]
+		},
+		{
+			"root": "subPages/other",
+			"pages": [
+				{
+					"path": "aboutUs/aboutUs",
+					"style": {
+						"navigationBarTitleText": "关于我们"
+					}
+				},
+				{
+					"path": "paotui/paotui",
+					"style": {
+						"navigationBarTitleText": "跑腿"
+					}
+				},
+				{
+					"path": "integral/integral",
+					"style": {
+						"navigationBarTitleText": "积分"
+					}
+				},
+				{
+					"path": "integralMall/integralMall",
+					"style": {
+						"navigationBarTitleText": "积分商城"
+					}
+				},
+				{
+					"path": "webview/webview",
+					"style": {}
 				}
 			]
 		},

@@ -226,7 +226,7 @@
 			},
 			// 跳转到协议页面
 			toAgreement: function() {
-				app.globalData.topage("../agreement/agreement?enterType=rider");
+				app.globalData.topage("/subPages/enter/agreement/agreement?enterType=rider");
 			},
 			// 省市区选择器
 			bindPickerChange: function(e) {

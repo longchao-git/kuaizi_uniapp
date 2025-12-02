@@ -185,8 +185,7 @@
 				var shop_id = e.currentTarget.dataset.shop_id;
 				var product_id = e.currentTarget.dataset.product_id;
 				app.globalData._CFG.shoptail = shop_id;
-				var url = '../shoptail/shoptail?id=' + shop_id + '&product_id=' + product_id;
-				app.globalData.topage(url);
+				app.globalData.topage('/subPages/shop/shoptail/shoptail?id=' + shop_id + '&product_id=' + product_id);
 			},
 
 			//商家列表活动折叠展开
