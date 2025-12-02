@@ -1,8 +1,5 @@
 ﻿<template>
 	<view>
-		<!--提示框引入-开始：使用全局 Toast 组件-->
-		<Toast :showToast="showToast" />
-		<!--提示框引入-结束-->
 		<view class="container">
 			<view class="pubPaypage">
 				<view class="mb10">
@@ -48,7 +45,6 @@
 </template>
 
 <script>
-	// pages/payment/payment.js
 	var app = getApp();
 
 	export default {
@@ -214,7 +210,6 @@
 	};
 </script>
 <style>
-	/* pages/payment/payment.wxss */
 	/*支付页面开始*/
 	.pubPaypage .info_list {
 		overflow: hidden;

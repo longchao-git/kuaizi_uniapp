@@ -1,8 +1,5 @@
 ﻿<template>
 	<view>
-		<!--提示框引入-开始：使用全局 Toast 组件-->
-		<Toast :showToast="showToast" />
-		<!--提示框引入-结束-->
 		<scroll-view scroll-y class="header">
 			<!-- <view class="tips">注: 购买不同种类的配送会员卡将同时生效</view> -->
 			<view v-for="(item, index) in cardType" :key="index" class="cardShow" @tap="toSelected" :data-index="index">

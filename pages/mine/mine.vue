@@ -2,9 +2,6 @@
 	<view>
 		<skeleton :loading="loading" :showAvatar='false' :row="skeleton1.row" :showTitle="skeleton1.showTitle">
 			<view>
-				<!--提示框引入-开始：使用全局 Toast 组件-->
-				<Toast :showToast="showToast" />
-				<!--提示框引入-结束-->
 				<!-- 用户点击手势调用授权设置：使用全局 AuthSettingDialog 组件 -->
 				<AuthSettingDialog :show="OpenSettingShow" :openType="OpenSettingType" @cancel="closeSetting"
 					@confirm="closeSetting" />
@@ -354,12 +351,14 @@
 			},
 			// 余额
 			to3: function() {
-				console.log(11111)
 				uni.showToast({
 					title: '加班加点开发中',
 					icon: 'none',
 				});
-			
+				return
+				app.globalData.afterCheckLogin(function() {
+					app.globalData.topage('/subPages/user/money/money');
+				});
 			},
 			// 跳转到优惠券
 			toMyCoupon: function() {

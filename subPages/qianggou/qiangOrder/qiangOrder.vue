@@ -2,9 +2,6 @@
 	<view>
 		<skeleton :loading="loading" :showAvatar='false' :row="skeleton1.row" :showTitle="skeleton1.showTitle">
 			<view>
-				<!--提示框引入-开始：使用全局 Toast 组件-->
-				<Toast :showToast="showToast" />
-				<!--提示框引入-结束-->
 
 				<!-- 用户点击手势调用授权设置：使用全局 AuthSettingDialog 组件 -->
 				<AuthSettingDialog :show="OpenSettingShow" :openType="OpenSettingType" @cancel="closeSetting"
@@ -116,9 +113,6 @@
 				loadhide: true,
 				login: true,
 				noorder: true,
-				showToast: {
-					isShow: false
-				},
 				OpenSettingShow: false
 			}
 		},

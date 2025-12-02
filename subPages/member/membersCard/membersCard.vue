@@ -1,8 +1,5 @@
 ﻿<template>
 	<view>
-		<!--提示框引入-开始：使用全局 Toast 组件-->
-		<Toast :showToast="showToast" />
-		<!--提示框引入-结束-->
 		<view class="header">
 			<view class="top">
 				<view class="saveMoney">已为您节省 € <text>{{saveMoney}}</text></view>
@@ -43,7 +40,6 @@
 </template>
 
 <script>
-	// subPages/member/membersCard/membersCard.js
 	var app = getApp();
 
 	export default {
@@ -187,7 +183,6 @@
 	};
 </script>
 <style>
-	/* subPages/member/membersCard/membersCard.wxss */
 	page {
 		background: #F5F7FA;
 	}

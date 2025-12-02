@@ -1,8 +1,5 @@
 <template>
 	<view>
-		<!--提示框引入-开始：使用全局 Toast 组件-->
-		<Toast :showToast="showToast" />
-		<!--提示框引入-结束-->
 		<view class="flex-wrp" style="padding: 16rpx 32rpx;background: white;">
 			<view>消费地址</view>
 			<view class="beyond" style="margin-left: 16rpx;width:540rpx ;">
@@ -93,9 +90,6 @@
 				id: '',
 				orderCreateInfo: {},
 				productInfo: {},
-				showToast: {
-					isShow: false
-				},
 				numValue: 1
 			}
 		},

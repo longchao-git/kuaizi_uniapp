@@ -1,10 +1,8 @@
 ﻿<template>
-	<!--subPages/enter/agreement/agreement.wxml-->
 	<web-view :src="outsideURL"></web-view>
 </template>
 
 <script>
-	// subPages/enter/agreement/agreement.js
 	var app = getApp();
 
 	export default {

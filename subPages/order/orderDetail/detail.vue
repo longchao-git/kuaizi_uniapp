@@ -1,8 +1,5 @@
 ﻿<template>
 	<view>
-		<!--提示框引入-开始：使用全局 Toast 组件-->
-		<Toast :showToast="showToast" />
-		<!--提示框引入-结束-->
 		<view class="page">
 			<block>
 				<view class="orderStatus">
@@ -316,10 +313,7 @@
 				defaultSize: "",
 				disabled: "",
 				orderid: "",
-				current: "",
-				showToast: {
-					isShow: false
-				}
+				current: ""
 			};
 		},
 
@@ -342,19 +336,18 @@
 		},
 
 		onShareAppMessage: function(res) {
+			var that = this;
 			if (res.from === 'button') {
-				// 来自页面内转发按钮
-				let hongbao = this.hongbao;
+				var hongbao = that.hongbao;
 				return {
 					title: hongbao.title,
 					imageUrl: hongbao.imgUrl,
-					path: "/pages/webview/webview?url=" + encodeURIComponent(hongbao.link)
+					path: "/subPages/other/webview/webview?url=" + encodeURIComponent(hongbao.link)
 				};
 			} else {
 				return {
-					title: '微信小程序外卖',
+					title: '筷子',
 					path: '/pages/index/index',
-					// imageUrl: '',
 					success: function(res) { // 分享成功
 					},
 					fail: function(res) { // 分享失败
@@ -362,6 +355,7 @@
 				};
 			}
 		},
+
 		methods: {
 			setfuzhi() {
 				let value = this.orderdetail.order_id

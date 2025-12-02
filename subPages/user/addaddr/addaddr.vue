@@ -2,9 +2,6 @@
 	<view>
 		<skeleton :loading="loading" :showAvatar='false' :row="skeleton1.row" :showTitle="skeleton1.showTitle">
 			<view>
-				<!--提示框引入-开始：使用全局 Toast 组件-->
-				<Toast :showToast="showToast" />
-				<!--提示框引入-结束-->
 
 				<view class="page">
 					<!--内容开始-->
@@ -100,10 +97,7 @@
 				label: 0,
 				lat: '',
 				lng: '',
-				current: "",
-				showToast: {
-					isShow: false
-				},
+				current: ""
 			};
 		},
 

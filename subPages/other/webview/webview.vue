@@ -1,10 +1,8 @@
 ﻿<template>
-	<!--pages/webview/webview.wxml-->
 	<web-view :src="outsideURL"></web-view>
 </template>
 
 <script>
-	// pages/webview/webview.js
 	var app = getApp();
 
 	export default {
@@ -34,7 +32,7 @@
 
 		onShareAppMessage: function(res) {
 			return {
-				path: "/pages/webview/webview?url=" + encodeURIComponent(res.webViewUrl)
+				path: "/subPages/other/webview/webview?url=" + encodeURIComponent(res.webViewUrl)
 			};
 		},
 		methods: {}

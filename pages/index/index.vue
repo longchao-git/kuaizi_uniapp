@@ -2,9 +2,6 @@
 	<view>
 		<skeleton :loading="loading" :showAvatar='false' :row="skeleton1.row" :showTitle="skeleton1.showTitle">
 			<view>
-				<!--提示框引入-开始：使用全局 Toast 组件-->
-				<Toast :showToast="showToast" />
-				<!--提示框引入-结束-->
 
 				<view v-if="isindexshow" :style="'height: 100%; background-color: #F5F7FA '+ ';'">
 					<!--内容-开始-->
@@ -2395,5 +2392,4 @@
 		height: 132rpx;
 	}
 
-	@import "../../template/shopLists/shopLists.css";
 </style>

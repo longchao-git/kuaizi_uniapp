@@ -1,8 +1,5 @@
 ﻿<template>
 	<view class="contentView">
-		<!--提示框引入-开始：使用全局 Toast 组件-->
-		<Toast :showToast="showToast" />
-		<!--提示框引入-结束-->
 		<view class="bindingForm_box">
 			<view class="bindingForm">
 				<template v-if="!hasInter&&!hasSignup">
@@ -131,9 +128,6 @@
 				codevalue: '',
 				img: "",
 				code: "",
-				showToast: {
-					isShow: false
-				},
 				Length: 6, //输入框个数
 				isFocus: false, //聚焦
 				Value: "", //输入的内容
@@ -304,9 +298,9 @@
 				// #ifdef MP-ALIPAY 
 				app.globalData.getVerifyImage({}, function(res) {
 					console.log(res)
-					that.numberPop = false,
-						img: res,
-						codevalue: '';
+					that.numberPop = false
+					that.img = res
+					that.codevalue = ''
 				});
 				return
 				// #endif 

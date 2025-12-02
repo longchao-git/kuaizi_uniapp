@@ -1,8 +1,5 @@
 ﻿<template>
 	<view>
-		<!--提示框引入-开始：使用全局 Toast 组件-->
-		<Toast :showToast="showToast" />
-		<!--提示框引入-结束-->
 		<!-- 已使用和未使用切换 -->
 		<view class="useTab">
 			<view :class="'tabIn ' + (isActive == 0 ? 'active' : '')" @tap="useTab" data-index="0"><text>可使用</text>
@@ -89,10 +86,7 @@
 				isActive: 0,
 				page: 1,
 				moreShow: true,
-				loadhide: true,
-				showToast: {
-					isShow: false
-				}
+				loadhide: true
 			};
 		},
 

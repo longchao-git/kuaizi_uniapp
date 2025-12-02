@@ -5,10 +5,6 @@ import App from './App';
 import Skeleton from './components/primewind-skeleton/components/skeleton/index.vue'
 Vue.component('skeleton', Skeleton);
 
-// 全局Toast组件
-import Toast from './components/Toast.vue';
-Vue.component('Toast', Toast);
-
 // 全局无数据组件
 import NoData from './components/NoData.vue';
 Vue.component('NoData', NoData);

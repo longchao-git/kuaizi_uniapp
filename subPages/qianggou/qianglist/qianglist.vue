@@ -1135,7 +1135,6 @@
 		height: 200rpx
 	}
 
-	@import "../../template/shopLists/shopLists.css";
 	
 </style>
 

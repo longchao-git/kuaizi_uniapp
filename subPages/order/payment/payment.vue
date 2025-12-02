@@ -1,8 +1,5 @@
 ﻿<template>
 	<view>
-		<!--提示框引入-开始：使用全局 Toast 组件-->
-		<Toast :showToast="showToast" />
-		<!--提示框引入-结束-->
 		<view class="pubPage pubPaypage">
 			<view class="pubPageCont">
 				<!--内容-->
@@ -63,48 +60,10 @@
 				<button class="long_btn" @tap="$noMultipleClicks(payMoney)" :disabled="disabled">确认支付</button>
 			</view>
 		</view>
-		<!-- <view class="container">
-    <view class="pubPaypage">
-        <view class="mb10">
-            <view class="info_list"><span class="fl bt">订单编号：</span><span class="fr">{{order.order_id}}</span></view>
-            <view class="info_list"><span class="fl bt">支付金额：</span><text class="fr price"><span>€</span>{{order.amount}}</text></view>
-        </view>
-        <view class="pay_way mb10">
-            <view class="list" wx:if="{{money > 0}}">
-                <label style="border-bottom:2rpx solid #e6e6e6;">
-                    <image src="../../image/payWay033x.png"></image>
-                    <view class="txt">
-                        <view class="big">余额支付</view>
-                        <view class="min black9">
-                            <view class="fl">余额：<text class="fontcl3">€{{money}}</text></view>
-                            <view class="fl ml20"  wx-if="{{payAmount != 0}}">还需支付：<text class="fontcl3">€{{payAmount}}</text></view>
-                        </view>
-                    </view>
-                    <switch  bindchange="switchYue"/>
-                </label>
-            </view>
-           <radio-group class="radio-group" bindchange="radioChange">
-                <view class="list">
-                    <label wx:for="{{zhifuitems}}" wx:key="index">
-                        <image src="{{item.ico}}"></image>
-                        <view class="txt">{{item.name}}</view>
-                        <radio wx:if="{{disable != false}}" name="code" value="{{item.code}}" checked="{{item.checked}}"/>
-                        <view class="disable" hidden="{{disable}}"></view>
-                    </label>
-                    <view class="mask" hidden="{{disable}}"></view>
-                </view>
-           </radio-group>
-        </view>
-        <view class="btn_box">
-            <button class="long_btn" bindtap="payMoney">确认支付</button>
-        </view>
-    </view>
-</view> -->
 	</view>
 </template>
 
 <script>
-	// pages/payment/payment.js
 	var app = getApp(),
 		order_id;
 
@@ -131,9 +90,6 @@
 				code: '',
 				use_money: 0,
 				LastPayTime: "支付剩余00分00秒",
-				showToast: {
-					isShow: false
-				},
 				noClick: true,
 				disabled: false,
 				isType: 0,
@@ -433,12 +389,7 @@
 	};
 </script>
 <style>
-	/* pages/payment/payment.wxss */
-	/*支付页面开始*/
-	/* .pubPaypage .info_list{ overflow:hidden; background:#fff; position:relative; padding:24rpx 30rpx; font-size:28rpx; line-height:40rpx; border-bottom:2rpx solid #e6e6e6;}
-.pubPaypage .info_list:last-child{ border-bottom:0rpx;}
-.pubPaypage .info_list .bt{ color:#666;}
-.pubPaypage .info_list .price{ font-weight:bold; font-size:36rpx; color:#ff797c;} */
+
 	.pubPaypage .info_box {
 		padding: 60rpx 0;
 		text-align: center;

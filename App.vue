@@ -76,60 +76,7 @@
 				});
 			},
 
-			// 获取用户信息授权状态
-			getUserInfoState(callback) {
-				callback = callback || function() {};
-				//#ifdef  MP-ALIPAY || H5
-				__APP.onLogin(function() {
-					if (__APP.CheckLogin()) {
-						callback();
-					} else {
-						let url = "../bindingauto/bindingauto";
-						__APP.topage(url, "redirect");
-					};
-				}, true);
-				return
-				//#endif
-				uni.getSetting({
-					success(res) {
-
-						if (res.authSetting['scope.userInfo'] != undefined) {
-							if (!res.authSetting['scope.userInfo']) {
-								uni.openSetting({
-									success(res2) {
-										if (res2.authSetting['scope.userInfo']) {
-											__APP.onLogin(function() {
-												if (__APP.CheckLogin()) {
-													callback();
-												} else {
-													let url = "../bindingauto/bindingauto";
-
-													__APP.topage(url, "redirect");
-												}
-
-												;
-											}, true);
-										}
-									}
-								});
-							} else {
-								__APP.onLogin(function() {
-									if (__APP.CheckLogin()) {
-										callback();
-									} else {
-										let url = "../bindingauto/bindingauto";
-
-										__APP.topage(url, "redirect");
-									};
-								}, true);
-							};
-						} else {
-							var url = "../bindUserInfo/bindUserInfo";
-							__APP.topage(url, "redirect");
-						};
-					}
-				});
-			},
+			
 			//获取地址经纬度；
 			getLocation: function(callback) {
 				callback = callback || function() {};
@@ -208,132 +155,8 @@
 						__APP.topage('/subPages/user/binding/binding');
 						return
 						//#endif
-						// uni.showLoading({
-						// 	title:"获取授权中"
-						// })
-						// return
-						uni.login({
-							scopes: 'auth_user',
-							complete: () => {
-								uni.hideLoading()
-							},
-							fail: () => {
-								__APP.msgbox('您未授权，无法进行登录', "/static/image/error.png");
-							},
-							success: function(rs) {
-
-								if (rs.code) { // 可以通过 getSetting 先查询一下用户是否授权了 "userInfo" 这个 scope
-									__APP._CFG.auth_code = rs.code;
-									// #ifdef MP-ALIPAY
-
-									__APP.alipayAuthToken({
-											'code': rs.code
-										},
-										function(res) {
-											if (res.error == 0) {
-												__APP._CFG.ali_openid = res.data.ali_openid
-												uni.setStorage({
-													key: 'ali_openid',
-													data: res.data.ali_openid
-												});
-												__APP.InitLogin(__APP.onLogin_callback);
-											} else {
-												__APP.msgbox(res.msg, "/static/image/error.png");
-											}
-										});
-									return
-									// #endif	
-									uni.getSetting({
-										success(rt) {
-									
-											if (rt.authSetting['scope.userInfo'] != undefined) {
-												if (rt.authSetting['scope.userInfo']) {
-													uni.getUserInfo({
-														success: function(res) {
-															uni.setStorage({
-																key: 'userinfo',
-																data: res
-																	.userInfo
-															});
-															uni.setStorage({
-																key: 'userinfo2',
-																data: res
-																	.userInfo
-															});
-															__APP._CFG.userInfo = res
-																.userInfo;
-															__APP._CFG.userInfo2 = res
-																.userInfo;
-															// #ifdef MP-WEIXIN
-															__APP.http(
-																"client/wxapp/endata", {
-																	"endata": res
-																		.encryptedData,
-																	"iv": res.iv,
-																	"code": __APP
-																		._CFG
-																		.auth_code
-																},
-																(ret) => {
-																	if (ret
-																		.error !=
-																		"0") {
-																		__APP
-																			.msgbox(
-																				retmessage,
-																				"/static/image/error.png"
-																			);
-																	} else {
-																		uni.setStorage({
-																			key: 'unionid',
-																			data: ret
-																				.data
-																				.unionId
-																		});
-																		uni.setStorage({
-																			key: 'wx_openid',
-																			data: ret
-																				.data
-																				.openId
-																		});
-																		__APP._CFG
-																			.wx_info =
-																			ret
-																			.data;
-																		__APP._CFG
-																			.wx_openid =
-																			ret
-																			.data
-																			.openId;
-																		__APP._CFG
-																			.wx_unionid =
-																			ret
-																			.data
-																			.unionId;
-																		__APP
-																			.InitLogin(
-																				__APP
-																				.onLogin_callback
-																			);
-																	}
-																});
-															// #endif
-
-														}
-													});
-												}
-											} else {
-												//去授权
-												// __APP.topage("../getAuthorize/getAuthorize");
-												//启动授权设置
-												uni.pubOpenSetting(true, "getUserInfo");
-											}
-										}
-									});
-								}
-							},
-
-						});
+				
+					
 					}
 				} else {
 					__APP.onLogin_callback();
@@ -401,7 +224,7 @@
 						if (__APP.CheckLogin()) {
 							callback();
 						} else {
-							let url = "../bindingauto/bindingauto";
+							let url = "/subPages/user/bindingauto/bindingauto";
 							__APP.topage(url, "redirect");
 						};
 					}, true);
@@ -419,7 +242,7 @@
 										if (__APP.CheckLogin()) {
 											callback();
 										} else {
-											var url = "../bindingauto/bindingauto";
+											var url = "/subPages/user/bindingauto/bindingauto";
 											__APP.topage(url);
 										};
 									});
@@ -996,7 +819,7 @@
 						title: "请设置小程序的链接"
 					});
 				} else if (url.indexOf('https://') == 0) {
-					__APP.topage("/pages/webview/webview?url=" + url, method);
+					__APP.topage("/subPages/other/webview/webview?url=" + url, method);
 				} else if (url.indexOf('http://') == 0) {
 					uni.showToast({
 						title: "您设置的链接不合法"

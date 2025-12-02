@@ -1,8 +1,5 @@
 ﻿<template>
 	<view>
-		<!--提示框引入-开始：使用全局 Toast 组件-->
-		<Toast :showToast="showToast" />
-		<!--提示框引入-结束-->
 		<view class="page">
 			<view class="topmask" :hidden="topmask"></view>
 			<!--内容开始-->
@@ -94,10 +91,7 @@
 				current: "",
 				addr_id: "",
 				lat: "",
-				lng: "",
-				showToast: {
-					isShow: false
-				}
+				lng: ""
 			};
 		},
 

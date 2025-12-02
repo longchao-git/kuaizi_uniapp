@@ -1,8 +1,5 @@
 ﻿<template>
 	<view>
-		<!--提示框引入-开始：使用全局 Toast 组件-->
-		<Toast :showToast="showToast" />
-		<!--提示框引入-结束-->
 		<!--无数据状态提示：使用全局 NoData 组件 -->
 		<NoData :show="couponLists.length === 0" />
 		<view v-if="couponLists.length > 0">

@@ -2,9 +2,6 @@
 	<view>
 		<skeleton :loading="loading" :showAvatar='false' :row="skeleton1.row" :showTitle="skeleton1.showTitle">
 			<view>
-				<!--提示框引入-开始：使用全局 Toast 组件-->
-				<Toast :showToast="showToast" />
-				<!--提示框引入-结束-->
 				<scroll-view scroll-y style="height: 100%;" :scroll-into-view="toView" scroll-with-animation="true"
 					enable-back-to-top="true">
 					<view class="city_list">

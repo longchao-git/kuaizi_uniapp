@@ -1,8 +1,5 @@
 ﻿<template>
 	<view>
-		<!--提示框引入-开始：使用全局 Toast 组件-->
-		<Toast :showToast="showToast" />
-		<!--提示框引入-结束-->
 		<view v-if="mymessage != ''">
 			<view v-for="(item, index) in mymessage" :key="index" class="messageList">
 				<view class="title">{{item.title}}</view>
@@ -22,7 +19,6 @@
 </template>
 
 <script>
-	// pages/myMessage/myMessage.js
 	var app = getApp();
 	var params = {
 		type: '',
@@ -36,10 +32,7 @@
 				mymessage: [],
 				page: 1,
 				loadhide: true,
-				moreShow: true,
-				showToast: {
-					isShow: false
-				}
+				moreShow: true
 			};
 		},
 
@@ -129,7 +122,6 @@
 	};
 </script>
 <style>
-	/* pages/myMessage/myMessage.wxss */
 	page {
 		background: #eef2f5;
 	}

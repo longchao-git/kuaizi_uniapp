@@ -2,9 +2,6 @@
 	<view>
 		<skeleton :loading="loading" :showAvatar='false' :row="skeleton1.row" :showTitle="skeleton1.showTitle">
 			<view>
-				<!--提示框引入-开始：使用全局 Toast 组件-->
-				<Toast :showToast="showToast" />
-				<!--提示框引入-结束-->
 
 				<view>
 					<view class="topmask" :hidden="topmask"></view>
@@ -75,10 +72,7 @@
 				addr_lis: [],
 
 				topmask: true,
-				addrhidden: false,
-				showToast: {
-					isShow: false
-				},
+				addrhidden: false
 			};
 		},
 

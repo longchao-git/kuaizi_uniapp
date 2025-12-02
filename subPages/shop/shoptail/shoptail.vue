@@ -1,9 +1,5 @@
 ﻿<template>
 	<view>
-		<!--提示框引入-开始：使用全局 Toast 组件-->
-		<Toast :showToast="showToast" />
-		<!--提示框引入-结束 -->
-
 		<!-- 用户点击手势调用授权设置：使用全局 AuthSettingDialog 组件 -->
 		<AuthSettingDialog :show="OpenSettingShow" :openType="OpenSettingType" @cancel="closeSetting"
 			@confirm="closeSetting" />
@@ -1260,9 +1256,6 @@
 				specShow_tj: false,
 				scrollWidth: "",
 				idx: 0,
-				showToast: {
-					isShow: false
-				},
 				OpenSettingShow: false,
 				sheraImg: ''
 			};
@@ -1326,7 +1319,7 @@
 		methods: {
 			getStaticQrcode() {
 				app.globalData.getStaticQrcode({
-					"page": "pages/shoptail/shoptail",
+					"page": "/subPages/shop/shoptail/shoptail",
 					"param": {
 						"shop_id": shop_id,
 					}
@@ -3144,7 +3137,6 @@
 		display: inline-block;
 	}
 
-	/* pages/shoptail/shoptail.wxss */
 	pages {
 		background: #F5F7FA;
 	}

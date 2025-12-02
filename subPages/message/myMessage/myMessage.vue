@@ -1,8 +1,5 @@
 ﻿<template>
 	<view>
-		<!--提示框引入-开始：使用全局 Toast 组件-->
-		<Toast :showToast="showToast" />
-		<!--提示框引入-结束-->
 		<view v-if="mymessage != ''" style="padding-bottom:100rpx;">
 			<view v-for="(item, index) in mymessage" :key="index" class="messageList"
 				:class="(isRead2[index] == '0' ? isRead2[index] : 'hide')" @tap="readMsg" :data-id="item.message_id"
@@ -31,7 +28,6 @@
 </template>
 
 <script>
-	// pages/myMessage/myMessage.js
 	var app = getApp();
 	var params = {
 		type: '',
@@ -48,10 +44,7 @@
 				moreShow: true,
 				isRead: [],
 				isRead2: [],
-				is_all: 0, //是否一键已读
-				showToast: {
-					isShow: false
-				}
+				is_all: 0 //是否一键已读
 			};
 		},
 
@@ -169,7 +162,7 @@
 			},
 
 			toHistory() {
-				app.globalData.gopage("/pages/myMessage/history/history");
+				app.globalData.gopage("/subPages/message/history/history");
 			},
 
 			readAll() {
@@ -184,7 +177,6 @@
 	};
 </script>
 <style>
-	/* pages/myMessage/myMessage.wxss */
 	page {
 		background: #eef2f5;
 	}

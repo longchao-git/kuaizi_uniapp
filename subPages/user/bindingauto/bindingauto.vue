@@ -1,9 +1,5 @@
 ﻿<template>
 	<view>
-		<!--提示框引入-开始：使用全局 Toast 组件-->
-		<Toast :showToast="showToast" />
-		<!--提示框引入-结束-->
-
 		<view class="binding">
 			<!-- #ifdef MP-WEIXIN || MP-BAIDU-->
 			<button class="long_btn" open-type="getPhoneNumber" @getphonenumber="getPhoneNumber">获取绑定手机号授权</button>
@@ -22,10 +18,8 @@
 	export default {
 		data() {
 			return {
-				showToast: {
-					isShow: false
-				},
 			};
+
 		},
 
 		components: {},
@@ -121,7 +115,6 @@
 	};
 </script>
 <style>
-	/* page/binding/binding.wxss */
 	.binding {
 		padding: 100rpx 40rpx 20rpx;
 		height: 100%;

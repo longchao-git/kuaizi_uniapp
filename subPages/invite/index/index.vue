@@ -13,12 +13,13 @@
 			</view>
 			<view class="btn_box">
 				<image class="btn" mode="widthFix" :src="info.share_btn1" @tap="toface"></image>
-				<image class="btn" mode="widthFix" :src="info.share_btn2">
-					<button open-type="share"></button>
-				</image>
+				<button open-type="share" class="soNItpmsa">
+					<image class="btn" mode="widthFix" :src="info.share_btn2"></image>
+				</button>
 			</view>
 			<view class="inviteFriends_chengjiu">
-				<view class="tit">我的成就<view class="fr txt">查看明细<image class="ico" src="/static/image/icon-arrowR-gray2x.png">
+				<view class="tit">我的成就<view class="fr txt">查看明细<image class="ico"
+							src="/static/image/icon-arrowR-gray2x.png">
 						</image>
 					</view>
 				</view>
@@ -38,45 +39,7 @@
 				</ul>
 				<view class="clear"></view>
 			</view>
-			<!-- <view class="inviteFriends_rankingList">
-        <view class="tit">邀请排行榜（Top {{info.ranks.length}}）</view>
-        <table width="100%" border="0" cellspacing="0" cellpadding="0">
-            <tbody>
-                <tr>
-                    <th>排名</th>
-                    <th>用户</th>
-                    <th>邀请人数(人)</th>
-                    <th>已获红包(€)</th>
-                </tr>
-                <block wx:for="{{info.ranks}}" wx:key="index">
-                    <tr class="bg bg1" wx:if="{{index == 0}}">
-                        <td><image class="ico ico1" src='../../../image/inviteFriends_ico2.png'><text>{{index+1}}</text></image></td>
-                        <td>{{item.member.nickname}}</td>
-                        <td>{{item.invite_count}}</td>
-                        <td>{{item.invite_money}}</td>
-                    </tr>
-                    <tr class="bg bg2" wx:elif="{{index == 1}}">
-                        <td><image class="ico ico1" src='../../../image/inviteFriends_ico2.png'><text>{{index+1}}</text></image></td>
-                        <td>{{item.member.nickname}}</td>
-                        <td>{{item.invite_count}}</td>
-                        <td>{{item.invite_money}}</td>
-                    </tr>
-                    <tr class="bg bg3" wx:elif="{{index == 2}}">
-                        <td><image class="ico ico1" src='../../../image/inviteFriends_ico2.png'><text>{{index+1}}</text></image></td>
-                        <td>{{item.member.nickname}}</td>
-                        <td>{{item.invite_count}}</td>
-                        <td>{{item.invite_money}}</td>
-                    </tr>
-                    <tr wx:else>
-                        <td><image class="ico ico2" src='../../../image/inviteFriends_ico1.png'><text>{{index+1}}</text></image></td>
-                        <td>{{item.member.nickname}}</td>
-                        <td>{{item.invite_count}}</td>
-                        <td>{{item.invite_money}}</td>
-                    </tr>
-                </block>
-            </tbody>
-        </table>
-    </view> -->
+
 		</scroll-view>
 
 		<!--规则-开始-->
@@ -138,37 +101,15 @@
 			});
 		},
 
-		/**
-		 * 生命周期函数--监听页面隐藏
-		 */
-		onHide: function() {},
 
-		/**
-		 * 生命周期函数--监听页面卸载
-		 */
-		onUnload: function() {},
-
-		/**
-		 * 页面相关事件处理函数--监听用户下拉动作
-		 */
-		onPullDownRefresh: function() {},
-
-		/**
-		 * 页面上拉触底事件的处理函数
-		 */
-		onReachBottom: function() {},
 
 		/**
 		 * 用户点击右上角分享
 		 */
 		onShareAppMessage: function(res) {
-			// if (res.from === 'button') {
-			//     // 来自页面内转发按钮
-			//     console.log(res.target)
-			// }
 			return {
 				title: '邀请好友',
-				path: "/pages/invite/share/share?pid=" + this.pid
+				path: "/subPages/invite/share/share?pid=" + this.pid
 			};
 		},
 		methods: {
@@ -279,7 +220,19 @@
 		padding: 20rpx 0 10rpx;
 		display: flex;
 	}
-
+	.soNItpmsa{
+		flex: 1;
+		margin: 0 16rpx;
+		position: relative;
+		margin: 0 !important;
+		padding: 0 !important;
+		background: transparent !important;
+	}
+	.soNItpmsa .btn {
+		width: 100%;
+		margin: 0 !important;
+		position: relative;
+	}
 	.inviteIndex .btn_box .btn {
 		flex: 1;
 		margin: 0 16rpx;
@@ -530,7 +483,4 @@
 		display: block;
 		margin: 40rpx auto 0;
 	}
-
-
-	
 </style>

@@ -1,8 +1,5 @@
 ﻿<template>
 	<view>
-		<!--提示框引入-开始：使用全局 Toast 组件-->
-		<Toast :showToast="showToast" />
-		<!--提示框引入-结束-->
 		<view style="padding-bottom:100rpx;">
 			<!--内容开始-->
 			<view class="shangjiaEvlt mb10">
@@ -148,9 +145,6 @@
 				contents: "",
 				imageList_len: "",
 				uploadList: [],
-				showToast: {
-					isShow: false
-				},
 				isType: 0
 			};
 		},

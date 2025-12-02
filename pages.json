@@ -28,16 +28,6 @@
 			}
 		},
 		{
-			"path": "pages/bindUserInfo/bindUserInfo",
-			"style": {
-				"navigationBarTitleText": "获取用户信息"
-			}
-		},
-		{
-			"path": "pages/getAuthorize/getAuthorize",
-			"style": {}
-		},
-		{
 			"path": "pages/position/searchaddr/search",
 			"style": {
 				"navigationBarTitleText": "选择地址"
@@ -206,12 +196,6 @@
 					}
 				},
 				{
-					"path": "shoplist/shoplist",
-					"style": {
-						"navigationBarTitleText": "商家列表"
-					}
-				},
-				{
 					"path": "searchshoplist/shoplist",
 					"style": {
 						"navigationBarTitleText": "商家搜索"
@@ -334,12 +318,6 @@
 		{
 			"root": "subPages/other",
 			"pages": [
-				{
-					"path": "aboutUs/aboutUs",
-					"style": {
-						"navigationBarTitleText": "关于我们"
-					}
-				},
 				{
 					"path": "paotui/paotui",
 					"style": {

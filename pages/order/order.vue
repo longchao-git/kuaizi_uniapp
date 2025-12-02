@@ -2,14 +2,12 @@
 	<view>
 		<skeleton :loading="loading" :showAvatar='false' :row="skeleton1.row" :showTitle="skeleton1.showTitle">
 			<view>
-				<!--提示框引入-开始：使用全局 Toast 组件-->
-				<Toast :showToast="showToast" />
-				<!--提示框引入-结束-->
 
 				<!-- 用户点击手势调用授权设置：使用全局 AuthSettingDialog 组件 -->
 				<AuthSettingDialog :show="OpenSettingShow" :openType="OpenSettingType" @cancel="closeSetting"
 					@confirm="closeSetting" />
 				<!--用户点击手势调用授权设置-结束-->
+
 				<view class="iflogin" :hidden="nologin">
 
 					<image class="image-bg" src="/static/image/WechatIMG166.png"></image>
@@ -52,19 +50,15 @@
 									</block>
 									<view class="wz" @tap="todetail" :id="item.shop_id">
 										<view>订单号:{{item.order_id}}</view>
-										<!-- <view class="tit">{{item.shop_title}}<image src="/static/image/arrowright.png" class="linkico"></image></view>
-              <text class="time">{{item.dateline}}</text> -->
+									
 									</view>
-									<!-- <view class="tag">外</view> -->
 								</view>
-								<!--<navigator url="../orderDetail/detail?orderid={{item.order_id}}">-->
 								<view class="list" @tap.stop="toorderdetail" :data-orderid="item.order_id">
 									<view class="name">{{item.shop_title}}</view>
 									<text>{{item.product_title}}</text>
 									<view class="picre">总计</view>
 									<view class="fr" style="margin-bottom: 16rpx;">€{{item.amount}}</view>
 								</view>
-								<!--</navigator>-->
 								<view class="btn_box">
 									<view class="time">{{item.dateline}}</view>
 
@@ -187,9 +181,6 @@
 				nologin: false,
 				login: true,
 				noorder: true,
-				showToast: {
-					isShow: false
-				},
 				OpenSettingShow: false
 			}
 		},

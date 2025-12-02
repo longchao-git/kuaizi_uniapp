@@ -1,8 +1,5 @@
 ﻿<template>
 	<view>
-		<!--提示框引入-开始：使用全局 Toast 组件-->
-		<Toast :showToast="showToast" />
-		<!--提示框引入-结束-->
 		<view class="canUse">
 			<!-- 需要使用 button 来授权登录 -->
 			<!-- #ifdef MP-WEIXIN || MP-BAIDU-->
@@ -44,7 +41,7 @@
 			bindGetUserInfo: function(e) {
 				console.log("获取授权", e.detail.userInfo);
 				// #ifdef MP-ALIPAY||H5
-				let url = "../bindingauto/bindingauto";
+				let url = "/subPages/user/bindingauto/bindingauto";
 				__APP.topage(url, "redirect");
 				return
 				// #endif 
@@ -97,7 +94,6 @@
 	};
 </script>
 <style>
-	/* pages/getAuthorize/getAuthorize.wxss */
 	.canUse {
 		text-align: center;
 		padding: 20px;

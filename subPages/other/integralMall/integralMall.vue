@@ -1,10 +1,8 @@
 ﻿<template>
-	<!--pages/outsideLink/integralMall/integralMall.wxml-->
 	<web-view :src="outsideURL"></web-view>
 </template>
 
 <script>
-	// pages/outsideLink/integralMall/integralMall.js
 	var app = getApp();
 
 	export default {
@@ -17,7 +15,7 @@
 
 		onShareAppMessage: function(res) {
 			return {
-				path: "/pages/webview/webview?url=" + encodeURIComponent(res.webViewUrl)
+				path: "/subPages/other/webview/webview?url=" + encodeURIComponent(res.webViewUrl)
 			};
 		},
 		methods: {}

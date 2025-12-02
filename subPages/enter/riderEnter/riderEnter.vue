@@ -53,7 +53,6 @@
 </template>
 
 <script>
-	// subPages/enter/riderEnter/riderEnter.js
 	const app = getApp();
 	var params = {
 		mobile: ''
@@ -239,7 +238,6 @@
 	};
 </script>
 <style>
-	/* subPages/enter/riderEnter/riderEnter.wxss */
 
 	.lists {
 		width: 710rpx;

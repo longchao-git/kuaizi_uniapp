@@ -1,8 +1,5 @@
 ﻿<template>
 	<view>
-		<!--提示框引入-开始：使用全局 Toast 组件-->
-		<Toast :showToast="showToast" />
-		<!--提示框引入-结束-->
 		<view class="search_box">
 			<form>
 				<view class="box">
@@ -112,9 +109,6 @@
 				shopidx: "",
 				list: {
 					shop_id: ""
-				},
-				showToast: {
-					isShow: false
 				}
 			};
 		},

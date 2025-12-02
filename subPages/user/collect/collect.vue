@@ -1,8 +1,5 @@
 ﻿<template>
 	<view>
-		<!--提示框引入-开始：使用全局 Toast 组件-->
-		<Toast :showToast="showToast" />
-		<!--提示框引入-结束-->
 		<view class="collect_lis" :hidden="!nostatusHidden">
 			<block v-for="(item, index) in collect_lis" :key="index">
 				<view class="collect_list mb10">
@@ -61,10 +58,7 @@
 			return {
 				collect_lis: [],
 				pageimg: app.globalData._CFG.IMG_URL || '',
-				nostatusHidden: true,
-				showToast: {
-					isShow: false
-				}
+				nostatusHidden: true
 			};
 		},
 

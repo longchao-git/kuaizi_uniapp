@@ -36,7 +36,6 @@
 </template>
 
 <script>
-	// subPages/enter/shopsEnter/shopsEnter.js
 	const app = getApp();
 	var params = {
 		mobile: ''
@@ -187,7 +186,6 @@
 	};
 </script>
 <style>
-	/* subPages/enter/shopsEnter/shopsEnter.wxss */
 	.lists {
 		width: 710rpx;
 		padding-left: 20rpx;

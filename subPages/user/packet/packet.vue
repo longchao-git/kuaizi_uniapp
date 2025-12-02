@@ -1,8 +1,5 @@
 ﻿<template>
 	<view>
-		<!--提示框引入-开始：使用全局 Toast 组件-->
-		<Toast :showToast="showToast" />
-		<!--提示框引入-结束-->
 		<view v-for="(item, index) in packet" :key="index"
 			:class="'hongbaoList ' + ((item.outTime == '1' || item.order_id > 0) ? 'over' : '')">
 			<view class="cont">
@@ -33,10 +30,7 @@
 	export default {
 		data() {
 			return {
-				packet: [],
-				showToast: {
-					isShow: false
-				}
+				packet: []
 			};
 		},
 

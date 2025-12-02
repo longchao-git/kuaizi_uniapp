@@ -1,8 +1,5 @@
 ﻿<template>
 	<view>
-		<!--提示框引入-开始：使用全局 Toast 组件-->
-		<Toast :showToast="showToast" />
-		<!--提示框引入-结束-->
 		<view class="ser_box_box">
 			<view class="ser_box">
 				<image src="/static/image/quan_sou.png" class="ico"></image>
@@ -262,10 +259,7 @@
 				manjian: "",
 				firstAmount: "",
 				first_share: "",
-				shareShow: false,
-				showToast: {
-					isShow: false
-				}
+				shareShow: false
 			};
 		},
 
