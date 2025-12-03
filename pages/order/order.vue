@@ -61,7 +61,7 @@
 								</view>
 								
 								<!-- 底部按钮区域 -->
-								<!-- <view class="order_footer" v-if="item.show_btn.cui=='1' || item.show_btn.pay=='1' || item.show_btn.confirm=='1' || item.show_btn.admin=='1' || item.show_btn.see=='1' || item.show_btn.comment=='1' || item.show_btn.again=='1' || item.show_btn.canel=='1'">
+								<view class="order_footer" v-if="item.show_btn.cui=='1' || item.show_btn.pay=='1' || item.show_btn.confirm=='1' || item.show_btn.admin=='1' || item.show_btn.see=='1' || item.show_btn.comment=='1' || item.show_btn.again=='1' || item.show_btn.canel=='1'">
 									<view class="btn_group">
 										<button v-if="item.show_btn.canel=='1'" type="default" @tap.stop="cancelpop"
 											class="order_btn btn_cancel"
@@ -97,7 +97,7 @@
 											class="order_btn btn_pay"
 											:data-orderid="item.order_id">去支付{{item.mytime?item.mytime:''}}</button>
 									</view>
-								</view> -->
+								</view>
 							</view>
 						</view>
 						<view class="weui-loadmore" :hidden="loadhide">

@@ -9,11 +9,9 @@
 			:style="'width:750rpx;height:' + sysinfo.statusBarHeight + 'px;background-color:#F5F7FA;position: fixed;top: 0;left: 0;right: 0;z-index: 100;'">
 		</view>
 		<view class="cunav" :style="'top:' + sysinfo.statusBarHeight + 'px'">
-
 			<view class="cunav_back" @tap="backpages">
 				<image src="/static/image/icon_back.png"></image>
 			</view>
-
 			<!-- #ifdef MP-WEIXIN  -->
 			<view class="cunav_setup" :style="'top:' + (sysinfo.statusBarHeight+44) + 'px;'" @click="shareWayMaskShow">
 				点击分享好友
@@ -24,16 +22,7 @@
 		<view :style="'width:750rpx;height:' + (sysinfo.statusBarHeight+44) + 'px;background-color:#F5F7FA;'"></view>
 		<!-- #endif -->
 
-		<!-- #ifdef MP-ALIPAY -->
-		<!-- <view class="cunav">
 
-			<view class="cunav_setup">
-				点击分享好友
-				<view class="cunav_view"></view>
-
-			</view>
-		</view> -->
-		<!-- #endif -->
 		<!-- #ifdef MP-WEIXIN || MP-ALIPAY  -->
 		<view style="width:750rpx;height:86rpx;background-color:#F5F7FA;"></view>
 		<!-- #endif -->
@@ -42,12 +31,6 @@
 			<view class="info">
 				<view class="img fl">
 					<image :src="topInfo.logo" mode="aspectFill"></image>
-					<!-- <view class='state {{topInfo.yy_status == "1" && topInfo.yysj_status == "1" ? "state1" : "state2"}}'>
-                <block wx:if="{{topInfo.yy_status == '1' && topInfo.yysj_status == '1'}}">
-                    营业中
-                </block>
-                <block wx:else>打烊了</block>
-            </view> -->
 				</view>
 				<view class="wz_box">
 					<view class="tit overflow_clear">
@@ -102,9 +85,6 @@
 					<view class="wz overflow_clear">暂无活动</view>
 				</block>
 			</view>
-			<!-- <image src='{{topInfo.collect == "0" ? "../../image/index_btn_collect_no3x.png" : "../../image/index_btn_collect_yes3x.png"}}' class='collect' bindtap='collect'></image> -->
-			<!-- <image src='../../image/icon_share3x.png' class='share' bindtap='shareWayMaskShow'></image> -->
-			<!-- <image src='../../image/serch_ico2.png' class='search' bindtap='toshopsearch'></image> -->
 		</view>
 		<!-- 顶部基本信息-结束 -->
 		<!-- tab-开始 -->
@@ -380,7 +360,7 @@
 						</scroll-view>
 					</view>
 					<!-- 店铺招牌-结束 -->
-					<view class="is_texitea">全部菜品</view>
+				
 					<!-- 商品分类-开始 -->
 					<scroll-view :scroll-y="true" class="goodsCate"
 						:scroll-into-view="'tab_list_index_id_'+tab_list_index_id">
