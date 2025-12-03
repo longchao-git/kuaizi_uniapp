@@ -3,39 +3,53 @@
 		<!-- 用户点击手势调用授权设置：使用全局 AuthSettingDialog 组件 -->
 		<AuthSettingDialog :show="OpenSettingShow" :openType="OpenSettingType" @cancel="closeSetting"
 			@confirm="closeSetting" />
-
-		<!-- #ifdef MP-WEIXIN || H5-->
 		<view
-			:style="'width:750rpx;height:' + sysinfo.statusBarHeight + 'px;background-color:#F5F7FA;position: fixed;top: 0;left: 0;right: 0;z-index: 100;'">
-		</view>
-		<view class="cunav" :style="'top:' + sysinfo.statusBarHeight + 'px'">
-			<view class="cunav_back" @tap="backpages">
-				<image src="/static/image/icon_back.png"></image>
+			:style="topInfo.shop_show ? 'background-image: url(' + topInfo.shop_show + '); background-size: cover; background-position: center;' : ''">
+			<!-- #ifdef MP-WEIXIN || H5-->
+			<view
+				:style="'width:750rpx;height:' + sysinfo.statusBarHeight + 'px;background-color:#F5F7FA;position: fixed;top: 0;left: 0;right: 0;z-index: 100;'">
 			</view>
-			<!-- #ifdef MP-WEIXIN  -->
-			<view class="cunav_setup" :style="'top:' + (sysinfo.statusBarHeight+44) + 'px;'" @click="shareWayMaskShow">
-				点击分享好友
-				<view class="cunav_view"></view>
+			<view class="cunav" :style="'top:' + sysinfo.statusBarHeight + 'px'">
+				<view class="cunav_back" @tap="backpages">
+					<image src="/static/image/icon_back.png"></image>
+				</view>
+				<view class="cunav_search" @tap="toshopsearch">
+					<image src="/static/image/serch_ico2.png" class="search_icon"></image>
+					<text class="search_text">搜索商品</text>
+				</view>
+				<view class="cunav_collect" @tap="collect">
+					<image v-if='topInfo.collect==0' src="/static/image/index_btn_collect_no3x.png"></image>
+					<image v-if='topInfo.collect==1' src="/static/image/settion_icon.png"></image>
+				</view>
+				<!-- #ifdef MP-WEIXIN  -->
+				<view class="cunav_setup" :style="'top:' + (sysinfo.statusBarHeight+44) + 'px;'"
+					@click="shareWayMaskShow">
+					点击分享好友
+					<view class="cunav_view"></view>
+				</view>
+				<!-- #endif -->
+			</view>
+			<view :style="'width:750rpx;height:' + (sysinfo.statusBarHeight+44) + 'px;background-color:#F5F7FA;'">
 			</view>
 			<!-- #endif -->
+
+
+			<!-- #ifdef MP-WEIXIN || MP-ALIPAY  -->
+			<view style="width:750rpx;height:286rpx;background-color:#F5F7FA;"></view>
+			<!-- #endif -->
+
+
 		</view>
-		<view :style="'width:750rpx;height:' + (sysinfo.statusBarHeight+44) + 'px;background-color:#F5F7FA;'"></view>
-		<!-- #endif -->
 
-
-		<!-- #ifdef MP-WEIXIN || MP-ALIPAY  -->
-		<view style="width:750rpx;height:86rpx;background-color:#F5F7FA;"></view>
-		<!-- #endif -->
 		<!-- 顶部基本信息-开始 -->
-		<view class="topInfo">
+		<view class="topInfoView">
 			<view class="info">
-				<view class="img fl">
+				<view class="img fl logoView">
 					<image :src="topInfo.logo" mode="aspectFill"></image>
 				</view>
 				<view class="wz_box">
-					<view class="tit overflow_clear">
-
-						<text class="newbeyond">{{topInfo.title}}</text>
+					<view class="tit ">
+						<view class="newbeyond">{{topInfo.title}}</view>
 						<view
 							:class="'state_new ' + (topInfo.yy_status == '1' && topInfo.yysj_status == '1' ? 'state_new1' : 'state_new2')">
 							<block v-if="topInfo.yy_status == '1' && topInfo.yysj_status == '1'">
@@ -43,21 +57,14 @@
 							</block>
 							<block v-else>打烊了</block>
 						</view>
-						<image src="/static/image/serch_ico2.png" class="search" @tap="toshopsearch"></image>
-						<image v-if='topInfo.collect==0' src="/static/image/index_btn_collect_no3x.png" class="collect"
-							@tap="collect"></image>
-						<image v-if='topInfo.collect==1' src="/static/image/settion_icon.png" class="collect"
-							@tap="collect"></image>
 					</view>
 
-					<!-- 	<view class="open_state" v-if="topInfo.tips_label != ''" >
-						<text>{{topInfo.tips_label}}</text>
-					</view> -->
 					<view class="notice beyond" @tap="setnoticeshow">
 						公告：
 						<block v-if="topInfo.delcare.length > 0">{{topInfo.delcare}}</block>
 						<block v-else>用餐高峰请提前下单，O(∩_∩)O谢谢！！</block>
 					</view>
+
 					<view class="txt setuplists" style="margin-top:15rpx;">
 						<view class="sending_off">起送€{{topInfo.min_amount}}</view>
 						<view class="cudeliveryfee">
@@ -72,27 +79,19 @@
 					</view>
 				</view>
 			</view>
-			<view class="hd" @tap="setnoticeshow">
-				<block v-if="topInfo.huodong.length > 0">
-					<view class="fr more">查看更多></view>
-					<view v-for="(hdList, index) in topInfo.huodong" :key="index" class="wz overflow_clear"
-						v-if="index < 1">
-						<i class="ico" :style="'background:#' + hdList.color">{{hdList.word}}</i>
-						{{hdList.title}}
-					</view>
-				</block>
-				<block v-else>
-					<view class="wz overflow_clear">暂无活动</view>
-				</block>
-			</view>
+		
 		</view>
 		<!-- 顶部基本信息-结束 -->
+
 		<!-- tab-开始 -->
-		<view class="tabBox">
-			<view :class="'list ' + (tabIndex == 0 ? 'on' : '')" @tap="settabIndex" data-idx="0">菜单</view>
-			<view :class="'list ' + (tabIndex == 1 ? 'on' : '')" @tap="settabIndex" data-idx="1">点评</view>
-			<view :class="'list ' + (tabIndex == 2 ? 'on' : '')" @tap="settabIndex" data-idx="2">商家信息</view>
-		</view>
+		<view style="background: #ffffff;padding-top: 24rpx;">
+			<view class="tabBox">
+				<view :class="'list ' + (tabIndex == 0 ? 'on' : '')" @tap="settabIndex" data-idx="0">菜单</view>
+				<view :class="'list ' + (tabIndex == 1 ? 'on' : '')" @tap="settabIndex" data-idx="1">点评</view>
+				<view :class="'list ' + (tabIndex == 2 ? 'on' : '')" @tap="settabIndex" data-idx="2">商家信息</view>
+			</view>
+		</view>	
+		
 		<!-- tab-结束 -->
 		<!-- 菜单-开始 -->
 		<block v-if="tabIndex == 0">
@@ -360,7 +359,7 @@
 						</scroll-view>
 					</view>
 					<!-- 店铺招牌-结束 -->
-				
+
 					<!-- 商品分类-开始 -->
 					<scroll-view :scroll-y="true" class="goodsCate"
 						:scroll-into-view="'tab_list_index_id_'+tab_list_index_id">
@@ -1646,7 +1645,8 @@
 				var shopinfo = JSON.stringify(that.topInfo);
 				var goodsArr = JSON.stringify(that.goodsArr);
 				// uin.setstorage()
-				app.globalData.topage('/subPages/shop/shopsearch/shopsearch?shop_id=' + shop_id + '&min_amount=' + that.topInfo
+				app.globalData.topage('/subPages/shop/shopsearch/shopsearch?shop_id=' + shop_id + '&min_amount=' + that
+					.topInfo
 					.min_amount + '&shoptitle=' + that.topInfo.title);
 			},
 			newshopComments() {
@@ -1726,6 +1726,7 @@
 				} else {
 					return 0;
 				};
+
 			},
 
 			bindtolower() {
@@ -1880,7 +1881,14 @@
 
 									;
 								};
-							};
+
+								// if (ecart.shop_cart[sku_id].num > goodsArr2.products[j].specs[h].sale_sku) {
+								//     wx.showToast({ title: '库存发生变化' });
+								//     ecart.clear();
+								// };
+							}
+
+							;
 							goodsArr2.products[j].num = ecart.sku_count(goodsArr2.products[j].product_id);
 						} else if (goodsArr2.products[j].specification && goodsArr2.products[j].specification.length > 0) {
 							sku_id = goodsArr2.products[j].product_id + "_0";
@@ -1905,10 +1913,16 @@
 							} else {
 								goodsArr2.products[j].num = 0;
 							};
+
 						};
-					};
-				};
-				console.log(goodsArr2);
+
+						;
+					}
+
+					;
+				}
+
+				;
 				that.tj_items = goodsArr2;
 			},
 
@@ -2108,7 +2122,7 @@
 						str_obj = sku_obj.str_obj;
 					} else {
 						str_obj = {};
-						str_name = '';
+						str_name = {};
 					}
 
 					;
@@ -3104,7 +3118,7 @@
 		text-overflow: ellipsis;
 		overflow: hidden;
 		display: inline-block;
-		max-width: 260rpx;
+		max-width: 570rpx;
 		color: #262628;
 		font-size: 32rpx;
 		font-weight: bold;
@@ -3121,21 +3135,29 @@
 		background: #F5F7FA;
 	}
 
-	.topInfo {
-		background: #F5F7FA;
-		height: 274rpx;
+	.topInfoView {
 		position: relative;
+		box-shadow: 0px -16rpx 16rpx 0px rgba(213, 225, 236, 0.09);
+		border-radius: 60rpx 60rpx 0px 0px;
+		background: white;
+		margin-top: -60rpx;
 	}
-
-	.topInfo .info {
-		overflow: hidden;
-		width: 690rpx;
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		margin: 0 auto;
+	.topInfoView .logoView{
+		position: absolute;
+		top: -100rpx;
+		left: 32rpx;
+		width: 120rpx;
+		height: 120rpx;
+		border-radius: 120rpx;
+		border: 1rpx solid #fff;
+		box-shadow: 0px -16rpx 16rpx 0px rgba(213, 225, 236, 0.09);
+		
 	}
-
+	.topInfoView .logoView image{
+		width: 120rpx;
+		height: 120rpx;
+		border-radius: 120rpx;
+	}
 	.shopOffyouhui {
 		position: relative;
 		width: 500rpx;
@@ -3166,48 +3188,18 @@
 		line-height: 36rpx;
 	}
 
-	.topInfo .info .img {
-		width: 198rpx;
-		height: 198rpx;
-		background: #fcfcfc;
+	.topInfoView .info {
 		overflow: hidden;
-		border-radius: 6rpx;
-		position: relative;
+		width: 670rpx;
+		margin: 0 auto;
+		padding: 40rpx 0 0;
 	}
 
-	.topInfo .info .img image {
-		width: 198rpx;
-		height: 198rpx;
-	}
-
-	.topInfo .info .img .state {
+	.topInfoView .info .wz_box {
 		width: 100%;
-		line-height: 40rpx;
-		height: 40rpx;
-		font-size: 24rpx;
-		text-align: center;
-		color: #fff;
-		position: absolute;
-		left: 0;
-		bottom: 0;
-		right: 0;
 	}
 
-	.topInfo .info .img .state1 {
-		background: #ff797c;
-	}
-
-	.topInfo .info .img .state2 {
-		background: #999999;
-	}
-
-	.topInfo .info .wz_box {
-		width: 476rpx;
-		height: 198rpx;
-		color: #fff;
-	}
-
-	.topInfo .info .wz_box .tit {
+	.topInfoView .info .wz_box .tit {
 		font-size: 32rpx;
 		height: 48rpx;
 		color: #262628;
@@ -3215,7 +3207,7 @@
 		align-items: center;
 	}
 
-	.topInfo .info .wz_box .tit>.state_new {
+	.topInfoView .info .wz_box .tit>.state_new {
 		width: 74rpx;
 		height: 34rpx;
 		border: 1rpx solid #FF797C;
@@ -3233,7 +3225,7 @@
 		color: #999999;
 	}
 
-	.topInfo .info .wz_box .txt .del {
+	.topInfoView .info .wz_box .txt .del {
 		font-size: 22rpx;
 		position: relative;
 		color: #999;
@@ -3241,52 +3233,7 @@
 		text-decoration: line-through;
 	}
 
-	/* .topInfo .info .wz_box .txt .del:after {
-    content: '';
-    width: 100%;
-    height: 2rpx;
-    background: #999;
-    position: absolute;
-    left: 0;
-    top: 50%;
-} */
-
-	.open_state text {
-		font-size: 22rpx;
-		color: #fff;
-		line-height: 32rpx;
-		margin: 0 0 10rpx;
-	}
-
-	.topInfo .hd {
-		overflow: hidden;
-		color: #6D7278;
-		font-size: 24rpx;
-		width: 690rpx;
-		margin: 0 auto;
-		margin-top: 20rpx;
-		margin-bottom: 10rpx;
-	}
-
-	.topInfo .hd .wz {
-		margin-right: 160rpx;
-	}
-
-	.topInfo .hd .wz .ico {
-		width: 32rpx;
-		height: 32rpx;
-		display: inline-block;
-		border-radius: 8rpx;
-		line-height: 32rpx;
-		text-align: center;
-		color: #fff;
-		font-size: 24rpx;
-		font-style: normal;
-		margin-right: 12rpx;
-		vertical-align: text-bottom;
-	}
-
-	.topInfo .notice {
+	.topInfoView .notice {
 		width: 100%;
 		line-height: 48rpx;
 		display: flex;
@@ -3299,75 +3246,47 @@
 		-webkit-line-clamp: 2;
 		line-clamp: 2;
 		font-weight: 500;
-		margin-top: 10rpx;
 		-webkit-box-orient: vertical;
 	}
 
-	.topInfo .notice .ico {
-		width: 32rpx;
-		height: 28rpx;
-		margin-right: 8rpx;
-		vertical-align: sub;
-	}
-
-	.topInfo .collect {
-		width: 44rpx;
-		height: 44rpx;
-		position: absolute;
-		right: 30rpx;
-	}
-
-	.topInfo .share {
-		width: 40rpx;
-		height: 40rpx;
-		position: absolute;
-		right: 76rpx;
-	}
-
-	.topInfo .search {
-		width: 44rpx;
-		height: 44rpx;
-		position: absolute;
-		right: 94rpx;
-	}
-
 	.tabBox {
-		width: 100%;
-		height: 88rpx;
-		background: #fff;
+		width: 670rpx;
+		margin: 0 40rpx;
+		height: 64rpx;
+		background: #f7f7f7;
 		overflow: hidden;
 		box-sizing: border-box;
-		/* border-bottom: 2rpx solid #e6e6e6; */
 		display: flex;
 		align-items: center;
-		box-shadow: 0px -16rpx 16rpx 0px rgba(213, 225, 236, 0.09);
-		border-radius: 30rpx 30rpx 0px 0px;
+		justify-content: space-between;
+		border-radius: 64rpx;
+		
 	}
 
 	.tabBox .list {
-		font-size: 28rpx;
-		height: 40rpx;
+		width: 33%;
+		font-size: 26rpx;
+		height: 64rpx;
+		line-height: 64rpx;
 		position: relative;
-		margin: 0 60rpx;
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		color: #A3A3A4;
+		color: #999;
+		padding: 0 28rpx;
+		border-radius: 64rpx;
+		transition: all 0.3s;
+		font-weight: 500;
+		letter-spacing: 1rpx;
 	}
 
 	.tabBox .list.on {
-		color: #FF797C;
+		color: #fff;
+		background: #FF797C;
 	}
 
-	.tabBox .list.on:after {
-		content: '';
-		width: 32rpx;
-		height: 4rpx;
-		background: #FF797C;
-		position: absolute;
-		left: 50%;
-		bottom: -10rpx;
-		margin-left: -16rpx;
+	.tabBox .list:not(.on) {
+		background: transparent;
 	}
 
 	.noticeMask {
@@ -5208,6 +5127,44 @@
 		margin-left: -6rpx;
 	}
 
+	.cunav_search {
+		width: 260rpx;
+		height: 60rpx;
+		margin-left: 20rpx;
+		margin-right: 20rpx;
+		background-color: #FFFFFF;
+		border-radius: 30rpx;
+		display: flex;
+		align-items: center;
+		padding: 0 24rpx;
+	}
+
+	.cunav_search .search_icon {
+		width: 32rpx;
+		height: 32rpx;
+		margin-right: 12rpx;
+	}
+
+	.cunav_search .search_text {
+		font-size: 28rpx;
+		color: #999999;
+	}
+
+	.cunav_collect {
+		width: 48rpx;
+		height: 48rpx;
+		margin-left: 20rpx;
+		border-radius: 8rpx;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.cunav_collect>image {
+		width: 48rpx;
+		height: 48rpx;
+	}
+
 	.cunav_setup>view {
 		width: 0px;
 		/*设置宽高为0，所以div的内容为空，从才能形成三角形尖角*/
@@ -5268,8 +5225,8 @@
 	}
 
 	.sending_off {
-		padding: 0 14rpx;
 		height: 48rpx;
+		margin-right: 16rpx;
 		/* background-color: #2D2D2D; */
 		border-radius: 8rpx;
 		font-size: 24rpx;

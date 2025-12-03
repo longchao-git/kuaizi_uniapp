@@ -3,12 +3,6 @@
 		<view class="page">
 			<block>
 				<view class="orderStatus">
-					<!--<block wx:if="{{orderdetail.msg=='已取消'}}">
-                <view class="bt">{{orderdetail.msg}}<image src="../../image/arrowright.png"></image></view>
-            </block>
-            <block wx:else>
-                <view class="bt" bindtap="status" data-orderid="{{orderdetail.order_id}}">{{orderdetail.msg}}<image src="../../image/arrowright.png"></image></view>
-            </block>-->
 					<block>
 						<view class="bt" @tap="status" :data-orderid="orderdetail.order_id">{{ orderdetail.msg }}</view>
 					</block>
@@ -32,10 +26,6 @@
 							<button type="default" :size="defaultSize" @tap="paybtn" hover-class="other-button-hover"
 								:data-orderid="orderdetail.order_id" class="pay_btn">去支付</button>
 						</block>
-						<!-- <block wx:if="{{orderdetail.show_btn.payback=='1'}}">
-                    <button type="default"  size="{{defaultSize}}" bindtap="tuipop" hover-class="other-button-hover">申请退款</button>
-                </block> -->
-						<!--  -->
 						<block v-if="orderdetail.show_btn.confirm == '1'">
 							<button type="default" :size="defaultSize" @tap="confirmpop"
 								hover-class="other-button-hover">{{orderdetail.pei_type == 3 ? '确认自提' : '确认送达'}}</button>
@@ -67,14 +57,6 @@
 					</view>
 				</view>
 			</block>
-			<!--<block wx:if="{{orderdetail.show_map==1}}">
-        <view class="orderMap">
-            <view bindtap="callRider" class="tipNum clear_both">骑手：{{orderdetail.staff.name}}  {{orderdetail.staff.mobile}}<image src="../../image/btn_call_white.png" class="fr"></image></view>
-            <view class="map">
-                <map id="mapselect" style="width:{{map_width}}px;height:{{map_height}}px" latitude="{{rider_lat}}" longitude="{{rider_log}}" scale="14" markers="{{markers}}" show-location></map>
-            </view>
-        </view>
-    </block>-->
 			<view class="orderDetail mt10">
 				<view class="pub_list tit" @tap="todetail" :id="orderdetail.waimai.shop_id">
 					<view>{{ orderdetail.waimai.title }}</view>
@@ -129,8 +111,6 @@
 					<view v-for="(item, index) in orderdetail.youhui" :key="index" class="pub_list list_box"
 						v-if="orderdetail.youhui.length > 0">
 						<view class="clear_both">
-							<!-- <text class="ico" :style="'background: #' + item.color + ';'"> -->
-							<!-- {{item.word}}</text> -->
 							{{ item.title }}
 						</view>
 						<view class="fontcl2">{{ item.word == '卡' ? '' : '-' }}€{{ item.amount }}</view>
@@ -189,66 +169,6 @@
 			<image src="/static/image/btn_hongbao.png">
 				<button open-type="share" class="hbshare_btn"></button>
 			</image>
-		</view>
-
-
-		<!-- 电话弹出框 -->
-		<!-- <view class="fixed_box" >
-    <image src="../../image/order-details/btn_fr_order1x.png" bindtap="phoneTap"></image>
-    <view wx-if="{{orderdetail.spend_number}}"><image src="../../image/order-details/btn_fr_order2x.png" bindtap='seeCode'></image></view>
-</view>
-<view class="phonePopup" hidden="{{phoneHidden}}">
-        <view class="weui-mask"  bindtap="maskHidden1"></view>
-        <view class="cont">
-            <view class="list_box">
-                <view class="list" bindtap="phoneOne">联系商家</view>
-                <block wx:if="{{orderdetail.pei_type==1 && orderdetail.staff_id>0}}">
-                    <view class="list" bindtap="phoneTwo">联系骑手</view>
-                </block>
-                <view class="list lxkfbtns"><button class="lxkfbtn" open-type="contact"></button>联系客服</view>
-                
-            </view>
-        </view>
-</view> -->
-		<!-- 电话弹出框end -->
-
-		<!-- 申请退款弹出框 -->
-		<view class="cancel_popup" :hidden="tuikuan">
-			<view class="weui-mask" @tap="hide"></view>
-			<view class="cont">
-				<view class="bt">退款理由</view>
-				<view class="section">
-					<textarea :hidden="tuikuan" :placeholder="tuikuan_reason" @input="getReason"></textarea>
-				</view>
-				<view class="btn_box">
-					<button type="default" :disabled="disabled" :size="defaultSize" hover-class="other-button-hover"
-						@tap="hide">取消</button>
-					<button type="default" :size="defaultSize" @tap="tuikuanFun" hover-class="other-button-hover"
-						class="btn">确定</button>
-				</view>
-			</view>
-		</view>
-		<!-- 申请退款弹出框end -->
-		<view confirm-text="是" cancel-text="否" :hidden="modalHidden" mask @confirm="cancel" @cancel="hide">
-			<text class="black3">确定要取消订单吗？</text>
-		</view>
-		<view confirm-text="是" cancel-text="否" :hidden="confirmorder" mask @confirm="confirm" @cancel="hide">
-			<text class="black3">确认收货吗</text>
-		</view>
-
-		<!-- 查看自提码 -->
-		<view title="自提码" confirm-text cancel-text :hidden="codeOrder" mask @cancel="hide">
-			<view class="code_number">{{ orderdetail.spend_number }}</view>
-			<view class="code_code">
-				<canvas style="width:278px;height:278px;" canvas-id="mycanvas" class="code-image"></canvas>
-			</view>
-		</view>
-
-
-		<view class="bai-cont" :hidden="whitebg">
-			<view class="main-img">
-				<image src="/static/image/loading2.gif"></image>
-			</view>
 		</view>
 		<!--白布-->
 	</view>
@@ -359,15 +279,6 @@
 		methods: {
 			setfuzhi() {
 				let value = this.orderdetail.order_id
-				// uni.setClipboardData({
-				//        data:value,//要被复制的内容
-				//        success:()=>{//复制成功的回调函数
-				//          uni.showToast({//提示
-				//            title:"复制成功"
-				//          })
-				//        }
-				//      });  
-				console.log(value)
 				uni.setClipboardData({
 					data: value,
 					success: function(res) {

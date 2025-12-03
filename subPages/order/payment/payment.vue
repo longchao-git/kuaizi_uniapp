@@ -112,7 +112,6 @@
 			app.globalData.orderInfo({
 				"order_id": order_id
 			}, function(res) {
-				//  console.log(res);
 				if (res.error == '0') {
 					that.orderAmount = Number(res.data.order.amount)
 					that.money = Number(res.data.money);

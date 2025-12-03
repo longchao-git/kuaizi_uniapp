@@ -79,7 +79,6 @@
 		components: {},
 		props: {},
 		created() {
-			//骨架屏
 			this.reloadData()
 		},
 		onShow: function() {

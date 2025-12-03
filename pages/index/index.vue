@@ -551,7 +551,6 @@
 					row: 20,
 					showTitle: true,
 				},
-				// showToast:[],
 				indexCont: [],
 				allCates: [],
 				OpenSettingShow: false,
