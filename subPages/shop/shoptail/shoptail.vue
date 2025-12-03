@@ -4615,15 +4615,15 @@
 	.xiangqing .ctn1 .sj_Pingjia .switchNav view {
 		padding: 4rpx 10rpx;
 		text-align: center;
-		border: 1rpx solid #037E98;
-		color: #037E98;
+		border: 1rpx solid #ee8080;
+		color: #ee8080;
 		border-radius: 8rpx;
 		margin-bottom: 16rpx;
 		font-size: 22rpx;
 	}
 
 	.xiangqing .ctn1 .sj_Pingjia .switchNav .switchNav-active {
-		background-image: linear-gradient(1deg, #00656B 0%, #037E98 100%);
+		background-image: linear-gradient(1deg, #00656B 0%, #ee8080 100%);
 		color: #fff;
 		/* background: #ff797c; */
 	}
@@ -5215,7 +5215,7 @@
 		width: 48rpx;
 		height: 48rpx;
 		margin-left: 50rpx;
-		background-color: #037E98;
+		background-color: #ee8080;
 		border-radius: 8rpx;
 		display: flex;
 		align-items: center;
@@ -5416,7 +5416,7 @@
 
 	.newcheckbox_text {
 		font-size: 22rpx;
-		color: #037E98;
+		color: #ee8080;
 	}
 
 	.sjdets {
@@ -5491,7 +5491,7 @@
 
 	.sjdets_exe .activity_single>text {
 		font-size: 20rpx;
-		color: #037E98;
+		color: #ee8080;
 	}
 
 	.sjdets_img {

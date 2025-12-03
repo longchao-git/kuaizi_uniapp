@@ -223,8 +223,8 @@
 
 	.support span {
 		overflow: hidden;
-		border: 2rpx solid #037E98;
-		color: #037E98;
+		border: 2rpx solid #ee8080;
+		color: #ee8080;
 		display: inline-block;
 		margin-right: 8rpx;
 		padding: 0 8rpx;

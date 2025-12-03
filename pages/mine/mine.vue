@@ -70,50 +70,45 @@
 							style="width: 220rpx; height: 160rpx;flex-shrink: 0;" mode="aspectFill"></image>
 						<view class="functionX ">
 							<block v-for="(item, index) in linkLists[0]" :key="index">
-								<view class="list" @tap="toLink" :data-type="item.type" v-if="item.type!=='order'">
+								<view class="list" :class="'list'+item.type" @tap="toLink" :data-type="item.type"
+									v-if="item.type!=='order'">
 									<image class="ico" :src="item.photo" mode="aspectFit"></image>
 									<view class="txt">{{item.title}}</view>
 								</view>
 							</block>
-
 						</view>
 					</view>
-					<view class="calssf_fvi">更多服务</view>
 
 
 					<view class="functionY mb10">
 						<block v-for="(item, index) in linkLists[1]" :key="index">
 							<view class="pub_list" v-if="item.type=='kefu'&&item.type!=='stripecard'">
-								<image class="ico" :src="item.photo" mode="aspectFit"></image>
 								<view class="txt">{{item.title}}</view>
-
+								<image class="ico" src="/static/image/iconnewback2.png" mode="aspectFit"></image>
 								<button open-type="contact" class="kefuBtn"></button>
 							</view>
 							<view class="pub_list" @tap="toLink" :data-type="item.type"
 								v-if="item.type!='kefu'&&item.type!=='stripecard'">
-								<image class="ico" :src="item.photo" mode="aspectFit"></image>
 								<view class="txt">{{item.title}}</view>
-
+								<image class="ico" src="/static/image/iconnewback2.png" mode="aspectFit"></image>
 							</view>
 						</block>
 						<block v-for="(item, index) in linkLists[2]" :key="index">
 							<view class="pub_list" v-if="item.type=='kefu'" @click="kefu">
-								<image class="ico" :src="item.photo" mode="aspectFit"></image>
 								<view class="txt">{{item.title}}</view>
-
+								<image class="ico" src="/static/image/iconnewback2.png" mode="aspectFit"></image>
 								<button open-type="contact" class="kefuBtn"></button>
 							</view>
 							<view class="pub_list" @tap="toLink" :data-type="item.type" v-else>
-								<image class="ico" :src="item.photo" mode="aspectFit"></image>
 								<view class="txt">{{item.title}}</view>
-
+								<image class="ico" src="/static/image/iconnewback2.png" mode="aspectFit"></image>
 							</view>
 						</block>
 					</view>
 
-					<view :hidden="islogin">
+					<!-- <view :hidden="islogin">
 						<button @tap="signout" class="signoutbtn">退出登录</button>
-					</view>
+					</view> -->
 				</view>
 
 				<!-- 升级 -->
@@ -325,7 +320,7 @@
 						icon: 'none',
 
 					});
-				
+
 
 				} else if (type == "promotion") {
 					// 优惠兑换码
@@ -428,15 +423,12 @@
 			},
 			login: function() {
 				let that = this;
-
 				app.globalData.afterCheckLogin(function() {
 					that.homeInfo();
 				});
 			},
 			alGetUserInfo(e) {
-
 				this.login()
-
 			},
 			bindgetuserinfo(e) {
 				this.login();
@@ -446,7 +438,7 @@
 </script>
 <style>
 	page {
-		background: #fff;
+		background: #f7f7f7;
 	}
 
 	.calssf_fvi {
@@ -584,6 +576,10 @@
 		flex-wrap: wrap;
 	}
 
+	.listaddr {
+		width: 414rpx !important;
+	}
+
 	.functionX .list {
 		flex-shrink: 0;
 		font-size: 24rpx;
@@ -598,6 +594,7 @@
 		flex-direction: row;
 		margin: 5rpx 0 5rpx 15rpx;
 		align-items: center;
+
 	}
 
 	.functionX .list .ico {
@@ -608,34 +605,28 @@
 
 	.functionY .pub_list {
 		display: flex;
-		flex-direction: column;
-		justify-content: center;
+		justify-content: space-between;
 		align-items: center;
-		width: 33%;
-		background: #fff;
-		padding: 22rpx 0;
+		padding: 24rpx 0;
+		color: #000;
 	}
 
 	.functionY {
+		background: #fff;
 		position: relative;
-		display: flex;
-		flex-direction: row;
-		align-items: center;
-		justify-content: space-between;
-		margin: 10rpx 30rpx 0;
-		flex-wrap: wrap;
-		padding: 18rpx 0 26rpx 0;
+		margin: 32rpx 30rpx 0;
+		padding: 0 32rpx;
+		border-radius: 24rpx;
 	}
 
 	.functionY .ico {
 		width: 44rpx;
 		height: 44rpx;
-		margin-bottom: 16rpx;
 	}
 
 	.functionY .txt {
-		font-size: 24rpx;
-		color: #3E4248;
+		font-size: 28rpx;
+		color: #000;
 	}
 
 	.functionY .kefuBtn {

@@ -33,7 +33,7 @@
 										</view>
 									</block>
 									<block v-else-if="module.type == 3">
-										<view style="height:168rpx;">
+										<view style="height:200rpx;">
 											<view class="topState" id="searchBox_h">
 												<view class="weather">
 													<view class="fl">
@@ -64,7 +64,7 @@
 										</view>
 									</block>
 									<block v-else>
-										<view style="height:168rpx;">
+										<view style="height:200rpx;">
 											<view class="topState" id="searchBox_h">
 												<view class="location" style="max-width:80% !important;"
 													@tap.stop="tosearchaddr">
@@ -105,7 +105,8 @@
 								<block v-if="module.type == 1">
 									<view class="idxBanner">
 										<swiper autoplay="true" duration="1000" circular="true" indicator-dots="true"
-											indicator-color="#D7D7D7" indicator-active-color="#FF797C">
+											indicator-color="#D7D7D7" indicator-active-color="#FF797C"
+											>
 											<block v-for="(item, index) in module.content" :key="index">
 												<swiper-item>
 													<!-- @tap="toWxLink" -->
@@ -308,128 +309,42 @@
 						</view>
 					</view>
 					<view class="shopLists_h">
-
-						<block data-type="template" data-is="shoplists"
-							data-attr="lists:shopLists,hdShow:hdShow,hdType:hdType">
-							<view class="shoplists_box">
-								<view v-for="(item, index) in shopLists" :key="index"
-									:class="'shoplists ' + (item.yyst == 1 ? '' : 'close')" @tap="gotoDetail"
-									:id="item.shop_id">
-									<view class="logo">
-										<image :src="item.logo" class="pic" mode="aspectFill"></image>
-										<image src="/static/image/label_new.png" class="tag" v-if="item.is_new == 1">
-										</image>
-										<view class="state" v-if="item.yyst != 1">打烊了</view>
-										<view class="num" v-if="item.totalnum > 0">{{item.totalnum}}</view>
+						<view class="shop_card_list">
+							<view v-for="(item, index) in shopLists" :key="index"
+								:class="'shop_card ' + (item.yyst == 1 ? '' : 'close')" 
+								@tap="gotoDetail"
+								:id="item.shop_id">
+								<!-- 商家封面图 -->
+								<view class="card_cover">
+									<image :src="item.shop_show?item.shop_show:item.logo" class="cover_img" mode="aspectFill"></image>
+									<image src="/static/image/label_new.png" class="new_tag" v-if="item.is_new == 1"></image>
+									<view class="closed_mask" v-if="item.yyst != 1">
+										<text class="closed_text">已打烊</text>
 									</view>
-									<view class="txt_box">
-										<view class="overflow_clear tit">{{item.title}}</view>
-										<view class="open_state" v-if="item.tips_label != ''">
-											<text>{{item.tips_label}}</text>
+								</view>
+								
+								<!-- 商家信息 -->
+								<view class="card_info">
+									<view class="shop_header">
+										<view class="shop_name">{{item.title}}</view>
+										<view class="rating_score" v-if="item.comment_score_switch==1">
+											<image src="/static/image/score_icon.png" class="score_icon" mode="aspectFit"></image>
+											<text class="score_text">{{item.avg_score}}</text>
 										</view>
-										<block v-if="hdType == '1'">
-											<view class="box">
-												<view class="starS" v-if="item.comment_score_switch==1">
-													<image src="/static/image/Star-pre3x.png"></image>{{item.avg_score}}
-												</view>
-												<!-- 已售{{item.orders}}单 -->
-												<block v-if="item.comment_switch==1">评价{{item.comments}}</block>
-												<view class="fr"><span class="green">{{item.pei_time}}分钟</span>
-													{{item.juli_label}}
-												</view>
-											</view>
-											<view class="box">
-												<view class="fl flex-wrp">
-													<view class="text_amount">
-														起送€{{item.min_amount}}
-													</view>
-													<span class='text_freight'>
-														<block v-if="item.freight == 0">免配送费</block>
-														<!-- <span class='del'>€{{item.freight}}</span> -->
-														<block v-else-if="item.is_reduce_pei == 1">
-															配送费{{item.reduceEd_freight}}起</block>
-														<block v-else>配送€{{item.freight}}起</block>
-													</span>
-												</view>
-											</view>
-											<view class="support">
-												<span v-if="item.is_refund == 1">极速退款</span>
-												<span v-if="item.is_ziti == 1">支持自提</span>
-											</view>
-											<view class="hd" v-if="item.huodong.length > 0">
-												<view class="right" @tap.stop="tapHd" :data-index="index"
-													v-if="item.huodong.length > 3">{{item.huodong.length}}个活动<image
-														class="ico" mode="aspectFit"
-														:src="'/static/image/' + (hdShow == index ? 'btn_arrow_up_small3x.png' : 'topBottom.png')">
-													</image>
-												</view>
-												<ul :class="hdShow == index ? 'on' : ''">
-													<li v-for="(li, idx) in item.huodong" :key="idx">
-														<i class="ico"
-															:style="'background:#' + li.color">{{li.word}}</i>
-														{{li.title}}
-													</li>
-												</ul>
-											</view>
-										</block>
-										<block v-if="hdType == '2'">
-											<view class="box black6">
-												<view class="starS" v-if="item.comment_score_switch==1">
-													<image src="/static/image/Star-pre3x.png"></image>{{item.avg_score}}
-												</view>
-												<block v-if="item.comment_switch==1">评价{{item.comments}}</block>
-												<view class="fr"><span>{{item.pei_time}}分钟</span> {{item.juli_label}}
-												</view>
-											</view>
-											<view class="box black6">
-												<view class="fl flex-wrp">
-													<view class="text_amount">
-														起送€{{item.min_amount}}
-													</view>
-													<span class='text_freight'>
-														<block v-if="item.freight == 0">免配送费</block>
-														<!-- <span class='del'>€{{item.reduceEd_freight}}</span> -->
-														<block v-else-if="item.is_reduce_pei == 1">配送费{{item.freight}}起
-														</block>
-														<block v-else>配送€{{item.freight}}起</block>
-													</span>
-												</view>
-
-											</view>
-											<!-- <view class="line"></view> -->
-											<view class="pullBox">
-												<view class="right" @tap.stop="tapHd" :data-index="index">
-													<image class="ico" mode="aspectFit"
-														:src="'/static/image/' + (hdShow == index ? 'btn_arrow_up_small3x.png' : 'topBottom.png')">
-													</image>
-												</view>
-												<view :class="'left ' + (hdShow == index ? 'on' : '')">
-													<view v-for="(li, idx) in item.huodong" :key="idx" class="list">
-														{{li.title}}
-													</view>
-													<span v-if="item.is_refund == 1">极速退款</span>
-													<span v-if="item.is_ziti == 1">支持自提</span>
-												</view>
-											</view>
-										</block>
 									</view>
-									<view class="clear"></view>
-									<view class="products" hidden="true">
-										<ul>
-
-										</ul>
+									<view class="delivery_time">
+										<image src="/static/image/time_icon.png" class="time_icon" mode="aspectFit"></image>
+										<text v-if="item.tips_label">{{item.tips_label}}</text>
+										<text v-else>{{item.pei_time}}分钟</text>
 									</view>
 								</view>
 							</view>
 							<NoData :show="shopLists.length == 0" />
-						</block>
-						<view style="height:1px"></view>
+						</view>
 					</view>
 					<!--商家列表-结束-->
-					<!--内容-结束-->
 				</view>
-
-				<!-- </block> -->
+				<!--内容-结束-->
 				<!--筛选排序-开始-->
 				<view class="screenTab_fixed" v-if="screenTabShow">
 					<view class="screenTab" style="padding: 20rpx 30rpx;">
@@ -1419,7 +1334,7 @@
 
 	.WMhome .location .addr_ico {
 		display: inline-block;
-		width: 28rpx;
+		width: 36rpx;
 		height: 36rpx;
 		vertical-align: middle;
 		margin-right: 12rpx;
@@ -1442,8 +1357,7 @@
 		overflow: hidden;
 		text-overflow: ellipsis;
 		white-space: nowrap;
-		font-size: 34rpx;
-		font-weight: 500;
+		font-size: 30rpx;
 	}
 
 	.WMhome .topState {
@@ -1514,14 +1428,14 @@
 	}
 
 	.WMhome .topBg_box .searchBox {
-		margin: 12rpx 20rpx 0;
+		margin: 24rpx 25rpx 24rpx;
 	}
 
 	.searchBox {
 		margin: 20rpx;
 		box-sizing: border-box;
 		height: 66rpx;
-		border-radius: 8rpx;
+		border-radius: 60rpx;
 		background: #EFF1F4;
 		padding-left: 84rpx;
 		position: relative;
@@ -1600,7 +1514,6 @@
 		border-radius: 4rpx;
 		margin: 0 24rpx;
 		border-radius: 24rpx;
-		box-shadow: 0px 8rpx 16rpx 0px rgba(155, 176, 187, 0.35);
 	}
 
 	.WMhome .cateNav {
@@ -1633,7 +1546,6 @@
 
 	.WMhome .cateNav.col5 ul li {
 		text-align: center;
-		margin-top: 20rpx;
 		float: left;
 		width: 20%;
 	}
@@ -1671,11 +1583,11 @@
 	}
 
 	.idxTitle .tit {
-		font-size: 28rpx;
+		font-size: 32rpx;
 		float: left;
 		padding: 24rpx 0 24rpx 30rpx;
-		font-weight: bold;
-		color: #3E4248;
+		font-weight: 500;
+		color: #000;
 		background: #ffffff;
 		border-radius: 16rpx 16rpx 0px 0px;
 		width: 750rpx;
@@ -1938,7 +1850,7 @@
 	}
 
 	.screenTab .list.on {
-		color: #037E98;
+		color: #ee8080;
 	}
 
 	.screenTab .list .dwon_ico {
@@ -2392,4 +2304,117 @@
 		height: 132rpx;
 	}
 
+	/* 商家卡片列表样式 */
+	.shop_card_list {
+		padding: 0 25rpx;
+		background: #fff;
+	}
+
+	.shop_card {
+		border-radius: 16rpx;
+		overflow: hidden;
+		margin-bottom: 24rpx;
+	}
+
+	.shop_card.close {
+		opacity: 0.7;
+	}
+
+	/* 商家封面图 */
+	.card_cover {
+		position: relative;
+		width: 700rpx;
+		height: 308rpx;
+		overflow: hidden;
+	}
+
+	.cover_img {
+		width: 100%;
+		height: 100%;
+		display: block;
+		border-radius: 24rpx;
+	}
+
+	.new_tag {
+		position: absolute;
+		left: 0rpx;
+		top: 0rpx;
+		width: 80rpx;
+		height: 80rpx;
+		z-index: 2;
+	}
+
+	.closed_mask {
+		position: absolute;
+		left: 0;
+		top: 0;
+		width: 100%;
+		height: 100%;
+		background: rgba(0, 0, 0, 0.5);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		z-index: 1;
+		border-radius: 24rpx;
+	}
+
+	.closed_text {
+		font-size: 48rpx;
+		color: #FFFFFF;
+		font-weight: bold;
+	}
+
+	/* 商家信息 */
+	.card_info {
+		padding: 20rpx 24rpx;
+	}
+
+	.shop_header {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		margin-bottom: 12rpx;
+	}
+
+	.shop_name {
+		font-size: 32rpx;
+		font-weight: 600;
+		color: #333333;
+		flex: 1;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		margin-right: 16rpx;
+	}
+
+	.rating_score {
+		display: flex;
+		align-items: center;
+		font-size: 28rpx;
+		color: #666666;
+	}
+
+	.score_icon {
+		width: 32rpx;
+		height: 32rpx;
+		margin-right: 8rpx;
+	}
+
+	.score_text {
+		font-weight: 600;
+		color: #333333;
+	}
+
+	.delivery_time {
+		display: flex;
+		align-items: center;
+		font-size: 26rpx;
+		color: #999999;
+	}
+
+	.time_icon {
+		width: 28rpx;
+		height: 28rpx;
+		margin-right: 6rpx;
+	}
 </style>

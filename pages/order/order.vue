@@ -39,80 +39,65 @@
 					<!--<scroll-view class="order_list_box" scroll-into-view="{{toview}}" scroll-y="true" bindscrolltolower="loadmore" bindscrolltoupper="refresh">-->
 					<view class="order_list_box">
 						<view v-for="(item, idx) in order_list" :key="idx" :data-idx="idx">
-							<view class="order_list mb10" :id="idx==0?'first':''">
-								<view class="info_box">
-									<!-- <image class="fl img" :src="pageimg + '' + item.shop_logo"></image> -->
-									<block v-if="item.msg=='已取消'">
-										<view class="state fr black9 beyond">{{item.msg}}</view>
-									</block>
-									<block v-else>
-										<view class="state fr colorword beyond">{{item.msg}}</view>
-									</block>
-									<view class="wz" @tap="todetail" :id="item.shop_id">
-										<view>订单号:{{item.order_id}}</view>
-									
+							<view class="order_card" :id="idx==0?'first':''" @tap.stop="toorderdetail" :data-orderid="item.order_id">
+								<!-- 头部：店铺名称和订单状态 -->
+								<view class="order_header">
+									<view class="shop_name" @tap.stop="todetail" :id="item.shop_id">
+										{{item.shop_title}}
+										<image src="/static/image/iconnewback2.png" class="arrow_icon" mode="aspectFit"></image>
+									</view>
+									<view class="order_status" :class="item.msg=='已取消'?'status_cancel':'status_active'">
+										{{item.msg}}
 									</view>
 								</view>
-								<view class="list" @tap.stop="toorderdetail" :data-orderid="item.order_id">
-									<view class="name">{{item.shop_title}}</view>
-									<text>{{item.product_title}}</text>
-									<view class="picre">总计</view>
-									<view class="fr" style="margin-bottom: 16rpx;">€{{item.amount}}</view>
-								</view>
-								<view class="btn_box">
-									<view class="time">{{item.dateline}}</view>
-
-									<view class="flex-wrp">
-										<block v-if="item.show_btn.cui=='1'">
-											<button type="default" :size="defaultSize" @tap="cui"
-												hover-class="other-button-hover" class="cui_btn"
-												:data-shopid="item.shop_id" :data-orderid="item.order_id"
-												:data-idx="idx">催单</button>
-										</block>
-
-										<block v-if="item.show_btn.pay=='1'">
-											<button type="default" :size="defaultSize" @tap="paybtn"
-												:data-shopid="item.shop_id" hover-class="other-button-hover"
-												class="pay_btn"
-												:data-orderid="item.order_id">去支付{{item.mytime?item.mytime:''}}</button>
-										</block>
-
-										<!-- <block wx:if="{{item.show_btn.payback=='1'}}">
-			  	    <button type="default"  size="{{defaultSize}}" bindtap="tuipop" hover-class="other-button-hover" class="payback_btn" data-idx="{{idx}}" data-shopid="{{item.shop_id}}" data-orderid="{{item.order_id}}">申请退款</button>
-			  	</block> -->
-										<block v-if="item.show_btn.confirm=='1'">
-											<button type="default" :size="defaultSize" :data-shopid="item.shop_id"
-												:data-orderid="item.order_id" @tap="confirmpop"
-												hover-class="other-button-hover" class="confirm_btn">确认送达</button>
-										</block>
-										<block v-if="item.show_btn.admin=='1'">
-											<button type="default" :data-shopid="item.shop_id"
-												:data-orderid="item.order_id" :size="defaultSize" @tap="kefu"
-												hover-class="other-button-hover" class="admin_btn">申请客服介入</button>
-										</block>
-										<block v-if="item.show_btn.see=='1'">
-											<button type="default" :data-shopid="item.shop_id"
-												:data-orderid="item.order_id" :size="defaultSize" @tap="lookelv"
-												hover-class="other-button-hover" class="see_btn">查看评价</button>
-										</block>
-										<block v-if="item.show_btn.comment=='1'">
-											<button type="default" :size="defaultSize" @tap="evltTap" :data-obj="item"
-												hover-class="other-button-hover" class="comment_btn">去评价</button>
-										</block>
-										<block v-if="item.show_btn.again=='1'">
-											<button type="default" :size="defaultSize" @tap="onemore"
-												hover-class="other-button-hover" class="again_btn"
-												:data-shopid="item.shop_id" :data-orderid="item.order_id"
-												:data-idx="idx">再来一单</button>
-										</block>
-										<block v-if="item.show_btn.canel=='1'">
-											<button type="default" :size="defaultSize" @tap="cancelpop"
-												hover-class="other-button-hover" class="cancel_btn"
-												:data-shopid="item.shop_id" :data-orderid="item.order_id">取消订单</button>
-										</block>
+								
+								<!-- 商品信息 -->
+								<view class="order_content">
+									<view class="product_info">
+										<view class="product_title">{{item.product_title}}</view>
+										<view class="order_time">{{item.dateline}}</view>
 									</view>
-
+									<view class="order_price">€{{item.amount}}</view>
 								</view>
+								
+								<!-- 底部按钮区域 -->
+								<!-- <view class="order_footer" v-if="item.show_btn.cui=='1' || item.show_btn.pay=='1' || item.show_btn.confirm=='1' || item.show_btn.admin=='1' || item.show_btn.see=='1' || item.show_btn.comment=='1' || item.show_btn.again=='1' || item.show_btn.canel=='1'">
+									<view class="btn_group">
+										<button v-if="item.show_btn.canel=='1'" type="default" @tap.stop="cancelpop"
+											class="order_btn btn_cancel"
+											:data-shopid="item.shop_id" :data-orderid="item.order_id">取消订单</button>
+										
+										<button v-if="item.show_btn.cui=='1'" type="default" @tap.stop="cui"
+											class="order_btn btn_remind"
+											:data-shopid="item.shop_id" :data-orderid="item.order_id"
+											:data-idx="idx">催单</button>
+										
+										<button v-if="item.show_btn.confirm=='1'" type="default" :data-shopid="item.shop_id"
+											:data-orderid="item.order_id" @tap.stop="confirmpop"
+											class="order_btn btn_confirm">确认送达</button>
+										
+										<button v-if="item.show_btn.admin=='1'" type="default" :data-shopid="item.shop_id"
+											:data-orderid="item.order_id" @tap.stop="kefu"
+											class="order_btn btn_service">申请客服介入</button>
+										
+										<button v-if="item.show_btn.see=='1'" type="default" :data-shopid="item.shop_id"
+											:data-orderid="item.order_id" @tap.stop="lookelv"
+											class="order_btn btn_view">查看评价</button>
+										
+										<button v-if="item.show_btn.comment=='1'" type="default" @tap.stop="evltTap" :data-obj="item"
+											class="order_btn btn_comment">去评价</button>
+										
+										<button v-if="item.show_btn.again=='1'" type="default" @tap.stop="onemore"
+											class="order_btn btn_again"
+											:data-shopid="item.shop_id" :data-orderid="item.order_id"
+											:data-idx="idx">再来一单</button>
+										
+										<button v-if="item.show_btn.pay=='1'" type="default" @tap.stop="paybtn"
+											:data-shopid="item.shop_id"
+											class="order_btn btn_pay"
+											:data-orderid="item.order_id">去支付{{item.mytime?item.mytime:''}}</button>
+									</view>
+								</view> -->
 							</view>
 						</view>
 						<view class="weui-loadmore" :hidden="loadhide">
@@ -590,12 +575,13 @@
 	};
 </script>
 <style>
-	.order_list {
-		background: #fff;
-		position: relative;
-		margin: 20rpx 30rpx 0;
-		box-shadow: 0px 0px 16rpx 0px rgba(219, 219, 219, 0.5);
+	/* 订单卡片 */
+	.order_card {
+		background: #FFFFFF;
+		margin: 20rpx 30rpx;
 		border-radius: 16rpx;
+		overflow: hidden;
+		box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.06);
 	}
 
 	.page {
@@ -606,140 +592,127 @@
 		height: 100%;
 		position: relative;
 		z-index: 1;
+		padding-bottom: 40rpx;
 	}
 
-	.order_list .info_box {
-		overflow: hidden;
-		padding: 18rpx 0;
-		position: relative;
-		margin: 0 30rpx;
-		border-bottom: 1rpx #E6E6E6 solid;
-		line-height: 33rpx;
-		font-size: 24rpx;
-		color: #3E4248;
-	}
-
-	.order_list .info_box image.img {
-		width: 60rpx;
-		height: 60rpx;
-		border-radius: 100%;
-		overflow: hidden;
-		background: #eee;
-	}
-
-	.order_list .info_box .wz {
-		margin-right: 200rpx;
-	}
-
-	.order_list .info_box .wz .tit {
-		font-size: 28rpx;
-		line-height: 30rpx;
-	}
-
-	.order_list .info_box .wz .tit .linkico {
-		width: 28rpx;
-		height: 28rpx;
-		vertical-align: text-bottom;
-		margin-left: 14rpx;
-	}
-
-	.order_list .info_box .wz .time {
-		font-size: 22rpx;
-		line-height: 40rpx;
-		color: #999;
-	}
-
-	.order_list .info_box .state {
-		font-size: 24rpx;
-		line-height: 33rpx;
-		width: 200rpx;
-		text-align: right;
-	}
-
-	.order_list .info_box .colorword {
-		color: #ff797c;
-		margin-top: 20rpx;
-	}
-
-	.order_list .info_box .tag {
-		border-radius: 16rpx 0 0 0;
-		position: absolute;
-		left: 0;
-		top: 0;
-		background: #FFB74C;
-		border-radius: 0 0px 20px 0;
-		color: #fff;
-		font-size: 22rpx;
-		padding: 6rpx 10rpx 10rpx 6rpx;
-	}
-
-	.order_list .list {
-		overflow: hidden;
-		padding: 30rpx 20rpx;
-		font-size: 24rpx;
-		line-height: 40rpx;
-	}
-
-	.order_list .list text {
-		max-width: 80%;
-		overflow: hidden;
-		white-space: nowrap;
-		text-overflow: ellipsis;
-		display: block;
-	}
-
-	.order_list .list .picre {
-		float: left;
-		margin-top: 16rpx;
-	}
-
-	.order_list .list .name {
-		color: #3E4248;
-		font-size: 26rpx;
-		margin-bottom: 16rpx;
-	}
-
-	.order_list .btn_box {
-		overflow: hidden;
+	/* 订单头部 */
+	.order_header {
 		display: flex;
-		flex-direction: row;
 		align-items: center;
 		justify-content: space-between;
-		padding: 10rpx 0;
-		margin: 0 30rpx;
-		border-top: 1rpx #E6E6E6 solid;
+		padding: 24rpx 30rpx;
+		border-bottom: 1rpx solid #F5F5F5;
 	}
 
-	.order_list .btn_box .time {
-		color: #9292AF;
+	.shop_name {
+		font-size: 28rpx;
+		font-weight: 600;
+		color: #333333;
+		display: flex;
+		align-items: center;
+	}
+
+	.shop_name .arrow_icon {
+		width: 32rpx;
+		height: 32rpx;
+		margin-left: 8rpx;
+	}
+
+	.order_status {
+		font-size: 24rpx;
+		color: #999999;
+	}
+
+	.status_cancel {
+		color: #999999;
+	}
+
+	.status_active {
+		color: #FF6B6B;
+	}
+
+	/* 订单内容 */
+	.order_content {
+		padding: 24rpx 30rpx;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	}
+
+	.product_info {
+		flex: 1;
+		margin-right: 20rpx;
+	}
+
+	.product_title {
+		font-size: 26rpx;
+		color: #000;
+		margin-bottom: 16rpx;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+
+	.order_time {
 		font-size: 22rpx;
+		color: #999999;
+		margin-top: 40rpx;
 	}
 
-	.order_list .payback_btn {
-		color: #ff797c;
+	.order_price {
+		font-size: 32rpx;
+		font-weight: 600;
+		color: #333333;
+		flex-shrink: 0;
 	}
 
-	.order_list .payback_btn:after {
-		border: 2rpx solid #ff797c;
+	/* 订单底部按钮 */
+	.order_footer {
+		border-top: 1rpx solid #F5F5F5;
+		padding: 20rpx 30rpx;
 	}
 
-	.order_list .btn_box button {
-		line-height: 60rpx;
+	.btn_group {
+		display: flex;
+		justify-content: flex-end;
+		gap: 16rpx;
+	}
+
+	.order_btn {
 		padding: 0 24rpx;
-		background: #fff;
-		margin-left: 16rpx;
 		height: 60rpx;
-		color: #3E4248;
+		line-height: 60rpx;
+		font-size: 24rpx;
+		border-radius: 30rpx;
+		background: #FFFFFF;
+		color: #666666;
+		border: 1rpx solid #E5E5E5;
 	}
 
-	.order_list .btn_box button.btn_time {
-		color: #ff797c;
+	.order_btn::after {
+		border: none;
 	}
 
-	.order_list .btn_box button.btn_time::after {
-		border: 1px solid #ff797c;
+	.btn_cancel {
+		color: #999999;
+		border-color: #E5E5E5;
 	}
 
+	.btn_remind,
+	.btn_confirm,
+	.btn_service,
+	.btn_view,
+	.btn_comment,
+	.btn_again {
+		color: #333333;
+		border-color: #E5E5E5;
+	}
+
+	.btn_pay {
+		background: #FF6B6B;
+		color: #FFFFFF;
+		border-color: #FF6B6B;
+	}
 
 	.weui-loadmore {
 		height: 80rpx;

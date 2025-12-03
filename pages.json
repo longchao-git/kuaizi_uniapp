@@ -18,7 +18,8 @@
 			"path": "pages/mine/mine",
 			"style": {
 				"navigationBarTitleText": "我的",
-				"backgroundColor": "#ffffff"
+				"backgroundColor": "#ffffff",
+				"navigationStyle": "custom"
 			}
 		},
 		{
@@ -63,12 +64,12 @@
 				"selectedIconPath": "/static/image/footer/tabbar01_pre2x.png",
 				"text": "首页"
 			},
-			{
-				"pagePath": "pages/outsideLink/qianggou/qianggou",
-				"iconPath": "/static/image/footer/tabbar032x.png",
-				"selectedIconPath": "/static/image/footer/tabbar03-pre2x.png",
-				"text": "抢购"
-			},
+			// {
+			// 	"pagePath": "pages/outsideLink/qianggou/qianggou",
+			// 	"iconPath": "/static/image/footer/tabbar032x.png",
+			// 	"selectedIconPath": "/static/image/footer/tabbar03-pre2x.png",
+			// 	"text": "抢购"
+			// },
 			{
 				"pagePath": "pages/order/order",
 				"iconPath": "/static/image/footer/tabbar0322x.png",

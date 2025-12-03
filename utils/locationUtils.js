@@ -13,10 +13,12 @@ export function getUserLocationState(callback, appInstance) {
 	callback = callback || function() {};
 	
 	//#ifdef H5
+	// H5 环境直接获取定位
 	getLocation(callback, appInstance);
-	return;
 	//#endif
 	
+	//#ifdef MP-WEIXIN || MP-ALIPAY
+	// 小程序环境检查定位授权
 	uni.getSetting({
 		success(res) {
 			//#ifdef MP-WEIXIN
@@ -35,6 +37,8 @@ export function getUserLocationState(callback, appInstance) {
 						}
 					}
 				});
+			} else {
+				getLocation(callback, appInstance);
 			}
 			//#endif
 			
@@ -46,7 +50,7 @@ export function getUserLocationState(callback, appInstance) {
 						if (res1.confirm) {
 							uni.openSetting({
 								success(res2) {
-									if (res2.authSetting['scope.userLocation']) {
+									if (res2.authSetting.userLocation) {
 										getLocation(callback, appInstance);
 									}
 								}
@@ -54,10 +58,13 @@ export function getUserLocationState(callback, appInstance) {
 						}
 					}
 				});
+			} else {
+				getLocation(callback, appInstance);
 			}
 			//#endif
 		}
 	});
+	//#endif
 }
 
 /**

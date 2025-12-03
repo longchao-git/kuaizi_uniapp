@@ -928,7 +928,7 @@
 	}
 
 	.screenTab .list.on {
-		color: #037E98;
+		color: #ee8080;
 	}
 
 	.screenTab .list .dwon_ico {

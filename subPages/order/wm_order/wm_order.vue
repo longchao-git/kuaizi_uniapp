@@ -2539,19 +2539,19 @@
 		font-size: 24rpx;
 		line-height: 40rpx;
 		margin-bottom: 8rpx;
-		color: #037E98;
+		color: #ee8080;
 	}
 
 	.card_demo .txt {
 		font-size: 24rpx;
 		line-height: 40rpx;
-		color: #037E98;
+		color: #ee8080;
 	}
 
 	.card_demo .price {
 		font-size: 28rpx;
 		line-height: 40rpx;
-		color: #037E98;
+		color: #ee8080;
 		font-weight: 500;
 	}
 

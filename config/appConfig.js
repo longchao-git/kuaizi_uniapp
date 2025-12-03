@@ -1,12 +1,8 @@
 // 全局配置
 export const APP_CONFIG = {
-	// URL: "https://test.aioeuropa.com",
 	URL: "https://www.cuai-zi.com",
-	// URL: "https://aiolife.net",
-	// URL: "http://aiolocal.com",
 	
 	BASE_API: "https://www.cuai-zi.com/api.php",
-	// BASE_API: "https://test.aioeuropa.com/api.php", // 测试服
 	
 	// 签名密钥
 	HEADER_SIGN_KEY: "dragoon4adhere_balinese4dwindle",
