@@ -82,6 +82,10 @@
 	};
 </script>
 <style>
+page {
+	background-color: #fff;
+	min-height: 100vh;
+}
 	/* pages/couponcoderedemption.wxss */
 	.couponcoderedemption_input {
 		width: 650rpx;
@@ -101,7 +105,7 @@
 		width: 690rpx;
 		height: 88rpx;
 		border-radius: 20rpx;
-		background: #f60;
+		background: #ff9496;
 		font-size: 28rpx;
 		color: white;
 		display: flex;

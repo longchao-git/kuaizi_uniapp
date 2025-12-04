@@ -1,50 +1,40 @@
 ﻿<template>
 	<view>
 		<view class="collect_lis" :hidden="!nostatusHidden">
-			<block v-for="(item, index) in collect_lis" :key="index">
-				<view class="collect_list mb10">
-					<view class="img fl" @tap="getdetail" :id="item.shop_id">
-						<image :src="pageimg + '' + item.logo"></image>
+			<view class="shop_card_list">
+				<view v-for="(item, index) in collect_lis" :key="index" class="shop_card">
+					<!-- 商家封面图 -->
+					<view class="card_cover" @tap="getdetail" :id="item.shop_id">
+						<image :src="item.shop_show ? item.shop_show : item.logo" class="cover_img" mode="aspectFill"></image>
+						<image src="/static/image/label_new.png" class="new_tag" v-if="item.is_new == 1"></image>
 					</view>
-					<view class="wz_r fr">
-						<button class="btn" size="mini" @tap="quxiao" :data-idx="index"
-							:data-shopid="item.shop_id">取消关注</button>
-						<view class="fontcl4">{{item.pei_time}}分钟</view>
-						<!--<view class="black9">{{item.jili_label}}</view>-->
-					</view>
-					<view class="wz_box" @tap="getdetail" :id="item.shop_id">
-						<view class="bt overflow_clear">{{item.title}}</view>
-						<view class="wz " style="margin-top: 20rpx;">
-							<view class='starS'>
-								<image src='/static/image/Star-pre3x.png' class="icon30"></image>{{item.score}}
+					
+					<!-- 商家信息 -->
+					<view class="card_info">
+						<view class="shop_header">
+							<view class="shop_name" @tap="getdetail" :id="item.shop_id">{{item.title}}</view>
+							<view class="rating_score" v-if="item.avg_score">
+								<image src="/static/image/score_icon.png" class="score_icon" mode="aspectFit"></image>
+								<text class="score_text">{{item.avg_score}}</text>
 							</view>
-							<block v-if="item.comments">评价{{item.comments}}</block>
 						</view>
-						<view class=" shoplists fl flex-wrp">
-							<view class="text_amount">
-								起送€{{item.min_amount}}
+						<view class="delivery_info">
+							<view class="delivery_time">
+								<image src="/static/image/time_icon.png" class="time_icon" mode="aspectFit"></image>
+								<text>{{item.pei_time}}分钟</text>
 							</view>
-							<span class='text_freight'>
-								<block v-if="item.freight == 0">免配送费</block>
-								<!-- <span class='del'>€{{item.freight}}</span> -->
-								<block v-else-if="item.is_reduce_pei == 1">配送费{{item.reduceEd_freight}}起 </block>
-								<block v-else>配送€{{item.freight}}起</block>
-							</span>
+							<view class="cancel_btn" @tap="quxiao" :data-idx="index" :data-shopid="item.shop_id">
+								取消关注
+							</view>
 						</view>
-						<view class="support">
-							<span v-if="item.is_refund == 1">极速退款</span>
-							<span v-if="item.is_ziti == 1">支持自提</span>
-
-						</view>
-						<!-- <view class="wz black9">€{{item.min_amount}}起送 / <text v-if="item.freight > 0">配送费{{item.freight}}€</text><text v-else>免配送费</text></view> -->
 					</view>
-					<view class="clear"></view>
 				</view>
-			</block>
+			</view>
 		</view>
 
 
 		<NoData :show="!nostatusHidden" text="暂无收藏商家" />
+
 
 	</view>
 </template>
@@ -128,6 +118,10 @@
 	};
 </script>
 <style>
+    page{
+		background-color: #fff;
+		min-height: 100vh;
+	}
 	/*点评星星样式*/
 	.evlt_star_bg {
 		width: 170rpx;
@@ -158,78 +152,107 @@
 		height: 24rpx;
 	}
 
-	.collect_list {
+	/* 商家卡片列表样式 */
+	.shop_card_list {
+		padding: 0 25rpx;
 		background: #fff;
-		padding: 20rpx;
 	}
 
-	.collect_list .img {
-		width: 198rpx;
-		height: 198rpx;
-		box-shadow: 0px 0px 40rpx 0px rgba(163, 163, 164, 0.1);
+	.shop_card {
+		border-radius: 16rpx;
+		overflow: hidden;
+		margin-bottom: 24rpx;
+	}
+
+	/* 商家封面图 */
+	.card_cover {
+		position: relative;
+		width: 700rpx;
+		height: 308rpx;
+		overflow: hidden;
+	}
+
+	.cover_img {
+		width: 100%;
+		height: 100%;
+		display: block;
 		border-radius: 24rpx;
-		overflow: hidden;
 	}
 
-	.collect_list .img image {
-		width: 198rpx;
-		height: 198rpx;
+	.new_tag {
+		position: absolute;
+		left: 0rpx;
+		top: 0rpx;
+		width: 80rpx;
+		height: 80rpx;
+		z-index: 2;
 	}
 
-	.collect_list .wz_box {
-		margin-left: 214rpx;
-		margin-right: 180rpx;
+	/* 商家信息 */
+	.card_info {
+		padding: 20rpx 24rpx;
 	}
 
-	.collect_list .wz_box .wz {
-		line-height: 44rpx;
+	.shop_header {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		margin-bottom: 12rpx;
 	}
 
-	.collect_list .wz_box .bt {
+	.shop_name {
 		font-size: 32rpx;
-		margin-bottom: 8rpx;
-		color: #262628;
-		font-weight: bold;
-	}
-
-	.collect_list .wz_r {
-		text-align: right;
-		line-height: 36rpx;
-	}
-
-	.collect_list .wz_r .btn {
-		height: 48rpx;
-		background: #fff;
-		padding: 0 20rpx;
-		line-height: 48rpx;
-		font-size: 24rpx;
-		color: #666;
-	}
-
-	.collect_list .starS {
-		color: #FF797C;
-		font-size: 28rpx;
-		margin-left: 10rpx;
-	}
-
-	.collect_list .starS image {
-		margin-right: 10rpx;
-	}
-
-	.shoplists {
-		padding: 16rpx 0;
-	}
-
-
-	.support span {
+		font-weight: 600;
+		color: #333333;
+		flex: 1;
 		overflow: hidden;
-		border: 2rpx solid #ee8080;
-		color: #ee8080;
-		display: inline-block;
-		margin-right: 8rpx;
-		padding: 0 8rpx;
-		border-radius: 4rpx;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		margin-right: 16rpx;
 	}
 
-	
+	.rating_score {
+		display: flex;
+		align-items: center;
+		font-size: 28rpx;
+		color: #666666;
+	}
+
+	.score_icon {
+		width: 32rpx;
+		height: 32rpx;
+		margin-right: 8rpx;
+	}
+
+	.score_text {
+		font-weight: 600;
+		color: #333333;
+	}
+
+	.delivery_info {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+	}
+
+	.delivery_time {
+		display: flex;
+		align-items: center;
+		font-size: 26rpx;
+		color: #999999;
+	}
+
+	.time_icon {
+		width: 28rpx;
+		height: 28rpx;
+		margin-right: 6rpx;
+	}
+
+	.cancel_btn {
+		font-size: 24rpx;
+		color: #ff797c;
+		padding: 8rpx 20rpx;
+		border: 1rpx solid #ff797c;
+		border-radius: 24rpx;
+	}
 </style>

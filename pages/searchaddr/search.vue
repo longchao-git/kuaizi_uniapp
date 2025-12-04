@@ -13,9 +13,8 @@
 				:markers="markers" style="width:100%; height:400rpx;"></map>
 		</view>
 		<view class="contBox">
-
 			<view class="mapAddr_list_box">
-				<view class="ml10 mb5 black6" v-if="mineLists.length > 0">我的收货地址</view>
+				<view class="ml10 mb5 black6" v-if="mineLists.length > 0" style="font-size: 28rpx;">我的收货地址</view>
 				<block v-for="(item, index) in mineLists" :key="index">
 					<view class="addr_list mb10" @tap="addrTo" :data-addr="item.addr + '-' + item.house"
 						:data-title="item.title" :data-lat="item.lat" :data-lng="item.lng">
@@ -232,10 +231,10 @@
 	.ser_box {
 		margin: 10rpx 150rpx 10rpx 20rpx;
 		background: #fff;
-		border-radius: 10rpx;
+		border-radius: 60rpx;
 		padding-left: 66rpx;
-		height: 56rpx;
-		border: 2rpx solid #eee;
+		height: 60rpx;
+		border: 2rpx solid #fff;
 		position: relative;
 	}
 
@@ -263,7 +262,7 @@
 		width: 110rpx;
 		padding: 0;
 		font-size: 28rpx;
-		background: #f90;
+		background: #ff9496;
 	}
 
 	.mapAddr_list {
@@ -354,7 +353,6 @@
 		font-size: 24rpx;
 		line-height: 40rpx;
 		color: #666;
-		margin-left: 112rpx;
 	}
 
 	.addr_list .bottom {

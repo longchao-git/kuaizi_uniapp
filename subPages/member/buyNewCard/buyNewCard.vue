@@ -209,9 +209,9 @@
 	}
 
 	.footMoney {
-		font-size: 48rpx;
+		font-size: 32rpx;
 		color: #ffffff;
-		font-weight: bold;
+		font-weight: 500;
 	}
 
 	.goPay {

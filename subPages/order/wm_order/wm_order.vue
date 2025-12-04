@@ -14,17 +14,18 @@
 		</block>
 		<form @submit="formSubmit" @reset="formReset" report-submit="true">
 			<view class="page_cont_pay"
-				:style="'height:' + (!payHidden || !cardHidden || !hongHidden || !youhuiHidden ? '100%; ' : heview-80+'px')">
+				:style="'height:' + (!payHidden || !cardHidden || !hongHidden || !youhuiHidden ? '100%; ' : heview-60+'px')">
 				<view class="page_cont"
 					:style="'overflow:' + (!payHidden || !cardHidden || !hongHidden || !youhuiHidden ? 'hidden' : 'auto') + ';'">
 					<!--是否自提-开始-->
 					<!-- -->
+					<!--  -->
 					<view class="ordZiti" v-if="address.is_ziti == 1">
 						<view class="ordZiti_tab">
 							<view :class="!ordZiti ? 'on' : ''" @tap.stop="switchZiti" data-ziti="0"
-								style="border-radius: 8rpx 8rpx 0 0;">外卖配送</view>
+								style="border-radius: 24rpx  0 0 24rpx;">外卖配送</view>
 							<view :class="ordZiti ? 'on' : ''" @tap.stop="switchZiti" data-ziti="1"
-								style="border-radius: 0 0 8rpx 8rpx ;">到店自提</view>
+								style="border-radius: 0 24rpx 24rpx 0 ;">到店自提</view>
 						</view>
 						<view class="ziti_addr mb10" :hidden="ordZiti ? false : true">
 							<view class="bt fl">自提地址</view>
@@ -413,7 +414,8 @@
 					<!--换购商品-结束-->
 					<!--留言-->
 					<view class="wm_order_liuyan mb30">
-						买家留言<input type="text" placeholder="点击输入（选填）" @input="info" name="input">
+						<view>买家留言</view>
+						<textarea type="text" placeholder="点击输入（选填）" @input="info" name="input"></textarea>
 					</view>
 
 				</view>
@@ -1803,7 +1805,7 @@
 	.wm_orderchoose .choose {
 		height: 80rpx;
 		line-height: 80rpx;
-		padding: 0 50rpx 0 64rpx;
+		padding: 0 40rpx 0 40rpx;
 		width: 100%;
 		display: flex;
 		justify-content: space-between;
@@ -1951,13 +1953,18 @@
 		line-height: 80rpx;
 		background: #fff;
 		font-size: 28rpx;
-		padding-left: 24rpx;
-		padding-right: 24rpx;
+		padding-left: 40rpx;
+		padding-right: 40rpx;
+		padding-bottom: 200rpx;
 	}
 
-	.wm_order_liuyan input {
+	.wm_order_liuyan textarea {
 		margin-left: 30rpx;
 		margin-top: 16rpx;
+		height: 200rpx;
+		background: #eef2f5;
+		border-radius: 24rpx;
+		padding: 32rpx;
 		flex: 1;
 	}
 
@@ -1980,7 +1987,7 @@
 		width: 180rpx;
 		height: 76rpx;
 		background: #ffffff;
-		color: #3B96B1;
+		color: #ff797c;
 		text-align: center;
 		line-height: 76rpx;
 		font-size: 28rpx;
@@ -2014,7 +2021,6 @@
 		height: 100rpx;
 		font-size: 32rpx;
 		line-height: 100rpx;
-		border-bottom: 2rpx solid #dedede;
 		text-align: center;
 		background: #fff;
 	}
@@ -2044,7 +2050,8 @@
 	.addr_list {
 		position: relative;
 		background: #fff;
-		margin-bottom: 20rpx;
+		margin: 24rpx;
+		border-radius: 24rpx;
 	}
 
 	.addr_list .bt {
@@ -2062,7 +2069,6 @@
 
 	.addr_list .bottom {
 		padding: 20rpx;
-		border-top: 2rpx solid #e6e6e6;
 	}
 
 	.addr_list .bottom .tag {
@@ -2258,7 +2264,7 @@
 
 	.wm_order_addr .shouphone {
 		font-size: 24rpx;
-		color: #3B96B1;
+		color: #ff797c;
 		padding-bottom: 10rpx;
 	}
 
@@ -2595,7 +2601,7 @@
 	}
 
 	.selectBox .blue {
-		color: #3B96B1;
+		color: #ff797c;
 	}
 
 	.selectBox .title {
@@ -2621,7 +2627,6 @@
 	.wm_orderchoose .hongBaoLists .list {
 		margin: 24rpx;
 		display: block;
-		border: 2rpx solid #eee;
 		background: #fff;
 		padding: 0;
 		line-height: unset;
@@ -2710,7 +2715,7 @@
 	.wm_orderchoose .couponLists .list {
 		margin: 24rpx;
 		display: block;
-		border: 2rpx solid #eee;
+		/* border: 2rpx solid #eee; */
 		background: #fff;
 		padding: 0;
 		line-height: unset;

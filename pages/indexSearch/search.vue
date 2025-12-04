@@ -149,7 +149,8 @@
 </script>
 <style>
 	page {
-		background: #FAFAFA;
+		background: #fff;
+		min-height: 100vh;
 	}
 
 	.search_box {
@@ -157,7 +158,6 @@
 		position: fixed;
 		width: 750rpx;
 		box-sizing: border-box;
-		border-bottom: 1rpx solid #EDEDED;
 	}
 
 	.search_box .box {
@@ -166,21 +166,21 @@
 		display: flex;
 		flex-direction: row;
 		align-items: center;
+		background: #eff1f4;
+		border-radius: 64rpx;
 	}
 
 	.searchIcon {
-		float: left;
 		width: 90rpx;
 		height: 68rpx;
-		background: #EDEDED;
-		border-radius: 8rpx 0 0 8rpx;
+		display: flex;
+		align-items: center;
+		justify-content: center;
 	}
 
 	.searchIcon image {
-		width: 25rpx;
-		height: 28rpx;
-		margin-left: 40rpx;
-		margin-top: 20rpx;
+		width: 32rpx;
+		height: 32rpx;
 	}
 
 	/* #ifdef MP-ALIPAY  */
@@ -190,8 +190,6 @@
 
 	/* #endif */
 	.search_box .box .text {
-		background: #EDEDED;
-		border-radius: 0 8rpx 8rpx 0;
 		height: 68rpx;
 		font-size: 28rpx;
 		float: left;
@@ -247,11 +245,11 @@
 		height: 70rpx;
 		line-height: 70rpx;
 		background: #F7F7F7;
-		border-radius: 6rpx;
+		border-radius: 40rpx;
 		display: inline-block;
 		padding: 0 20rpx;
 		font-size: 28rpx;
-		color: #888;
+		color: #333333;
 		letter-spacing: 2rpx;
 	}
 
@@ -265,11 +263,11 @@
 		height: 70rpx;
 		line-height: 70rpx;
 		background: #F7F7F7;
-		border-radius: 6rpx;
+		border-radius: 40rpx;
 		display: inline-block;
 		padding: 0 20rpx;
 		font-size: 28rpx;
-		color: #888;
+		color: #333333;
 		letter-spacing: 2rpx;
 	}
 

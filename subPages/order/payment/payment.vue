@@ -524,7 +524,7 @@
 		height: 80rpx;
 		line-height: 80rpx;
 		text-align: center;
-		background: #FF725C;
+		background: #ff797c;
 		border-radius: 8rpx;
 		font-size: 32rpx;
 		color: #fff;

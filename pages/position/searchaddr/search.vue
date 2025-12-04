@@ -18,7 +18,7 @@
 					<!--<view class="refresh" bindtap="again">重新定位</view>-->
 				</view>
 				<view class="mapAddr_list_box">
-					<view class="ml10 mb5 black6" v-if="addr_lis.length>0">我的收货地址</view>
+					<view class="ml10 mb5 black6" v-if="addr_lis.length>0" style="font-size: 28rpx;">我的收货地址</view>
 					<scroll-view scroll-y="true" style="height:100%;" v-if="addr_lis.length>0">
 						<block v-for="(item, index) in addr_lis" :key="index">
 							<view class="addr_list mb10" @tap="addrTo" :data-addr="item.addr + '-' + item.house"
@@ -129,8 +129,6 @@
 				"lng": app.globalData._CFG.currentlng,
 				"lat": app.globalData._CFG.currentlat
 			}, function(ret) {
-				console.log("定位", ret);
-
 				if (ret.error == 0) {
 					that.currentaddr = ret.data.addr.addr;
 					that.chooseaddr = {
@@ -279,11 +277,10 @@
 
 	.ser_box {
 		margin: 10rpx 150rpx 10rpx 20rpx;
-		background: #f7f7f7;
-		border-radius: 10rpx;
+		background: #eef2f5;
+		border-radius: 60rpx;
 		padding-left: 66rpx;
 		height: 56rpx;
-		border: 2rpx solid #eee;
 		position: relative;
 		flex: 1;
 	}
@@ -312,7 +309,7 @@
 		width: 110rpx;
 		padding: 0;
 		font-size: 28rpx;
-		background: #f90;
+		background: #ff9496;
 	}
 
 	.ser_box_box .city {
@@ -366,7 +363,7 @@
 	}
 
 	.currentadd {
-		margin-top: 82rpx;
+		margin-top: 80srpx;
 		height: 80rpx;
 		background: #fff;
 		display: flex;
@@ -423,7 +420,7 @@
 		font-size: 24rpx;
 		line-height: 40rpx;
 		color: #666;
-		margin-left: 112rpx;
+		/* margin-left: 112rpx; */
 	}
 
 	.addr_list .bottom {

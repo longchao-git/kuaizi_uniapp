@@ -709,8 +709,8 @@
 	}
 
 	.btn_pay {
-		background: #FF6B6B;
-		color: #FFFFFF;
+		background: #FF6B6B !important;
+		color: #FFFFFF !important;
 		border-color: #FF6B6B;
 	}
 

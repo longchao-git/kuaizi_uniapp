@@ -4,10 +4,10 @@
 		<AuthSettingDialog :show="OpenSettingShow" :openType="OpenSettingType" @cancel="closeSetting"
 			@confirm="closeSetting" />
 		<view
-			:style="topInfo.shop_show ? 'background-image: url(' + topInfo.shop_show + '); background-size: cover; background-position: center;' : ''">
+			:style="topInfo.shop_show ? 'background-image: url(' + topInfo.shop_show + '); background-size: cover; background-position: center; min-height: 286rpx;' : 'min-height: 286rpx;'">
 			<!-- #ifdef MP-WEIXIN || H5-->
 			<view
-				:style="'width:750rpx;height:' + sysinfo.statusBarHeight + 'px;background-color:#F5F7FA;position: fixed;top: 0;left: 0;right: 0;z-index: 100;'">
+				:style="'width:750rpx;height:' + sysinfo.statusBarHeight + 'px;position: fixed;top: 0;left: 0;right: 0;z-index: 100;'">
 			</view>
 			<view class="cunav" :style="'top:' + sysinfo.statusBarHeight + 'px'">
 				<view class="cunav_back" @tap="backpages">
@@ -29,16 +29,11 @@
 				</view>
 				<!-- #endif -->
 			</view>
-			<view :style="'width:750rpx;height:' + (sysinfo.statusBarHeight+44) + 'px;background-color:#F5F7FA;'">
-			</view>
+			<view :style="'width:750rpx;height:' + (sysinfo.statusBarHeight+44) + 'px;'"></view>
 			<!-- #endif -->
-
-
 			<!-- #ifdef MP-WEIXIN || MP-ALIPAY  -->
-			<view style="width:750rpx;height:286rpx;background-color:#F5F7FA;"></view>
+			<view style="width:750rpx;height:286rpx;"></view>
 			<!-- #endif -->
-
-
 		</view>
 
 		<!-- 顶部基本信息-开始 -->
@@ -65,7 +60,7 @@
 						<block v-else>用餐高峰请提前下单，O(∩_∩)O谢谢！！</block>
 					</view>
 
-					<view class="txt setuplists" style="margin-top:15rpx;">
+					<view class="txt setuplists" >
 						<view class="sending_off">起送€{{topInfo.min_amount}}</view>
 						<view class="cudeliveryfee">
 							<block v-if="topInfo.freight == 0">免配送费</block>
@@ -79,7 +74,7 @@
 					</view>
 				</view>
 			</view>
-		
+
 		</view>
 		<!-- 顶部基本信息-结束 -->
 
@@ -90,8 +85,8 @@
 				<view :class="'list ' + (tabIndex == 1 ? 'on' : '')" @tap="settabIndex" data-idx="1">点评</view>
 				<view :class="'list ' + (tabIndex == 2 ? 'on' : '')" @tap="settabIndex" data-idx="2">商家信息</view>
 			</view>
-		</view>	
-		
+		</view>
+
 		<!-- tab-结束 -->
 		<!-- 菜单-开始 -->
 		<block v-if="tabIndex == 0">
@@ -109,8 +104,9 @@
 							<view v-for="(proList, index) in tj_items.products" :key="index" class="lists"
 								style="overflow: visible;" @tap.stop="shutDown" data-tj="1"
 								:data-product_id="proList.product_id">
-								<image :src="proList.photo" mode="aspectFill" class="pic"></image>
-								<view class="banck_div"></view>
+								<view class="pic-wrapper">
+									<image :src="proList.photo" mode="aspectFill" class="pic"></image>
+								</view>
 								<view class="title overflow_clear">{{proList.title}}</view>
 								<view class="price">
 									<text class="small">€</text>
@@ -361,17 +357,19 @@
 					<!-- 店铺招牌-结束 -->
 
 					<!-- 商品分类-开始 -->
-					<scroll-view :scroll-y="true" class="goodsCate"
+					<scroll-view :scroll-x="true" class="goodsCate" scroll-with-animation
 						:scroll-into-view="'tab_list_index_id_'+tab_list_index_id">
-						<view v-for="(items, index) in goodsCate" :key="index"
-							:class="'list ' + (items.cate_id == goodsCate_idx ? 'on' : '')" @tap="cateTap"
-							:data-cate_id="items.cate_id" :data-index="index" :id="'tab_list_index_id_'+index">
-							<image v-if="items.cate_id == 'hot'" class="ico" src="/static/image/icon_hot3x.png"></image>
-							<image v-if="items.cate_id == 'must'" class="ico" src="/static/image/icon_need3x.png">
-							</image>
-							{{items.title}}
-							<view class="num" v-if="items.pcate_num && items.pcate_num > 0">
-								{{items.pcate_num}}
+						<view class="goodsCate-wrapper">
+							<view v-for="(items, index) in goodsCate" :key="index"
+								:class="'list ' + (items.cate_id == goodsCate_idx ? 'on' : '')" @tap="cateTap"
+								:data-cate_id="items.cate_id" :data-index="index" :id="'tab_list_index_id_'+index">
+								<image v-if="items.cate_id == 'hot'" class="ico" src="/static/image/icon_hot3x.png"></image>
+								<image v-if="items.cate_id == 'must'" class="ico" src="/static/image/icon_need3x.png">
+								</image>
+								{{items.title}}
+								<view class="num" v-if="items.pcate_num && items.pcate_num > 0">
+									{{items.pcate_num}}
+								</view>
 							</view>
 						</view>
 					</scroll-view>
@@ -741,7 +739,7 @@
 									<image src="/static/image/icon_Starred.png"></image>
 									{{evaluate.avg_score}}
 								</view>
-								<view class="cuscore_num2">商家好评率{{evaluate.avg_good}}%</view>
+								<view class="cuscore_num2">商家好评率{{evaluate.avg_good?evaluate.avg_good:100}}%</view>
 							</view>
 							<view class="cuscore_start">
 								<view class="cuscore_start1">
@@ -751,49 +749,20 @@
 										</view>
 										{{evaluate.avg_score}}
 									</view>
-									<view class="cuscore_start_text">商家评分</view>
+									<view class="cuscore_start_text">服务态度</view>
 								</view>
 								<view>
 									<view class="cuscore_start_icon">
 										<view>
 											<image src="/static/image/icon_Staryellow.png"></image>
 										</view>
-										{{evaluate.avg_score}}
+										{{evaluate.avg_peisong?evaluate.avg_peisong:'5.0'}}
 									</view>
-									<view class="cuscore_start_text">商家评分</view>
+									<view class="cuscore_start_text">配送评分</view>
 								</view>
 							</view>
 						</view>
-						<!-- <view class="pingfen mt10">
-                    <view class="left border_r">
-                        <view class="number">{{evaluate.avg_score}}</view>
-                        <view class="ping">综合评分</view>
-                        <view class="black6">商家好评率{{evaluate.avg_good}}%</view>
-                    </view>
-                    <view class="pingfenStar">
-                        <view class="taiduNum mt5">
-                            <text>商家评分</text>
-                            <view class="evlt_star_bg ml20">
-                                <image src="../../image/evlt_star_bg.png" class="bg"></image>
-                                <view class="evlt_star_bar" style="width:{{evaluate.avg_score*20}}%">
-                                    <image src="../../image/evlt_star_bar.png"></image>
-                                </view>
-                            </view>
-                            <text class="fenshu ml5">{{evaluate.avg_score}}分</text>
-                        </view>
-                        <view class="peisongNum mt5">
-                            <text>配送评分</text>
-                            <view class="evlt_star_bg ml20">
-                                <image src="../../image/evlt_star_bg.png" class="bg"></image>
-                                <view class="evlt_star_bar" style="width:{{evaluate.avg_peisong*20}}%">
-                                    <image src="../../image/evlt_star_bar.png"></image>
-                                </view>
-                            </view>
-                            <text class="fenshu ml5">{{evaluate.avg_peisong}}分</text>
-                        </view>
-                    </view>
-                    <view class="clear"></view>
-                </view> -->
+					
 						<view class="sj_Pingjia" v-if="topInfo.comment_switch==1 || pjDetail.length > 0">
 							<view class="qiehuan ">
 								<view class="switchNav">
@@ -806,7 +775,7 @@
 								<checkbox-group class="sm-nav ">
 									<label for class="checkbox">
 										<checkbox value="只看有内容的评价" :checked="comm" @tap="hascon"
-											style="transform:scale(0.7);"></checkbox>
+											color="#ff797c" style="transform:scale(0.7);"></checkbox>
 										<text class="newcheckbox_text">只看有内容的评价</text>
 									</label>
 								</checkbox-group>
@@ -1189,6 +1158,7 @@
 					huodong: [],
 					can_zero_ziti: "",
 					is_distance: "",
+					shop_show: "",
 				},
 				//
 				sysinfo: uni.getSystemInfoSync(),
@@ -3142,7 +3112,8 @@
 		background: white;
 		margin-top: -60rpx;
 	}
-	.topInfoView .logoView{
+
+	.topInfoView .logoView {
 		position: absolute;
 		top: -100rpx;
 		left: 32rpx;
@@ -3151,13 +3122,15 @@
 		border-radius: 120rpx;
 		border: 1rpx solid #fff;
 		box-shadow: 0px -16rpx 16rpx 0px rgba(213, 225, 236, 0.09);
-		
+
 	}
-	.topInfoView .logoView image{
+
+	.topInfoView .logoView image {
 		width: 120rpx;
 		height: 120rpx;
 		border-radius: 120rpx;
 	}
+
 	.shopOffyouhui {
 		position: relative;
 		width: 500rpx;
@@ -3260,7 +3233,7 @@
 		align-items: center;
 		justify-content: space-between;
 		border-radius: 64rpx;
-		
+
 	}
 
 	.tabBox .list {
@@ -3628,161 +3601,155 @@
 	}
 
 	.goodsCate {
-		width: 150rpx;
-		height: 100%;
+		width: 100%;
+		height: auto;
 		background: #ffffff;
-		float: left;
 		position: relative;
 		z-index: 0;
-		padding: 35rpx 0 100rpx;
+		white-space: nowrap;
 	}
 
-	.goodsCate .list {
-		padding: 35rpx 16rpx 35rpx 20rpx;
-		position: relative;
-		/* border-bottom: 1px solid #e6e6e6; */
-		line-height: 36rpx;
-		color: #A3A3A4;
-		font-weight: 600;
-		font-size: 28rpx
-	}
+.goodsCate-wrapper {
+	display: inline-flex;
+}
 
-	.goodsCate .list.on {
-		/* background: #fff; */
-		color: #FF797C;
-	}
+.goodsCate .list {
+	padding: 24rpx 28rpx;
+	position: relative;
+	line-height: 36rpx;
+	color: #A3A3A4;
+	font-weight: 600;
+	font-size: 28rpx;
+	display: inline-block;
+	white-space: nowrap;
+	transition: all 0.3s;
+}
 
-	/* .goodsCate .list.on:before {
-    content: '';
-    width: 3px;
-    height: 100%;
-    background: #65bc05;
-    position: absolute;
-    left: 0;
-    top: 0;
-} */
+.goodsCate .list.on {
+	color: #FF797C;
+	font-weight: 700;
+}
 
-	.goodsCate .list image {
-		width: 16px;
-		height: 16px;
-		vertical-align: middle;
-		margin-right: 6rpx;
-	}
+.goodsCate .list.on::after {
+	content: '';
+	position: absolute;
+	left: 50%;
+	bottom: 0;
+	transform: translateX(-50%);
+	width: 40rpx;
+	height: 3rpx;
+	background-color: #FF797C;
+	border-radius: 2rpx;
+}
 
-	.goodsCate .list .num {
-		position: absolute;
-		right: 4rpx;
-		top: 4rpx;
-		min-width: 24rpx;
-		height: 24rpx;
-		border-radius: 20rpx;
-		text-align: center;
-		font-size: 20rpx;
-		color: #fff;
-		background: #ff9900;
-		line-height: 24rpx;
-	}
+.goodsCate .list image {
+	width: 16px;
+	height: 16px;
+	vertical-align: middle;
+	margin-right: 6rpx;
+}
 
-	.goodsList_right {
-		width: calc(100% - 150rpx);
-		height: 100%;
-		background: #fff;
-		box-sizing: border-box;
-		float: right;
-		position: relative;
-		z-index: 1;
-		padding-bottom: 30rpx;
-	}
+.goodsCate .list .num {
+	position: absolute;
+	right: 4rpx;
+	top: 4rpx;
+	min-width: 24rpx;
+	height: 24rpx;
+	border-radius: 20rpx;
+	text-align: center;
+	font-size: 20rpx;
+	color: #fff;
+	background: #FF797C;
+	line-height: 24rpx;
+}
 
-	.cateTit_top {
-		background: #f4f4f4;
-		height: 52rpx;
-		line-height: 52rpx;
-		padding: 0 24rpx;
-		border-left: 2px solid #e6e6e6;
-		color: #666;
-		position: fixed;
-		left: 150rpx;
-		top: 320rpx;
-		right: 0;
-		z-index: 2;
-	}
+.goodsList_right {
+	width: 100%;
+	height: calc(100% - 88rpx);
+	background: #fff;
+	box-sizing: border-box;
+	position: relative;
+	padding-bottom: 30rpx;
+}
 
-	.goodsListBox .list_box {
-		background: #fff;
-		padding-bottom: 20rpx;
-	}
+.cateTit_top {
+	background: #f4f4f4;
+	height: 52rpx;
+	line-height: 52rpx;
+	padding: 0 24rpx;
+	color: #666;
+	position: fixed;
+	left: 0;
+	top: 408rpx;
+	right: 0;
+	z-index: 2;
+}
 
-	.cateTit {
-		/* background: #f4f4f4; */
-		font-size: 32rpx;
-		color: #2D2D2D;
-		height: 45rpx;
-		line-height: 45rpx;
-		padding: 0 24rpx;
-		font-weight: 600;
-		margin-bottom: 24rpx;
-	}
+.goodsListBox .list_box {
+	background: #fff;
+}
 
-	.goodsList {
+.cateTit {
+	font-size: 28rpx;
+	color: #A3A3A4;
+	height: 32rpx;
+	line-height: 32rpx;
+	padding: 24rpx;
+	font-weight: 600;
+}
 
-		margin: 0 0 24rpx 20rpx;
-		position: relative;
-		box-sizing: border-box;
-		-webkit-box-sizing: border-box;
+.goodsList {
+	padding: 0 0 24rpx 20rpx;
+	position: relative;
+	box-sizing: border-box;
+	height: 220rpx;
+	background: #FFFFFF;
+	border-radius: 24rpx;
+}
 
-		height: 248rpx;
-		background: #FFFFFF;
-		box-shadow: 0px 0px 40rpx 0px rgba(163, 163, 164, 0.1);
-		border-radius: 24rpx;
-	}
+.goodsList:last-child {
+	border-bottom: 0;
+}
 
-	.goodsList:last-child {
-		border-bottom: 0;
-	}
+.goodsList .img {
+	width: 200rpx;
+	height: 200rpx;
+	border-radius: 24rpx;
+	overflow: hidden;
+}
 
-	.goodsList .img {
-		width: 198rpx;
-		height: 248rpx;
-		border-radius: 24rpx;
-		overflow: hidden;
-	}
+.goodsList .wz_box {
+	margin-left: 214rpx;
+	position: relative;
+	min-height: 248rpx;
+	overflow: hidden;
+	color: #A3A3A4;
+}
 
-	.goodsList .wz_box {
-		margin-left: 214rpx;
-		position: relative;
-		min-height: 248rpx;
-		overflow: hidden;
-		color: #A3A3A4;
-	}
+.goodsList .wz_box .tit {
+	font-size: 32rpx;
+	line-height: 34rpx;
+	margin-bottom: 6rpx;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+	max-width: 360rpx;
+	color: #262628;
+	height: 80rpx;
+}
 
-	.goodsList .wz_box .tit {
-		font-size: 32rpx;
-		line-height: 34rpx;
-		margin-bottom: 6rpx;
-		overflow: hidden;
-		text-overflow: ellipsis;
-		text-overflow: -o-ellipsis-lastline;
-		display: -webkit-box;
-		-webkit-line-clamp: 2;
-		-webkit-box-orient: vertical;
-		max-width: 360rpx;
-		color: #262628;
-		height: 80rpx;
-		margin-top: 30rpx;
-	}
-
-	.goodsList .wz_box .txt {
-		font-size: 22rpx;
-		line-height: 40rpx;
-		color: #A3A3A4;
-		margin-left: 30rpx;
-	}
+.goodsList .wz_box .txt {
+	font-size: 22rpx;
+	line-height: 40rpx;
+	color: #A3A3A4;
+	margin-left: 30rpx;
+}
 
 	.goodsList .wz_box .price {
 		font-size: 28rpx;
 		line-height: 40rpx;
-		/* color: #ff9900; */
 		color: #FF797C;
 		margin-top: 12rpx;
 	}
@@ -3837,9 +3804,10 @@
 	.goodsList .spec {
 		position: absolute;
 		right: 20rpx;
-		bottom: 22rpx;
+		bottom: 42rpx;
 		font-size: 24rpx;
-		line-height: 52rpx;
+		height: 38rpx;
+		line-height: 38rpx;
 		padding: 0 20rpx;
 		color: #fff;
 		border-radius: 52rpx;
@@ -3856,7 +3824,7 @@
 		text-align: center;
 		font-size: 20rpx;
 		color: #fff;
-		background: #ff9900;
+		background: #FF797C;
 		line-height: 24rpx;
 	}
 
@@ -3872,7 +3840,7 @@
 	}
 
 	.goods_int_box .num {
-		width: 60rpx;
+		width: 50rpx;
 		height: 50rpx;
 		line-height: 50rpx;
 		text-align: center;
@@ -3888,8 +3856,7 @@
 
 	.goods_footer {
 		height: 140rpx;
-		background: #FF797C;
-		border-radius: 30rpx 30rpx 0 0;
+		background: #fff;
 		position: fixed;
 		z-index: 12;
 		left: 0;
@@ -3897,12 +3864,13 @@
 		width: 100%;
 		display: flex;
 		align-items: center;
+		box-shadow: 0px -2px 10px 0px rgba(0, 0, 0, 0.1);
 	}
 
 	.goods_footer_s {
 		margin-left: 30rpx;
-		margin-right: 40rpx;
-		width: 654rpx;
+		margin-right: 30rpx;
+		width: 690rpx;
 		height: 76rpx;
 		/* background-color: red; */
 		display: flex;
@@ -3928,7 +3896,7 @@
 		align-items: center;
 		height: 40rpx;
 		font-size: 32rpx;
-		color: #FFFFFF;
+		color: #000;
 		margin-bottom: 4rpx;
 	}
 
@@ -3937,19 +3905,19 @@
 		align-items: center;
 		height: 32rpx;
 		font-size: 24rpx;
-		color: #FFFFFF;
+		color: #909090;
 	}
 
 	.goods_footer_s_btn {
 		width: 180rpx;
 		height: 76rpx;
-		background: #FFFFFF;
+		background: #ff797c;
 		border-radius: 24rpx;
 		display: flex;
 		justify-content: center;
 		align-items: center;
 		font-size: 24rpx;
-		color: #3B96B1;
+		color: #fff;
 	}
 
 	.goods_footer_s_btn_op {
@@ -3992,8 +3960,8 @@
 		line-height: 80rpx;
 		text-align: center;
 		font-size: 28rpx;
-		color: #FF797C;
-		background: #ffffff;
+		color: #ffffff;
+		background: #FF797C;
 		font-weight: bold;
 	}
 
@@ -4012,7 +3980,7 @@
 	.goods_footer .wz_box .price {
 		font-size: 32rpx;
 		line-height: 40rpx;
-		color: #ff9900;
+		color: #FF797C;
 	}
 
 	.goods_footer .wz_box .price small {
@@ -4275,152 +4243,145 @@
 		height: 36rpx
 	}
 
-	/* 商家广告 */
-	.shopAdv {
-		margin: 20rpx 20rpx 10rpx;
-	}
+/* 商家广告 */
+.shopAdv {
+	margin: 20rpx 20rpx 10rpx;
+}
 
-	.shopAdv image {
-		display: block;
-		width: 100%;
-		height: 142rpx;
-		margin-bottom: 20rpx;
-	}
+.shopAdv image {
+	display: block;
+	width: 100%;
+	height: 142rpx;
+	margin-bottom: 20rpx;
+}
 
-	/*商家推荐*/
-	.recommend {
-		padding: 40rpx 0 30rpx 60rpx;
-		overflow: visible;
-	}
+/*商家推荐*/
+.recommend {
+	padding: 30rpx 0 10rpx 40rpx;
+	overflow: visible;
+}
 
-	.recommend .bt {
-		font-size: 32rpx;
-		color: #2D2D2D;
-		line-height: 45rpx;
-		font-weight: 600;
-		margin-bottom: 20rpx;
-	}
+.recommend .bt {
+	font-size: 32rpx;
+	color: #2D2D2D;
+	line-height: 45rpx;
+	font-weight: 600;
+	margin-bottom: 20rpx;
+}
 
-	.recommend .list_box {
-		width: 100%;
-		white-space: nowrap;
-		overflow: visible;
-	}
+.recommend .list_box {
+	width: 100%;
+	white-space: nowrap;
+	overflow: visible;
+}
 
-	.recommend .lists {
-		display: inline-block;
-		margin-right: 20rpx;
-		position: relative;
-		overflow: visible;
-		width: 360rpx;
-		height: 270rpx;
-		/* background: #FACD5D linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(0, 0, 0, 0.58) 100%); */
-		border-radius: 24rpx;
-	}
+.recommend .lists {
+	display: inline-block;
+	margin-right: 20rpx;
+	position: relative;
+	overflow: visible;
+	width: 320rpx;
+	vertical-align: top;
+	background: #f7f7f7;
+	border-radius: 16rpx;
+	padding-bottom: 12rpx;
+}
 
-	.recommend .banck_div {
-		width: 360rpx;
-		height: 270rpx;
-		background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(0, 0, 0, 0.58) 100%);
-		position: absolute;
-		top: 0;
-		left: 0;
-		border-radius: 24rpx;
-	}
+.recommend .lists .pic-wrapper {
+	width: 100%;
+	height: 320rpx;
+	border-radius: 12rpx;
+	overflow: hidden;
+	margin-bottom: 12rpx;
+}
 
-	.recommend .lists .pic {
-		width: 360rpx;
-		height: 270rpx;
-		border-radius: 24rpx;
-		position: absolute;
+.recommend .lists .pic {
+	width: 100%;
+	height: 100%;
+	display: block;
+}
 
-	}
+.recommend .lists .title {
+	font-size: 26rpx;
+	color: #333333;
+	margin-bottom: 16rpx;
+	line-height: 1.4;
+	padding: 0 4rpx;
+}
 
-	.recommend .lists .title {
-		position: absolute;
-		left: 16rpx;
-		bottom: 60rpx;
-		font-size: 28rpx;
-		color: #ffffff;
+.recommend .lists .price {
+	font-size: 28rpx;
+	color: #ff4444;
+	font-weight: 600;
+	padding: 0 4rpx;
+}
 
-	}
+.recommend .lists .price .small {
+	font-size: 22rpx;
+}
 
-	.recommend .lists .price {
-		font-size: 28rpx;
-		left: 16rpx;
-		bottom: 24rpx;
-		color: #ffffff;
-		left: 16rpx;
-		position: absolute;
-	}
+.recommend .lists>.goods_int_box {
+	position: absolute;
+	right: 8rpx;
+	bottom: 4rpx;
+}
 
-	.recommend .lists .price .small {
-		font-size: 24rpx;
-	}
+.recommend .lists .spec {
+	position: absolute;
+	right: 8rpx;
+	bottom: 16rpx;
+	font-size: 24rpx;
+	line-height: 38rpx;
+	padding: 0 20rpx;
+	color: #fff;
+	border-radius: 38rpx;
+	background: #ff797c;
+}
 
-	.recommend .lists>.goods_int_box {
-		position: absolute;
-		right: 16rpx;
-		bottom: 24rpx;
+.recommend .lists .spec .num {
+	position: absolute;
+	right: 0rpx;
+	top: 0rpx;
+	min-width: 24rpx;
+	height: 24rpx;
+	border-radius: 20rpx;
+	text-align: center;
+	font-size: 20rpx;
+	color: #fff;
+	background: #FF797C;
+	line-height: 24rpx;
+}
 
-	}
+/*评价*/
+.xiangqing {
+	height: calc(100% - 336rpx);
+}
 
-	.recommend .lists .spec {
-		position: absolute;
-		right: 4rpx;
-		bottom: 4rpx;
-		font-size: 24rpx;
-		line-height: 52rpx;
-		padding: 0 20rpx;
-		color: #fff;
-		border-radius: 52rpx;
-		background: #ff797c;
-	}
+.xiangqing .ctn1 {
+	height: 100%;
+}
 
-	.recommend .lists .spec .num {
-		position: absolute;
-		right: 0rpx;
-		top: 0rpx;
-		min-width: 24rpx;
-		height: 24rpx;
-		border-radius: 20rpx;
-		text-align: center;
-		font-size: 20rpx;
-		color: #fff;
-		background: #ff9900;
-		line-height: 24rpx;
-	}
+.xiangqing .content_wrap {
+	height: 100%;
+	overflow: auto;
+	-webkit-overflow-scrolling: touch;
+	overflow-x: hidden;
+	background: #FFFFFF;
+}
 
-	/*评价*/
-	.xiangqing {
-		height: calc(100% - 336rpx);
-	}
+.xiangqing .ctn1 .pingfen {
+	background: #fff;
+	padding: 20rpx 0;
+	width: 100%;
+	display: flex;
+	align-items: center;
+}
 
-	.xiangqing .ctn1 {
-		height: 100%;
-	}
+.ctn1 .starBg {
+	margin-right: 30rpx;
+}
 
-	.xiangqing .content_wrap {
-		height: 100%;
-		overflow: auto;
-		-webkit-overflow-scrolling: touch;
-		overflow-x: hidden;
-		background: #FFFFFF;
-	}
-
-	.xiangqing .ctn1 .pingfen {
-		background: #fff;
-		padding: 20rpx 0;
-		width: 100%;
-		display: flex;
-		align-items: center;
-	}
-
-	.ctn1 .starBg {
-		margin-right: 30rpx;
-	}
-
-	.xiangqing .ctn1 .pingfen .left {
+.xiangqing .ctn1 .pingfen .left {
 		text-align: center;
 		padding: 0 40rpx;
 	}
@@ -4451,13 +4412,11 @@
 	}
 
 	.xiangqing .ctn1 .sj_Pingjia {
-		padding: 16rpx 0 24rpx;
-		/* background: #fff; */
+		padding: 32rpx 0 24rpx;
 	}
 
 	.xiangqing .ctn1 .sj_Pingjia .qiehuan {
 		padding-bottom: 24rpx;
-		box-shadow: 0px 8rpx 10rpx 0px rgba(208, 212, 227, 0.27);
 
 	}
 
@@ -4465,7 +4424,6 @@
 		display: flex;
 		flex-wrap: wrap;
 		justify-content: space-between;
-		padding: 0 30rpx;
 
 	}
 
@@ -4512,24 +4470,26 @@
 	}
 
 	.xiangqing .ctn1 .sj_Pingjia .switchNav view {
-		padding: 4rpx 10rpx;
+		width: 30%;
+		padding: 16rpx 0 ;
 		text-align: center;
-		border: 1rpx solid #ee8080;
-		color: #ee8080;
-		border-radius: 8rpx;
+		border: 1rpx solid #E5E5E5;
+		color: #666666;
+		border-radius: 48rpx;
 		margin-bottom: 16rpx;
-		font-size: 22rpx;
+		font-size: 24rpx;
+		background: #FFFFFF;
+		transition: all 0.3s;
 	}
 
 	.xiangqing .ctn1 .sj_Pingjia .switchNav .switchNav-active {
-		background-image: linear-gradient(1deg, #00656B 0%, #ee8080 100%);
-		color: #fff;
-		/* background: #ff797c; */
+		background: #FF797C;
+		color: #FFFFFF;
+		border-color: #FF797C;
 	}
 
 	.xiangqing .ctn1 .sj_Pingjia .sm-nav {
 		display: block;
-		margin-left: 24rpx;
 	}
 
 	.xiangqing .ctn1 .sj_Pingjia .pingjia {
@@ -5095,7 +5055,6 @@
 	.cunav {
 		width: 750rpx;
 		height: 44px;
-		background-color: #F5F7FA;
 		display: flex;
 		align-items: center;
 		/* justify-content: space-between; */
@@ -5249,14 +5208,13 @@
 		width: 690rpx;
 		height: 144rpx;
 		border-radius: 16rpx;
-		box-shadow: 4rpx 4rpx 16rpx 4rpx rgba(191, 204, 217, 0.40);
 		margin: 0 auto;
-		margin-top: 20rpx;
 		display: flex;
 		align-items: center;
 		justify-content: center;
 		background-color: white;
-		margin-bottom: 26rpx;
+		padding-bottom: 26rpx;
+		border-bottom: 1rpx solid #F5F5F5;
 	}
 
 	.cuscore_num {
@@ -5273,7 +5231,6 @@
 		align-items: flex-end;
 		font-size: 48rpx;
 		color: #FF797C;
-		margin-left: 30rpx;
 		margin-top: 30rpx;
 		margin-bottom: 4rpx;
 	}
@@ -5290,8 +5247,7 @@
 		width: 315rpx;
 		height: 48rpx;
 		font-size: 24rpx;
-		color: #A3A3A4;
-		margin-left: 30rpx;
+		color: #3E4248;
 	}
 
 	.cuscore_start {
@@ -5299,10 +5255,13 @@
 		height: 144rpx;
 		overflow: hidden;
 		line-height: 1;
+		display: flex;
+		flex-direction: column;
+		align-items: flex-end;
+		justify-content: center;
 	}
 
 	.cuscore_start>view {
-		width: 345rpx;
 		height: 48rpx;
 		display: flex;
 		align-items: center;
@@ -5363,8 +5322,7 @@
 
 	.sjdets_head {
 		background: #ffffff;
-		box-shadow: 0 4rpx 16rpx 0 rgba(191, 204, 217, 0.40);
-		width: 690rpx;
+		width: 670rpx;
 		margin: 0 auto;
 		margin-top: 20rpx;
 		overflow: hidden;
@@ -5372,37 +5330,33 @@
 	}
 
 	.sjdets_head_item {
-		margin: 24rpx auto 0;
-		width: 642rpx;
-		min-height: 28rpx;
+		width: 670rpx;
+		height: 100rpx;
 		display: flex;
 		justify-content: space-between;
-		align-items: flex-start;
+		align-items: center;
 	}
 
 
-	.sjdets_head_item:last-child {
-		margin-bottom: 24rpx;
-	}
+
 
 	.sjdets_head_item_title {
 		display: flex;
 		align-items: center;
 		width: 140rpx;
-		height: 28rpx;
-		font-size: 20rpx;
+		font-size: 28rpx;
 		color: #AEB5BD;
 	}
 
 	.sjdets_head_item_main {
-		font-size: 20rpx;
+		font-size: 28rpx;
 		color: #252628;
 		width: 502rpx;
 		line-height: 1.3;
 	}
 
 	.sjdets_exe {
-		margin: 30rpx 0 70rpx 53rpx;
+		margin: 30rpx 0 70rpx 40rpx;
 	}
 
 	.sjdets_exe .activity_single {
@@ -5427,7 +5381,7 @@
 	}
 
 	.sjdets_exe .activity_single>text {
-		font-size: 20rpx;
+		font-size: 28rpx;
 		color: #ee8080;
 	}
 
@@ -5474,7 +5428,7 @@
 	.serg_btn {
 		background: #FF797C !important;
 		font-size: 20rpx !important;
-		line-height: 30rpx !important;
+		line-height: 38rpx !important;
 		padding: 0 14rpx !important;
 		color: #fff !important;
 	}
