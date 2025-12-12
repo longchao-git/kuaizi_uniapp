@@ -1,4 +1,4 @@
-﻿<template>
+<template>
 	<view>
 		<skeleton :loading="loading" :showAvatar='false' :row="skeleton1.row" :showTitle="skeleton1.showTitle">
 			<view>
@@ -81,6 +81,7 @@
 
 
 					<view class="functionY mb10">
+
 						<block v-for="(item, index) in linkLists[1]" :key="index">
 							<view class="pub_list" v-if="item.type=='kefu'&&item.type!=='stripecard'">
 								<view class="txt">{{item.title}}</view>
@@ -93,6 +94,8 @@
 								<image class="ico" src="/static/image/iconnewback2.png" mode="aspectFit"></image>
 							</view>
 						</block>
+					</view>
+					<view class="functionY mb10">
 						<block v-for="(item, index) in linkLists[2]" :key="index">
 							<view class="pub_list" v-if="item.type=='kefu'" @click="kefu">
 								<view class="txt">{{item.title}}</view>
@@ -439,6 +442,7 @@
 <style>
 	page {
 		background: #f7f7f7;
+		padding-bottom: 160rpx;
 	}
 
 	.calssf_fvi {

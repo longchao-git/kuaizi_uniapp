@@ -277,7 +277,7 @@
 
 	.ser_box {
 		margin: 10rpx 150rpx 10rpx 20rpx;
-		background: #eef2f5;
+		background: #f7f7f7;
 		border-radius: 60rpx;
 		padding-left: 66rpx;
 		height: 56rpx;

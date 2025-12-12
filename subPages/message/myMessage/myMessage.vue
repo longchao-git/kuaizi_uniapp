@@ -178,7 +178,7 @@
 </script>
 <style>
 	page {
-		background: #eef2f5;
+		background: #f7f7f7;
 	}
 
 	.messageList {
@@ -271,7 +271,7 @@
 		font-size: 24rpx;
 		line-height: 40rpx;
 		color: #999;
-		background: #eef2f5;
+		background: #f7f7f7;
 		position: fixed;
 		left: 0;
 		bottom: 0;

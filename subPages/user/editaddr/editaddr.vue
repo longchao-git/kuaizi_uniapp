@@ -1,45 +1,39 @@
 ﻿<template>
 	<view>
-		<view class="page">
+		<view class="page page-bg">
 			<view class="topmask" :hidden="topmask"></view>
 			<!--内容开始-->
-			<view class="add_view">
-				<view class="addaddr_form_int pub_list border_b">
-					<view class="bt">地址</view>
-					<view class="pub_list_bd">
-						<!--<input type="text" class="int" placeholder="小区/写字楼/学校等"  value="{{addr}}" bindtap="changeaddr"/>-->
-						<view class="int" @tap="changeaddr">{{addr}}</view>
-					</view>
-					<image src="/static/image/arrowright.png" class="linkico"></image>
+			<view class="form-card">
+				<view class="form-item border_b">
+					<view class="label">姓名</view>
+					<input type="text" class="int" id="name" placeholder="请输入收货人姓名" :value="name"
+						@input="changename">
 				</view>
-				<view class="addaddr_form_int pub_list border_b">
-					<view class="bt">门牌号</view>
-					<view class="pub_list_bd">
-						<input type="text" class="int" placeholder="例：5号楼101室" :value="num" id="door"
-							@input="changedoor">
-					</view>
-				</view>
-			</view>
-			<view class="add_view">
-				<view class="addaddr_form_int pub_list border_b">
-					<view class="bt">收货人</view>
-					<view class="pub_list_bd">
-						<input type="text" class="int" id="name" placeholder="请输入收货人姓名" :value="name"
-							@input="changename">
-					</view>
-				</view>
-				<view class="addaddr_form_int pub_list border_b mb10">
-					<view class="bt">手机号</view>
-					<view class="pub_list_bd">
-						<input type="text" class="int" id="phone" placeholder="请输入收货人手机号" :value="mobile"
+				<view class="form-item border_b">
+					<view class="label">手机号码</view>
+					<view class="phone-input">
+						<!-- <view class="code-box">{{countryCode}}</view> -->
+						<input type="text" class="int phone" id="phone" placeholder="请输入收货人手机号" :value="mobile"
 							@input="changephone">
 					</view>
 				</view>
+				<view class="form-item address-row" @tap="changeaddr">
+					<view class="label">地址</view>
+					<view class="int address-text">{{addr}}</view>
+					<image src="/static/image/arrowright.png" class="linkico"></image>
+				</view>
+			</view>
+			<view class="form-card single">
+				<view class="form-item">
+					<view class="label">门牌号</view>
+					<input type="text" class="int" placeholder="例：5号楼101室" :value="num" id="door"
+						@input="changedoor">
+				</view>
 			</view>
 
-			<view class="add_view">
-				<view class="addaddr_form_int pub_list border_b mb10">
-
+			<!-- 标签选择保留，如不需要可移除 -->
+			<!-- <view class="form-card single">
+				<view class="form-item">
 					<view class="pub_list_bd addaddr_form_lable">
 						<radio-group class="radio-group">
 							<label v-for="(item, idx) in items" :key="idx" :data-idx="idx" @tap="switchTab"
@@ -49,11 +43,11 @@
 						</radio-group>
 					</view>
 				</view>
-			</view>
+			</view> -->
 
-			<view class="footer_btn_long">
-				<button class="mb10 buttom1" @tap="saveBtn">保存</button>
-				<button class="buttom2" @tap="modalTap"><text class="fontcl1">删除</text></button>
+			<view class="footer-btn-row">
+				<button class="btn-grey" @tap="modalTap">删除</button>
+				<button class="btn-red" @tap="saveBtn">保存</button>
 			</view>
 			<!--内容结束-->
 		</view>
@@ -91,7 +85,8 @@
 				current: "",
 				addr_id: "",
 				lat: "",
-				lng: ""
+				lng: "",
+				countryCode: '+34'
 			};
 		},
 
@@ -224,28 +219,89 @@
 	};
 </script>
 <style>
-	.addaddr_form_int {
-		background: #fff;
-		padding: 24rpx 0;
+	.page-bg {
+		background: #f5f6f7;
+		min-height: 100vh;
+		padding-bottom: 40rpx;
 	}
 
-	.addaddr_form_int .bt {
+	.form-card {
+		margin: 20rpx;
+		background: #FFFFFF;
+		border-radius: 20rpx;
+		box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.02);
+		overflow: hidden;
+	}
+
+	.form-card.single {
+		margin-top: 10rpx;
+	}
+
+	.form-item {
+		display: flex;
+		align-items: center;
+		padding: 32rpx 28rpx;
+	}
+
+	.border_b {
+		border-bottom: 1rpx solid #f0f1f3;
+	}
+
+	.label {
+		width: 140rpx;
+		font-size: 30rpx;
+		color: #1a1a1a;
+		font-weight: 600;
+	}
+
+	.int {
+		flex: 1;
+		font-size: 30rpx;
+		color: #3e4248;
+	}
+
+	.phone-input {
+		display: flex;
+		align-items: center;
+		flex: 1;
+	}
+
+	.code-box {
+		min-width: 120rpx;
+		height: 64rpx;
+		padding: 0 18rpx;
+		margin-right: 16rpx;
+		background: #f5f6f7;
+		border-radius: 12rpx;
+		display: flex;
+		align-items: center;
+		justify-content: center;
 		font-size: 28rpx;
-		margin-right: 30rpx;
-		width: 100rpx;
-		color: #3E4248;
+		color: #9ea2ab;
+		font-weight: 600;
 	}
 
-	.addaddr_form_int .int {
-		font-size: 28rpx;
-		color: #555;
+	.phone {
+		height: 64rpx;
+		line-height: 64rpx;
 	}
 
-	.addaddr_form_int .linkico {
+	.address-row {
+		align-items: flex-start;
+	}
+
+	.address-text {
+		flex: 1;
+		color: #9ea2ab;
+		line-height: 42rpx;
+	}
+
+	.linkico {
 		display: block;
-		width: 28rpx;
-		height: 28rpx;
+		width: 32rpx;
+		height: 32rpx;
 		margin-left: 14rpx;
+		margin-top: 6rpx;
 	}
 
 	.addaddr_form_lable label {
@@ -274,22 +330,32 @@
 		opacity: 0;
 	}
 
-	.pub_list_bd {
-		min-height: 40rpx;
-		line-height: 30rpx;
+	.footer-btn-row {
+		margin: 50rpx 20rpx 0;
+		display: flex;
+		justify-content: space-between;
+		gap: 24rpx;
 	}
 
-	.add_view {
-		width: 630rpx;
-		margin: 20rpx 20rpx 0;
-		background: #FFFFFF;
-		border-radius: 16rpx;
-		padding: 0 30rpx;
-	}
-
-	.footer_btn_long .buttom1 {
-		background: #FF797C;
+	.btn-grey,
+	.btn-red {
+		flex: 1;
+		height: 96rpx;
+		line-height: 96rpx;
+		text-align: center;
+		border-radius: 20rpx;
 		border: none;
+		font-size: 32rpx;
+		border-radius: 60rpx;
+	}
+
+	.btn-grey {
+		background: #e5e5e5;
+		color: #a3a3a3;
+	}
+
+	.btn-red {
+		background: #FF797C;
 		color: #ffffff;
 	}
 </style>

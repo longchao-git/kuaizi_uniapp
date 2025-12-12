@@ -8,7 +8,13 @@
 	overflow: hidden;
 	display: inline-block;
 }
-
+.beyond2 {
+	display: -webkit-box;
+	overflow: hidden;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+	width: 100%;
+}
 button::after {
 	border: none;
 }
@@ -25,12 +31,12 @@ ul {
 page {
 	height: 100%;
 	font-size: 24rpx;
-	background-color: #eef2f5;
+	background-color: #f7f7f7;
 }
 
 .container {
 	height: 100%;
-	background-color: #eef2f5;
+	background-color: #f7f7f7;
 }
 
 .overflow_clear {
@@ -310,7 +316,7 @@ page {
 	height: calc(100% - 120rpx);
 	width: 100%;
 	overflow: hidden;
-	background-color: #eef2f5;
+	background-color: #f7f7f7;
 }
 
 .page_cont_box_topbottom {

@@ -1,4 +1,4 @@
-﻿<template>
+<template>
 	<view>
 		<skeleton :loading="loading" :showAvatar='false' :row="skeleton1.row" :showTitle="skeleton1.showTitle">
 			<view>
@@ -105,8 +105,7 @@
 								<block v-if="module.type == 1">
 									<view class="idxBanner">
 										<swiper autoplay="true" duration="1000" circular="true" indicator-dots="true"
-											indicator-color="#D7D7D7" indicator-active-color="#FF797C"
-											>
+											indicator-color="#D7D7D7" indicator-active-color="#FF797C">
 											<block v-for="(item, index) in module.content" :key="index">
 												<swiper-item>
 													<!-- @tap="toWxLink" -->
@@ -287,7 +286,7 @@
 					</view>
 					<!--商家列表-开始-->
 					<view class="screenTab" id="screenTab">
-						<view class="flex-wrp">
+						<view class="flex-wrp " style="justify-content: space-between;width: 100%;">
 							<view :class="'list ' + (screenTabIndex == '0' || newscroTabIndex == '0' ? 'on' : '')"
 								@tap="tapScreen" id="0">{{cateVal}}
 								<image class="dwon_ico"
@@ -302,38 +301,41 @@
 									mode="aspectFit"></image>
 							</view>
 						</view>
-						<view :class="'list ' + (screenTabIndex == '2' || newscroTabIndex == '2'  ? 'on' : '')"
+						<!-- <view :class="'list ' + (screenTabIndex == '2' || newscroTabIndex == '2'  ? 'on' : '')"
 							@tap="tapScreen" id="2">{{screenVal}}
 							<image class="screen_ico" src="/static/image/btn_choose_select3x.png" mode="aspectFit">
 							</image>
-						</view>
+						</view> -->
 					</view>
 					<view class="shopLists_h">
 						<view class="shop_card_list">
 							<view v-for="(item, index) in shopLists" :key="index"
-								:class="'shop_card ' + (item.yyst == 1 ? '' : 'close')" 
-								@tap="gotoDetail"
+								:class="'shop_card ' + (item.yyst == 1 ? '' : 'close')" @tap="gotoDetail"
 								:id="item.shop_id">
 								<!-- 商家封面图 -->
 								<view class="card_cover">
-									<image :src="item.shop_show?item.shop_show:item.logo" class="cover_img" mode="aspectFill"></image>
-									<image src="/static/image/label_new.png" class="new_tag" v-if="item.is_new == 1"></image>
+									<image :src="item.shop_show?item.shop_show:item.logo" class="cover_img"
+										mode="aspectFill"></image>
+									<image src="/static/image/label_new.png" class="new_tag" v-if="item.is_new == 1">
+									</image>
 									<view class="closed_mask" v-if="item.yyst != 1">
 										<text class="closed_text">已打烊</text>
 									</view>
 								</view>
-								
+
 								<!-- 商家信息 -->
 								<view class="card_info">
 									<view class="shop_header">
 										<view class="shop_name">{{item.title}}</view>
 										<view class="rating_score" v-if="item.comment_score_switch==1">
-											<image src="/static/image/score_icon.png" class="score_icon" mode="aspectFit"></image>
+											<image src="/static/image/score_icon.png" class="score_icon"
+												mode="aspectFit"></image>
 											<text class="score_text">{{item.avg_score}}</text>
 										</view>
 									</view>
 									<view class="delivery_time">
-										<image src="/static/image/time_icon.png" class="time_icon" mode="aspectFit"></image>
+										<image src="/static/image/time_icon.png" class="time_icon" mode="aspectFit">
+										</image>
 										<text v-if="item.tips_label">{{item.tips_label}}</text>
 										<text v-else>{{item.pei_time}}分钟</text>
 									</view>
@@ -347,22 +349,22 @@
 				<!--内容-结束-->
 				<!--筛选排序-开始-->
 				<view class="screenTab_fixed" v-if="screenTabShow">
-					<view class="screenTab" style="padding: 20rpx 30rpx;">
-						<view :class="'list ' + (screenTabIndex == '0' ? 'on' : '')" @tap="tapScreen" id="0">{{cateVal}}
+					<view class="screenTab" style="padding: 20rpx 30rpx;border-bottom: 1rpx solid #eee;">
+						<view :class="'list '" @tap="tapScreen" id="0">{{cateVal}}
 							<image class="dwon_ico"
 								:src="screenTabIndex != '0' ? '/static/image/btn_arrow_b_small3x.png' : '/static/image/btn_arrow_t_small3x.png'"
 								mode="aspectFit"></image>
 						</view>
-						<view :class="'list ' + (screenTabIndex == '1' ? 'on' : '')" @tap="tapScreen" id="1">{{paiVal}}
+						<view :class="'list '" @tap="tapScreen" id="1">{{paiVal}}
 							<image class="dwon_ico"
 								:src="screenTabIndex != '1' ? '/static/image/btn_arrow_b_small3x.png' : '/static/image/btn_arrow_t_small3x.png'"
 								mode="aspectFit"></image>
 						</view>
-						<view :class="'list ' + (screenTabIndex == '2' ? 'on' : '')" @tap="tapScreen" id="2">
+						<!-- 	<view :class="'list ' + (screenTabIndex == '2' ? 'on' : '')" @tap="tapScreen" id="2">
 							{{screenVal}}
 							<image class="screen_ico" src="/static/image/btn_choose_select3x.png" mode="aspectFit">
 							</image>
-						</view>
+						</view> -->
 					</view>
 					<view :class="'change_list ' + (screenTabIndex == 0 ? 'on' : '')" v-if="screenTabIndex == 0 ">
 						<view class="allCates">
@@ -378,8 +380,8 @@
 									<li v-for="(li, idx) in item.childrens" :key="idx"
 										:class="cateIndex[index] == idx ? 'on' : ''" @tap="tapCate" :data-idx="idx">
 										{{li.title}}
-										<image class="ico_check" src="/static/image/icon_selected3x.png"
-											mode="aspectFit"></image>
+										<!-- <image class="ico_check" src="/static/image/icon_selected3x.png"
+											mode="aspectFit"></image> -->
 									</li>
 								</ul>
 							</view>
@@ -390,8 +392,8 @@
 							<ul>
 								<li v-for="(li, idx) in pais" :key="idx" :class="paiIndex == idx ? 'on' : ''"
 									@tap="tapPai" :data-idx="idx">{{li.title}}
-									<image class="ico_check" src="/static/image/icon_selected3x.png" mode="aspectFit">
-									</image>
+									<!-- <image class="ico_check" src="/static/image/icon_selected3x.png" mode="aspectFit">
+									</image> -->
 								</li>
 							</ul>
 						</view>
@@ -1845,18 +1847,18 @@
 	.screenTab .list {
 		text-align: center;
 		font-size: 26rpx;
-		color: #A3A3A4;
+		color: #222;
 	}
 
 	.screenTab .list.on {
-		color: #ee8080;
+		color: #222;
 	}
 
 	.screenTab .list .dwon_ico {
 		display: inline-block;
 		width: 24rpx;
 		height: 24rpx;
-		margin-left: 4rpx;
+		margin-left: 8rpx;
 	}
 
 	.screenTab .list .screen_ico {
@@ -1922,7 +1924,6 @@
 	}
 
 	.screenTab_fixed .allCates .left {
-		background: #f8f8f8;
 		width: 50%;
 		overflow: auto;
 		-webkit-overflow-scrolling: touch;
@@ -1959,9 +1960,11 @@
 	}
 
 	.screenTab_fixed .allCates ul li.on {
-		color: #ff797c;
+		color: #000000;
+		font-weight: 500;
 		background: #fff;
 		position: relative;
+		text-decoration: underline;
 	}
 
 	.screenTab_fixed .allCates .right ul li.on .ico_check {
@@ -1997,9 +2000,11 @@
 	}
 
 	.screenTab_fixed .pais ul li.on {
-		color: #ff797c;
+		color: #000;
+		font-weight: 500;
 		background: #fff;
 		position: relative;
+		text-decoration: underline;
 	}
 
 	.screenTab_fixed .pais ul li.on .ico_check {

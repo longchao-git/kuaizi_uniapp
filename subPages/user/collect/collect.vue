@@ -5,10 +5,11 @@
 				<view v-for="(item, index) in collect_lis" :key="index" class="shop_card">
 					<!-- 商家封面图 -->
 					<view class="card_cover" @tap="getdetail" :id="item.shop_id">
-						<image :src="item.shop_show ? item.shop_show : item.logo" class="cover_img" mode="aspectFill"></image>
+						<image :src="item.shop_show ? item.shop_show : item.logo" class="cover_img" mode="aspectFill">
+						</image>
 						<image src="/static/image/label_new.png" class="new_tag" v-if="item.is_new == 1"></image>
 					</view>
-					
+
 					<!-- 商家信息 -->
 					<view class="card_info">
 						<view class="shop_header">
@@ -69,15 +70,12 @@
 				}, function(res) {
 					if (res.error == '0') {
 						if (res.data.collection.length > 0) {
-							that.nostatusHidden = true
-							;
+							that.nostatusHidden = true;
 						} else {
-							that.nostatusHidden = false
-							;
+							that.nostatusHidden = false;
 						}
 
-						that.collect_lis = res.data.collection
-						;
+						that.collect_lis = res.data.collection;
 					} else {
 						uni.showToast({
 							title: res.message
@@ -100,8 +98,7 @@
 							title: '取消收藏'
 						});
 						collect_lis.splice(idx, 1);
-						that.collect_lis = collect_lis
-						;
+						that.collect_lis = collect_lis;
 					} else {
 						uni.showToast({
 							title: res.message
@@ -118,10 +115,11 @@
 	};
 </script>
 <style>
-    page{
+	page {
 		background-color: #fff;
 		min-height: 100vh;
 	}
+
 	/*点评星星样式*/
 	.evlt_star_bg {
 		width: 170rpx;
@@ -154,7 +152,7 @@
 
 	/* 商家卡片列表样式 */
 	.shop_card_list {
-		padding: 0 25rpx;
+		padding: 30rpx 25rpx;
 		background: #fff;
 	}
 

@@ -1962,7 +1962,7 @@
 		margin-left: 30rpx;
 		margin-top: 16rpx;
 		height: 200rpx;
-		background: #eef2f5;
+		background: #f7f7f7;
 		border-radius: 24rpx;
 		padding: 32rpx;
 		flex: 1;

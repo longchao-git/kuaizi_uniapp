@@ -123,7 +123,7 @@
 </script>
 <style>
 	page {
-		background: #eef2f5;
+		background: #f7f7f7;
 	}
 
 	.messageList {

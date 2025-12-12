@@ -2,7 +2,6 @@
 	<view>
 		<skeleton :loading="loading" :showAvatar='false' :row="skeleton1.row" :showTitle="skeleton1.showTitle">
 			<view>
-
 				<view>
 					<view class="topmask" :hidden="topmask"></view>
 					<view style="padding-bottom:100rpx;">
@@ -19,11 +18,14 @@
 									:data-mobile="item.mobile" :data-addr="item.addr" :data-house="item.house"
 									:data-type="item.type" :data-lat="item.lat" :data-lng="item.lng" :id="item.addr_id">
 									<view>
-										<view class="bt">{{item.contact}}-{{item.mobile}}</view>
-										<view class="addr">{{item.addr}}-{{item.house}}</view>
+										<view class="bt">
+											<view>{{item.contact}}</view>
+											<image src="/static/image/iconnewback2.png"></image>
+										</view>
+										<view class="addr">地址:{{item.addr}}-{{item.house}}</view>
 									</view>
-									<image src="/static/image/iconnewback1.png"></image>
-									<view class="bottom">
+
+									<!-- <view class="bottom">
 										<block v-if="item.type==1">
 											<view class="fl tag bg1">公司</view>
 										</block>
@@ -36,7 +38,7 @@
 										<block v-if="item.type==4">
 											<view class="fl tag bg4">其他</view>
 										</block>
-									</view>
+									</view> -->
 								</view>
 							</block>
 						</view>
@@ -45,7 +47,7 @@
 				</view>
 				<view class="footer_btn_long">
 					<navigator url="/subPages/user/addaddr/addaddr">
-						<view>添加收货地址+</view>
+						<view>新增地址</view>
 					</navigator>
 				</view>
 
@@ -191,13 +193,20 @@
 	.addr_list .bt {
 		font-size: 28rpx;
 		line-height: 40rpx;
-		color: #43474D;
+		color: #222;
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: space-between;
+		padding-bottom: 30rpx;
+		border-bottom: 1rpx solid #eee;
+		width: 630rpx;
 	}
 
 	.addr_list .addr {
-		font-size: 28rpx;
+		font-size: 24rpx;
 		line-height: 40rpx;
-		color: #43474D;
+		color: #909090;
 		margin-top: 16rpx;
 	}
 
@@ -256,18 +265,18 @@
 
 	.footer_btn_long {
 		position: fixed;
-		left: 0;
-		right: 0;
-		bottom: 0;
-		width: 750rpx;
-		height: 120rpx;
+		left: 30rpx;
+		right: 30rpx;
+		bottom: 30rpx;
+		width: 690rpx;
+		height: 96rpx;
 		font-size: 32rpx;
 		background: #FF797C;
-		border-radius: 30rpx 30rpx 0px 0px;
+		border-radius: 60rpx;
 		padding: 0;
 		font-weight: 500;
 		color: #ffffff;
 		text-align: center;
-		line-height: 120rpx;
+		line-height: 96rpx;
 	}
 </style>

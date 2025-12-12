@@ -39,18 +39,20 @@
 					<!--<scroll-view class="order_list_box" scroll-into-view="{{toview}}" scroll-y="true" bindscrolltolower="loadmore" bindscrolltoupper="refresh">-->
 					<view class="order_list_box">
 						<view v-for="(item, idx) in order_list" :key="idx" :data-idx="idx">
-							<view class="order_card" :id="idx==0?'first':''" @tap.stop="toorderdetail" :data-orderid="item.order_id">
+							<view class="order_card" :id="idx==0?'first':''" @tap.stop="toorderdetail"
+								:data-orderid="item.order_id">
 								<!-- 头部：店铺名称和订单状态 -->
 								<view class="order_header">
 									<view class="shop_name" @tap.stop="todetail" :id="item.shop_id">
 										{{item.shop_title}}
-										<image src="/static/image/iconnewback2.png" class="arrow_icon" mode="aspectFit"></image>
+										<image src="/static/image/iconnewback2.png" class="arrow_icon" mode="aspectFit">
+										</image>
 									</view>
 									<view class="order_status" :class="item.msg=='已取消'?'status_cancel':'status_active'">
 										{{item.msg}}
 									</view>
 								</view>
-								
+
 								<!-- 商品信息 -->
 								<view class="order_content">
 									<view class="product_info">
@@ -59,42 +61,40 @@
 									</view>
 									<view class="order_price">€{{item.amount}}</view>
 								</view>
-								
+
 								<!-- 底部按钮区域 -->
-								<view class="order_footer" v-if="item.show_btn.cui=='1' || item.show_btn.pay=='1' || item.show_btn.confirm=='1' || item.show_btn.admin=='1' || item.show_btn.see=='1' || item.show_btn.comment=='1' || item.show_btn.again=='1' || item.show_btn.canel=='1'">
+								<view class="order_footer"
+									v-if="item.show_btn.cui=='1' || item.show_btn.pay=='1' || item.show_btn.confirm=='1' || item.show_btn.admin=='1' || item.show_btn.see=='1' || item.show_btn.comment=='1' || item.show_btn.again=='1' || item.show_btn.canel=='1'">
 									<view class="btn_group">
 										<button v-if="item.show_btn.canel=='1'" type="default" @tap.stop="cancelpop"
-											class="order_btn btn_cancel"
-											:data-shopid="item.shop_id" :data-orderid="item.order_id">取消订单</button>
-										
+											class="order_btn btn_cancel" :data-shopid="item.shop_id"
+											:data-orderid="item.order_id">取消订单</button>
+
 										<button v-if="item.show_btn.cui=='1'" type="default" @tap.stop="cui"
-											class="order_btn btn_remind"
+											class="order_btn btn_remind" :data-shopid="item.shop_id"
+											:data-orderid="item.order_id" :data-idx="idx">催单</button>
+
+										<button v-if="item.show_btn.confirm=='1'" type="default"
 											:data-shopid="item.shop_id" :data-orderid="item.order_id"
-											:data-idx="idx">催单</button>
-										
-										<button v-if="item.show_btn.confirm=='1'" type="default" :data-shopid="item.shop_id"
-											:data-orderid="item.order_id" @tap.stop="confirmpop"
-											class="order_btn btn_confirm">确认送达</button>
-										
-										<button v-if="item.show_btn.admin=='1'" type="default" :data-shopid="item.shop_id"
-											:data-orderid="item.order_id" @tap.stop="kefu"
+											@tap.stop="confirmpop" class="order_btn btn_confirm">确认送达</button>
+
+										<button v-if="item.show_btn.admin=='1'" type="default"
+											:data-shopid="item.shop_id" :data-orderid="item.order_id" @tap.stop="kefu"
 											class="order_btn btn_service">申请客服介入</button>
-										
+
 										<button v-if="item.show_btn.see=='1'" type="default" :data-shopid="item.shop_id"
 											:data-orderid="item.order_id" @tap.stop="lookelv"
 											class="order_btn btn_view">查看评价</button>
-										
-										<button v-if="item.show_btn.comment=='1'" type="default" @tap.stop="evltTap" :data-obj="item"
-											class="order_btn btn_comment">去评价</button>
-										
+
+										<button v-if="item.show_btn.comment=='1'" type="default" @tap.stop="evltTap"
+											:data-obj="item" class="order_btn btn_comment">去评价</button>
+
 										<button v-if="item.show_btn.again=='1'" type="default" @tap.stop="onemore"
-											class="order_btn btn_again"
-											:data-shopid="item.shop_id" :data-orderid="item.order_id"
-											:data-idx="idx">再来一单</button>
-										
+											class="order_btn btn_again" :data-shopid="item.shop_id"
+											:data-orderid="item.order_id" :data-idx="idx">再来一单</button>
+
 										<button v-if="item.show_btn.pay=='1'" type="default" @tap.stop="paybtn"
-											:data-shopid="item.shop_id"
-											class="order_btn btn_pay"
+											:data-shopid="item.shop_id" class="order_btn btn_pay"
 											:data-orderid="item.order_id">去支付{{item.mytime?item.mytime:''}}</button>
 									</view>
 								</view>
@@ -413,7 +413,8 @@
 				console.log(e)
 				var id = e.currentTarget.dataset.shopid;
 				app.globalData._CFG.shoptail = id;
-				app.globalData.topage('/subPages/shop/shoptail/shoptail?currentNavtab=1&id=' + app.globalData._CFG.shoptail);
+				app.globalData.topage('/subPages/shop/shoptail/shoptail?currentNavtab=1&id=' + app.globalData._CFG
+					.shoptail);
 			},
 			tuipop: function(e) {
 				this.tuikuan = false
@@ -578,7 +579,7 @@
 	/* 订单卡片 */
 	.order_card {
 		background: #FFFFFF;
-		margin: 20rpx 30rpx;
+		margin: 30rpx;
 		border-radius: 16rpx;
 		overflow: hidden;
 		box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.06);
@@ -600,7 +601,8 @@
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
-		padding: 24rpx 30rpx;
+		margin: 0 30rpx;
+		padding: 24rpx 0;
 		border-bottom: 1rpx solid #F5F5F5;
 	}
 
@@ -628,12 +630,13 @@
 	}
 
 	.status_active {
-		color: #FF6B6B;
+		color: #999999;
 	}
 
 	/* 订单内容 */
 	.order_content {
-		padding: 24rpx 30rpx;
+		margin: 0 30rpx;
+		padding: 24rpx 0;
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
@@ -651,6 +654,7 @@
 		overflow: hidden;
 		text-overflow: ellipsis;
 		white-space: nowrap;
+		width: 480rpx;
 	}
 
 	.order_time {
@@ -669,7 +673,8 @@
 	/* 订单底部按钮 */
 	.order_footer {
 		border-top: 1rpx solid #F5F5F5;
-		padding: 20rpx 30rpx;
+		padding: 20rpx 0;
+		margin: 0 30rpx;
 	}
 
 	.btn_group {

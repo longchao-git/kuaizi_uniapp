@@ -3945,8 +3945,7 @@
 	}
 
 	.goods_footer .cart {
-		margin-left: 16rpx;
-		margin-top: -12rpx;
+		margin-right: 16rpx;
 		position: relative;
 	}
 

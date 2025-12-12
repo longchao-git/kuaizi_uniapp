@@ -675,6 +675,6 @@
 		height: calc(100% - 100rpx);
 		width: 100%;
 		overflow: hidden;
-		background-color: #eef2f5;
+		background-color: #f7f7f7;
 	}
 </style>

@@ -225,7 +225,7 @@
 		top: calc(88rpx + env(safe-area-inset-top));
 		/*   #endif   */
 		right: 0;
-		background: #eef2f5;
+		background: #f7f7f7;
 	}
 
 	.ser_box {
