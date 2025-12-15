@@ -60,7 +60,7 @@
 						<block v-else>用餐高峰请提前下单，O(∩_∩)O谢谢！！</block>
 					</view>
 
-					<view class="txt setuplists" >
+					<view class="txt setuplists">
 						<view class="sending_off">起送€{{topInfo.min_amount}}</view>
 						<view class="cudeliveryfee">
 							<block v-if="topInfo.freight == 0">免配送费</block>
@@ -363,7 +363,8 @@
 							<view v-for="(items, index) in goodsCate" :key="index"
 								:class="'list ' + (items.cate_id == goodsCate_idx ? 'on' : '')" @tap="cateTap"
 								:data-cate_id="items.cate_id" :data-index="index" :id="'tab_list_index_id_'+index">
-								<image v-if="items.cate_id == 'hot'" class="ico" src="/static/image/icon_hot3x.png"></image>
+								<image v-if="items.cate_id == 'hot'" class="ico" src="/static/image/icon_hot3x.png">
+								</image>
 								<image v-if="items.cate_id == 'must'" class="ico" src="/static/image/icon_need3x.png">
 								</image>
 								{{items.title}}
@@ -762,7 +763,7 @@
 								</view>
 							</view>
 						</view>
-					
+
 						<view class="sj_Pingjia" v-if="topInfo.comment_switch==1 || pjDetail.length > 0">
 							<view class="qiehuan ">
 								<view class="switchNav">
@@ -774,8 +775,8 @@
 								</view>
 								<checkbox-group class="sm-nav ">
 									<label for class="checkbox">
-										<checkbox value="只看有内容的评价" :checked="comm" @tap="hascon"
-											color="#ff797c" style="transform:scale(0.7);"></checkbox>
+										<checkbox value="只看有内容的评价" :checked="comm" @tap="hascon" color="#ff797c"
+											style="transform:scale(0.7);"></checkbox>
 										<text class="newcheckbox_text">只看有内容的评价</text>
 									</label>
 								</checkbox-group>
@@ -3609,143 +3610,143 @@
 		white-space: nowrap;
 	}
 
-.goodsCate-wrapper {
-	display: inline-flex;
-}
+	.goodsCate-wrapper {
+		display: inline-flex;
+	}
 
-.goodsCate .list {
-	padding: 24rpx 28rpx;
-	position: relative;
-	line-height: 36rpx;
-	color: #A3A3A4;
-	font-weight: 600;
-	font-size: 28rpx;
-	display: inline-block;
-	white-space: nowrap;
-	transition: all 0.3s;
-}
+	.goodsCate .list {
+		padding: 24rpx 28rpx;
+		position: relative;
+		line-height: 36rpx;
+		color: #A3A3A4;
+		font-weight: 600;
+		font-size: 28rpx;
+		display: inline-block;
+		white-space: nowrap;
+		transition: all 0.3s;
+	}
 
-.goodsCate .list.on {
-	color: #FF797C;
-	font-weight: 700;
-}
+	.goodsCate .list.on {
+		color: #FF797C;
+		font-weight: 700;
+	}
 
-.goodsCate .list.on::after {
-	content: '';
-	position: absolute;
-	left: 50%;
-	bottom: 0;
-	transform: translateX(-50%);
-	width: 40rpx;
-	height: 3rpx;
-	background-color: #FF797C;
-	border-radius: 2rpx;
-}
+	.goodsCate .list.on::after {
+		content: '';
+		position: absolute;
+		left: 50%;
+		bottom: 0;
+		transform: translateX(-50%);
+		width: 40rpx;
+		height: 3rpx;
+		background-color: #FF797C;
+		border-radius: 2rpx;
+	}
 
-.goodsCate .list image {
-	width: 16px;
-	height: 16px;
-	vertical-align: middle;
-	margin-right: 6rpx;
-}
+	.goodsCate .list image {
+		width: 16px;
+		height: 16px;
+		vertical-align: middle;
+		margin-right: 6rpx;
+	}
 
-.goodsCate .list .num {
-	position: absolute;
-	right: 4rpx;
-	top: 4rpx;
-	min-width: 24rpx;
-	height: 24rpx;
-	border-radius: 20rpx;
-	text-align: center;
-	font-size: 20rpx;
-	color: #fff;
-	background: #FF797C;
-	line-height: 24rpx;
-}
+	.goodsCate .list .num {
+		position: absolute;
+		right: 4rpx;
+		top: 4rpx;
+		min-width: 24rpx;
+		height: 24rpx;
+		border-radius: 20rpx;
+		text-align: center;
+		font-size: 20rpx;
+		color: #fff;
+		background: #FF797C;
+		line-height: 24rpx;
+	}
 
-.goodsList_right {
-	width: 100%;
-	height: calc(100% - 88rpx);
-	background: #fff;
-	box-sizing: border-box;
-	position: relative;
-	padding-bottom: 30rpx;
-}
+	.goodsList_right {
+		width: 100%;
+		height: calc(100% - 88rpx);
+		background: #fff;
+		box-sizing: border-box;
+		position: relative;
+		padding-bottom: 30rpx;
+	}
 
-.cateTit_top {
-	background: #f4f4f4;
-	height: 52rpx;
-	line-height: 52rpx;
-	padding: 0 24rpx;
-	color: #666;
-	position: fixed;
-	left: 0;
-	top: 408rpx;
-	right: 0;
-	z-index: 2;
-}
+	.cateTit_top {
+		background: #f4f4f4;
+		height: 52rpx;
+		line-height: 52rpx;
+		padding: 0 24rpx;
+		color: #666;
+		position: fixed;
+		left: 0;
+		top: 408rpx;
+		right: 0;
+		z-index: 2;
+	}
 
-.goodsListBox .list_box {
-	background: #fff;
-}
+	.goodsListBox .list_box {
+		background: #fff;
+	}
 
-.cateTit {
-	font-size: 28rpx;
-	color: #A3A3A4;
-	height: 32rpx;
-	line-height: 32rpx;
-	padding: 24rpx;
-	font-weight: 600;
-}
+	.cateTit {
+		font-size: 28rpx;
+		color: #A3A3A4;
+		height: 32rpx;
+		line-height: 32rpx;
+		padding: 24rpx;
+		font-weight: 600;
+	}
 
-.goodsList {
-	padding: 0 0 24rpx 20rpx;
-	position: relative;
-	box-sizing: border-box;
-	height: 220rpx;
-	background: #FFFFFF;
-	border-radius: 24rpx;
-}
+	.goodsList {
+		padding: 0 0 24rpx 20rpx;
+		position: relative;
+		box-sizing: border-box;
+		height: 220rpx;
+		background: #FFFFFF;
+		border-radius: 24rpx;
+	}
 
-.goodsList:last-child {
-	border-bottom: 0;
-}
+	.goodsList:last-child {
+		border-bottom: 0;
+	}
 
-.goodsList .img {
-	width: 200rpx;
-	height: 200rpx;
-	border-radius: 24rpx;
-	overflow: hidden;
-}
+	.goodsList .img {
+		width: 200rpx;
+		height: 200rpx;
+		border-radius: 24rpx;
+		overflow: hidden;
+	}
 
-.goodsList .wz_box {
-	margin-left: 214rpx;
-	position: relative;
-	min-height: 248rpx;
-	overflow: hidden;
-	color: #A3A3A4;
-}
+	.goodsList .wz_box {
+		margin-left: 214rpx;
+		position: relative;
+		min-height: 248rpx;
+		overflow: hidden;
+		color: #A3A3A4;
+	}
 
-.goodsList .wz_box .tit {
-	font-size: 32rpx;
-	line-height: 34rpx;
-	margin-bottom: 6rpx;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	display: -webkit-box;
-	-webkit-line-clamp: 2;
-	-webkit-box-orient: vertical;
-	max-width: 360rpx;
-	color: #262628;
-	height: 80rpx;
-}
+	.goodsList .wz_box .tit {
+		font-size: 32rpx;
+		line-height: 34rpx;
+		margin-bottom: 6rpx;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		display: -webkit-box;
+		-webkit-line-clamp: 2;
+		-webkit-box-orient: vertical;
+		max-width: 360rpx;
+		color: #262628;
+		height: 80rpx;
+	}
 
-.goodsList .wz_box .txt {
-	font-size: 22rpx;
-	line-height: 40rpx;
-	color: #A3A3A4;
-	margin-left: 30rpx;
-}
+	.goodsList .wz_box .txt {
+		font-size: 22rpx;
+		line-height: 40rpx;
+		color: #A3A3A4;
+		margin-left: 30rpx;
+	}
 
 	.goodsList .wz_box .price {
 		font-size: 28rpx;
@@ -4242,145 +4243,145 @@
 		height: 36rpx
 	}
 
-/* 商家广告 */
-.shopAdv {
-	margin: 20rpx 20rpx 10rpx;
-}
+	/* 商家广告 */
+	.shopAdv {
+		margin: 20rpx 20rpx 10rpx;
+	}
 
-.shopAdv image {
-	display: block;
-	width: 100%;
-	height: 142rpx;
-	margin-bottom: 20rpx;
-}
+	.shopAdv image {
+		display: block;
+		width: 100%;
+		height: 142rpx;
+		margin-bottom: 20rpx;
+	}
 
-/*商家推荐*/
-.recommend {
-	padding: 30rpx 0 10rpx 40rpx;
-	overflow: visible;
-}
+	/*商家推荐*/
+	.recommend {
+		padding: 30rpx 0 10rpx 40rpx;
+		overflow: visible;
+	}
 
-.recommend .bt {
-	font-size: 32rpx;
-	color: #2D2D2D;
-	line-height: 45rpx;
-	font-weight: 600;
-	margin-bottom: 20rpx;
-}
+	.recommend .bt {
+		font-size: 32rpx;
+		color: #2D2D2D;
+		line-height: 45rpx;
+		font-weight: 600;
+		margin-bottom: 20rpx;
+	}
 
-.recommend .list_box {
-	width: 100%;
-	white-space: nowrap;
-	overflow: visible;
-}
+	.recommend .list_box {
+		width: 100%;
+		white-space: nowrap;
+		overflow: visible;
+	}
 
-.recommend .lists {
-	display: inline-block;
-	margin-right: 20rpx;
-	position: relative;
-	overflow: visible;
-	width: 320rpx;
-	vertical-align: top;
-	background: #f7f7f7;
-	border-radius: 16rpx;
-	padding-bottom: 12rpx;
-}
+	.recommend .lists {
+		display: inline-block;
+		margin-right: 20rpx;
+		position: relative;
+		overflow: visible;
+		width: 320rpx;
+		vertical-align: top;
+		background: #f7f7f7;
+		border-radius: 16rpx;
+		padding-bottom: 12rpx;
+	}
 
-.recommend .lists .pic-wrapper {
-	width: 100%;
-	height: 320rpx;
-	border-radius: 12rpx;
-	overflow: hidden;
-	margin-bottom: 12rpx;
-}
+	.recommend .lists .pic-wrapper {
+		width: 100%;
+		height: 320rpx;
+		border-radius: 12rpx;
+		overflow: hidden;
+		margin-bottom: 12rpx;
+	}
 
-.recommend .lists .pic {
-	width: 100%;
-	height: 100%;
-	display: block;
-}
+	.recommend .lists .pic {
+		width: 100%;
+		height: 100%;
+		display: block;
+	}
 
-.recommend .lists .title {
-	font-size: 26rpx;
-	color: #333333;
-	margin-bottom: 16rpx;
-	line-height: 1.4;
-	padding: 0 4rpx;
-}
+	.recommend .lists .title {
+		font-size: 26rpx;
+		color: #333333;
+		margin-bottom: 16rpx;
+		line-height: 1.4;
+		padding: 0 4rpx;
+	}
 
-.recommend .lists .price {
-	font-size: 28rpx;
-	color: #ff4444;
-	font-weight: 600;
-	padding: 0 4rpx;
-}
+	.recommend .lists .price {
+		font-size: 28rpx;
+		color: #ff4444;
+		font-weight: 600;
+		padding: 0 4rpx;
+	}
 
-.recommend .lists .price .small {
-	font-size: 22rpx;
-}
+	.recommend .lists .price .small {
+		font-size: 22rpx;
+	}
 
-.recommend .lists>.goods_int_box {
-	position: absolute;
-	right: 8rpx;
-	bottom: 4rpx;
-}
+	.recommend .lists>.goods_int_box {
+		position: absolute;
+		right: 8rpx;
+		bottom: 4rpx;
+	}
 
-.recommend .lists .spec {
-	position: absolute;
-	right: 8rpx;
-	bottom: 16rpx;
-	font-size: 24rpx;
-	line-height: 38rpx;
-	padding: 0 20rpx;
-	color: #fff;
-	border-radius: 38rpx;
-	background: #ff797c;
-}
+	.recommend .lists .spec {
+		position: absolute;
+		right: 8rpx;
+		bottom: 16rpx;
+		font-size: 24rpx;
+		line-height: 38rpx;
+		padding: 0 20rpx;
+		color: #fff;
+		border-radius: 38rpx;
+		background: #ff797c;
+	}
 
-.recommend .lists .spec .num {
-	position: absolute;
-	right: 0rpx;
-	top: 0rpx;
-	min-width: 24rpx;
-	height: 24rpx;
-	border-radius: 20rpx;
-	text-align: center;
-	font-size: 20rpx;
-	color: #fff;
-	background: #FF797C;
-	line-height: 24rpx;
-}
+	.recommend .lists .spec .num {
+		position: absolute;
+		right: 0rpx;
+		top: 0rpx;
+		min-width: 24rpx;
+		height: 24rpx;
+		border-radius: 20rpx;
+		text-align: center;
+		font-size: 20rpx;
+		color: #fff;
+		background: #FF797C;
+		line-height: 24rpx;
+	}
 
-/*评价*/
-.xiangqing {
-	height: calc(100% - 336rpx);
-}
+	/*评价*/
+	.xiangqing {
+		height: calc(100% - 336rpx);
+	}
 
-.xiangqing .ctn1 {
-	height: 100%;
-}
+	.xiangqing .ctn1 {
+		height: 100%;
+	}
 
-.xiangqing .content_wrap {
-	height: 100%;
-	overflow: auto;
-	-webkit-overflow-scrolling: touch;
-	overflow-x: hidden;
-	background: #FFFFFF;
-}
+	.xiangqing .content_wrap {
+		height: 100%;
+		overflow: auto;
+		-webkit-overflow-scrolling: touch;
+		overflow-x: hidden;
+		background: #FFFFFF;
+	}
 
-.xiangqing .ctn1 .pingfen {
-	background: #fff;
-	padding: 20rpx 0;
-	width: 100%;
-	display: flex;
-	align-items: center;
-}
+	.xiangqing .ctn1 .pingfen {
+		background: #fff;
+		padding: 20rpx 0;
+		width: 100%;
+		display: flex;
+		align-items: center;
+	}
 
-.ctn1 .starBg {
-	margin-right: 30rpx;
-}
+	.ctn1 .starBg {
+		margin-right: 30rpx;
+	}
 
-.xiangqing .ctn1 .pingfen .left {
+	.xiangqing .ctn1 .pingfen .left {
 		text-align: center;
 		padding: 0 40rpx;
 	}
@@ -4470,7 +4471,7 @@
 
 	.xiangqing .ctn1 .sj_Pingjia .switchNav view {
 		width: 30%;
-		padding: 16rpx 0 ;
+		padding: 16rpx 0;
 		text-align: center;
 		border: 1rpx solid #E5E5E5;
 		color: #666666;
@@ -5069,10 +5070,10 @@
 	}
 
 	.cunav_back {
-		width: 48rpx;
-		height: 48rpx;
+		width: 66rpx;
+		height: 66rpx;
 		margin-left: 50rpx;
-		background-color: #ee8080;
+		background-color: #fff;
 		border-radius: 8rpx;
 		display: flex;
 		align-items: center;
@@ -5080,14 +5081,14 @@
 	}
 
 	.cunav_back>image {
-		width: 32rpx;
-		height: 32rpx;
+		width: 66rpx;
+		height: 66rpx;
 		margin-left: -6rpx;
 	}
 
 	.cunav_search {
 		width: 260rpx;
-		height: 60rpx;
+		height: 66rpx;
 		margin-left: 20rpx;
 		margin-right: 20rpx;
 		background-color: #FFFFFF;
@@ -5109,9 +5110,9 @@
 	}
 
 	.cunav_collect {
-		width: 48rpx;
-		height: 48rpx;
-		margin-left: 20rpx;
+		width: 66rpx;
+		height: 66rpx;
+		margin-left: 16rpx;
 		border-radius: 8rpx;
 		display: flex;
 		align-items: center;
@@ -5119,8 +5120,8 @@
 	}
 
 	.cunav_collect>image {
-		width: 48rpx;
-		height: 48rpx;
+		width: 66rpx;
+		height: 66rpx;
 	}
 
 	.cunav_setup>view {

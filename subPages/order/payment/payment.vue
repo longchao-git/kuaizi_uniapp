@@ -127,9 +127,9 @@
 
 					if (payAmount > 0) {
 						// #ifdef MP-ALIPAY 
-						this.code = 'alipay_mini';
-						this.payAmount = payAmount;
-						this.zhifuitems = [{
+						that.code = 'alipay_mini';
+						that.payAmount = payAmount;
+						that.zhifuitems = [{
 							ico: "/static/image/icon_alipay.png",
 							name: '支付宝支付',
 							code: 'alipay_mini',
@@ -137,9 +137,9 @@
 						}];
 						// #endif 
 						// #ifdef  H5
-						this.code = 'yaband';
-						this.payAmount = payAmount;
-						this.zhifuitems = [{
+						that.code = 'yaband';
+						that.payAmount = payAmount;
+						that.zhifuitems = [{
 							ico: "/static/image/payWay013x.png",
 							name: 'H5支付',
 							code: 'yaband',
@@ -147,9 +147,9 @@
 						}];
 						// #endif 
 						// #ifdef MP-WEIXIN
-						this.code = 'yaband';
-						this.payAmount = payAmount;
-						this.zhifuitems = [{
+						that.code = 'yaband';
+						that.payAmount = payAmount;
+						that.zhifuitems = [{
 							ico: "/static/image/icon_wechatPay3x.png",
 							name: '微信支付',
 							code: 'yaband',
@@ -158,12 +158,12 @@
 						// #endif 
 
 					} else {
-						this.code = 'money';
-						this.use_money = 1;
-						this.payAmount = 0;
+						that.code = 'money';
+						that.use_money = 1;
+						that.payAmount = 0;
 
 						// #ifdef  MP-ALIPAY
-						this.zhifuitems = [{
+						that.zhifuitems = [{
 							ico: "/static/image/icon_moneyPay3x.png",
 							name: '余额支付',
 							code: 'money',
@@ -176,7 +176,7 @@
 						}];
 						// #endif
 						// #ifdef  H5
-						this.zhifuitems = [{
+						that.zhifuitems = [{
 							ico: "/static/image/icon_moneyPay3x.png",
 							name: '余额支付',
 							code: 'money',
@@ -189,7 +189,7 @@
 						}];
 						// #endif
 						// #ifdef MP-WEIXIN 
-						this.zhifuitems = [{
+						that.zhifuitems = [{
 							ico: "/static/image/icon_moneyPay3x.png",
 							name: '余额支付',
 							code: 'money',
@@ -201,12 +201,15 @@
 							checked: 'false'
 						}];
 						// #endif 
+						console.log(that.code)
 					};
-					if (this.isType != 1) {
+
+					if (that.isType != 1) {
 						app.globalData.ordersDetail({
 							"order_id": order_id
 						}, function(res) {
-							if (res.error == '0') that.setLastPayTime(Number(res.data.detail.pay_ltime) * 60);
+							if (res.error == '0') that.setLastPayTime(Number(res.data.detail
+								.pay_ltime) * 60);
 						});
 					}
 
@@ -217,9 +220,7 @@
 					uni.removeStorage({
 						key: 'payorderid'
 					});
-				}
-
-				;
+				};
 			});
 		},
 		methods: {
@@ -304,7 +305,8 @@
 					} else {
 						that.LastPayTime = "支付剩余00分00秒";
 						clearInterval(timer);
-						app.globalData.topage("/subPages/order/orderDetail/detail?orderid=" + order_id, "redirect");
+						app.globalData.topage("/subPages/order/orderDetail/detail?orderid=" + order_id,
+							"redirect");
 					}
 				}, 1000);
 			},
@@ -316,9 +318,11 @@
 				});
 				setTimeout(function() {
 					if (that.isType == 1) {
-						app.globalData.topage("/subPages/qianggou/qiangOrder/detail?orderid=" + order_id, "redirect");
+						app.globalData.topage("/subPages/qianggou/qiangOrder/detail?orderid=" + order_id,
+							"redirect");
 					} else {
-						app.globalData.topage("/subPages/order/orderDetail/detail?orderid=" + order_id, "redirect");
+						app.globalData.topage("/subPages/order/orderDetail/detail?orderid=" + order_id,
+							"redirect");
 					}
 
 				}, 2000);
@@ -388,7 +392,6 @@
 	};
 </script>
 <style>
-
 	.pubPaypage .info_box {
 		padding: 60rpx 0;
 		text-align: center;
