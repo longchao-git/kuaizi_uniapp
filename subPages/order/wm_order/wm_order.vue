@@ -450,7 +450,7 @@
 								<view class="addr">收货地址：{{item.addr}}-{{item.house}}</view>
 							</view>
 							<view class="bottom">
-								<block v-if="item.type==1">
+								<!-- 	<block v-if="item.type==1">
 									<view class="fl tag bg1">公司</view>
 								</block>
 								<block v-if="item.type==2">
@@ -461,7 +461,7 @@
 								</block>
 								<block v-if="item.type==4">
 									<view class="fl tag bg4">其他</view>
-								</block>
+								</block> -->
 								<view class="fr btn_box">
 									<button type="default" size="mini" class="btn edit" @tap="editTap"
 										:data-contact="item.contact" :data-mobile="item.mobile" :data-addr="item.addr"
@@ -485,7 +485,7 @@
 					</scroll-view>
 				</block>
 				<view class="footer_btn_long">
-					<navigator url="../addaddr/addaddr">
+					<navigator url="/subPages/user/addaddr/addaddr">
 						<button type="primary" size="default" style="background: #FF797C;border:none;">添加收货地址+</button>
 					</navigator>
 				</view>
@@ -1710,7 +1710,8 @@
 
 							setTimeout(function() {
 								uni.redirectTo({
-									url: '/subPages/order/orderDetail/detail?orderid=' + res.data.order_id
+									url: '/subPages/order/orderDetail/detail?orderid=' + res.data
+										.order_id
 								});
 							}, 2000);
 						}
